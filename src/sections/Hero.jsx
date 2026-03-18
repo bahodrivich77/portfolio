@@ -5,17 +5,17 @@ import Cmcoder from '../assets/Cmcoder.jpg';
 
 const Hero = () => {
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center pt-20 px-6 text-center">
+    <section className="min-h-screen flex flex-col items-center justify-center pt-24 px-8 text-center">
       <motion.div 
         initial={{ opacity: 0, scale: 0.5 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="relative group mb-8"
+        className="relative group mb-12"
       >
-        <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-1000"></div>
+        <div className="absolute -inset-2 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-1000"></div>
         <img 
           src={Cmcoder}
           alt="Mirkarim" 
-          className="relative w-40 h-40 rounded-full border-2 border-white/20 object-cover"
+          className="relative w-64 h-65 rounded-full border-2 border-white/20 object-cover"
         />
       </motion.div>
 
