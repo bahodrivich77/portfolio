@@ -3,18 +3,18 @@ import { ExternalLink, Github } from 'lucide-react';
 
 const projects = [
   {
-    title: "Premium Portfolio",
-    description: "React va Framer Motion yordamida yaratilgan Awwwards darajasidagi portfolio.",
-    tags: ["React", "Tailwind", "Framer Motion"],
-    link: "#",
-    github: "#"
+    title: "Toys Store",
+    description: "Js React da yozilgan O'yinchoqlar do'koni web sayt portfolio uchun ",
+    tags: ["React", "Tailwind", "Js"],
+    link: "https://github.com/bahodrivich77/toys-store",
+    github: "https://github.com/bahodrivich77/toys-store"
   },
   {
-    title: "E-Commerce Dash",
-    description: "Dashboard va savdo tizimi bilan jihozlangan onlayn do'kon platformasi.",
-    tags: ["JavaScript", "Vite", "CSS Glassmorphism"],
-    link: "#",
-    github: "#"
+    title: "Food-Town",
+    description: "Dashboard va savdo tizimi bilan jihozlangan onlayn Tamadi xona va  do'konlar uchun web  platforma",
+    tags: ["JavaScript", "Vite", "CSS Tailwind"],
+    link: "https://github.com/bahodrivich77/food-storee",
+    github: "https://github.com/bahodrivich77/food-storee"
   }
 ];
 
