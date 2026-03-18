@@ -6,11 +6,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Hero from './sections/Hero';
 import About from './sections/About';
 import Projects from './sections/Projects';
+
 import Contact from './sections/Contact';
 
 // Komponentlarni import qilish
 import Header from './components/Header';
 import Footer from './components/Footer';
+import Blog from './sections/Blog';
 
 // Sahifalar o'rtasidagi silliq o'tish animatsiyasi
 const PageWrapper = ({ children }) => (
@@ -38,6 +40,7 @@ const AnimatedRoutes = () => {
               <Hero />
               <About />
               <Projects />
+              <Blog/>
               <Contact />
             </PageWrapper>
           } 

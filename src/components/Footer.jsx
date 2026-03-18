@@ -6,10 +6,10 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: <Send size={20} />, link: "https://t.me/your_username", color: "hover:text-blue-400" },
-    { icon: <Instagram size={20} />, link: "https://instagram.com/your_username", color: "hover:text-pink-500" }, // Instagram qo'shildi
-    { icon: <Github size={20} />, link: "https://github.com/your_username", color: "hover:text-white" },
-    { icon: <Linkedin size={20} />, link: "https://linkedin.com/in/your_username", color: "hover:text-blue-600" },
+    { icon: <Send size={20} />, link: "https://t.me/bahod1rovi_ch77", color: "hover:text-blue-400" },
+    { icon: <Instagram size={20} />, link: "https://www.instagram.com/bahod1rovi_ch77?igsh=MTZvZDkydzh1cDNuYQ==https://www.instagram.com/bahod1rovi_ch77?igsh=MTZvZDkydzh1cDNuYQ==", color: "hover:text-pink-500" }, // Instagram qo'shildi
+    { icon: <Github size={20} />, link: "https://github.com/bahodrivich77/", color: "hover:text-white" },
+    { icon: <Linkedin size={20} />, link: "https://www.linkedin.com/in/mirkarim-furqatov-823a6535b/", color: "hover:text-blue-600" },
   ];
 
   return (
@@ -18,8 +18,7 @@ const Footer = () => {
 
       <div className="max-w-7xl mx-auto flex flex-col items-center">
         <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-8">
-          Mirkarim Furqatov
-        </h2>
+          Furqatov Mirkarim Bahodirovich        </h2>
 
         <div className="flex gap-5 mb-8">
           {socialLinks.map((social, index) => (

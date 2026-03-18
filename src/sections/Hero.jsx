@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
+import { Link } from 'react-router-dom'; // Link-ni import qilamiz
+import Cmcoder from '../assets/Cmcoder.jpg'; 
 
 const Hero = () => {
   return (
@@ -11,7 +13,7 @@ const Hero = () => {
       >
         <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full blur opacity-50 group-hover:opacity-100 transition duration-1000"></div>
         <img 
-          src="https://via.placeholder.com/150" // O'zingizni rasmingizni qo'ying
+          src={Cmcoder}
           alt="Mirkarim" 
           className="relative w-40 h-40 rounded-full border-2 border-white/20 object-cover"
         />
@@ -22,13 +24,14 @@ const Hero = () => {
         animate={{ y: 0, opacity: 1 }}
         className="text-5xl md:text-7xl font-extrabold mb-4"
       >
-        Mirkarim Furqatov
+        Mirkarim Bahodirovich
       </motion.h1>
 
       <div className="text-xl md:text-2xl text-gray-400 h-10">
         <TypeAnimation
-          sequence={['Frontend Developer', 2000, 'React Expert', 2000, 'UI/UX Designer', 2000]}
+          sequence={['Frontend Developer', 3000, 'React Expert', 3000, 'Web Designer', 3000]}
           repeat={Infinity}
+          style={{ display: 'inline-block' }}
         />
       </div>
 
@@ -38,12 +41,19 @@ const Hero = () => {
         transition={{ delay: 0.5 }}
         className="mt-10 flex gap-4"
       >
-        <button className="px-8 py-3 bg-purple-600 rounded-full font-bold hover:shadow-[0_0_20px_rgba(168,85,247,0.5)] transition-all">
-          View Projects
-        </button>
-        <button className="px-8 py-3 border border-white/20 rounded-full font-bold hover:bg-white/5 transition-all">
-          Contact Me
-        </button>
+        {/* Loyihalarga o'tish uchun Link */}
+        <Link to="/projects">
+          <button className="px-8 py-3 bg-purple-600 rounded-full font-bold hover:shadow-[0_0_20px_rgba(168,85,247,0.5)] transition-all">
+            View Projects
+          </button>
+        </Link>
+
+        {/* Contact sahifasiga o'tish uchun Link */}
+        <Link to="/contact">
+          <button className="px-8 py-3 border border-white/20 rounded-full font-bold hover:bg-white/5 transition-all">
+            Contact Me
+          </button>
+        </Link>
       </motion.div>
     </section>
   );

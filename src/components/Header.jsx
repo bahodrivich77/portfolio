@@ -10,7 +10,7 @@ const Header = () => {
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <Link to="/" className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent">
-          CMCODER
+          CM Coder
         </Link>
         <div className="space-x-8 hidden md:flex">
           {['Home', 'About', 'Projects', 'Contact'].map((item) => (
