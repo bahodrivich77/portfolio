@@ -39,7 +39,7 @@ const Projects = () => {
               whileHover={{ y: -10 }}
               className="group relative p-8 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl hover:border-purple-500/50 transition-all duration-500"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl" />
+              <div className="absolute inset-0 bg-linear-to-br from-purple-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl" />
               
               <h3 className="text-2xl font-bold mb-3">{project.title}</h3>
               <p className="text-gray-400 mb-6 leading-relaxed">{project.description}</p>

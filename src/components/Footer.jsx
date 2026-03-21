@@ -17,7 +17,7 @@ const Footer = () => {
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
 
       <div className="max-w-7xl mx-auto flex flex-col items-center">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-600 bg-clip-text text-transparent mb-8">
+        <h2 className="text-2xl font-bold bg-linear-to-br py-7 from-purple-400 to-pink-600 bg-clip-text text-transparent mb-8">
           Furqatov Mirkarim Bahodirovich        </h2>
 
         <div className="flex gap-5 mb-8">

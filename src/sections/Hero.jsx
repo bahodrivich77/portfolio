@@ -29,7 +29,7 @@ const Hero = () => {
 
       <div className="text-xl md:text-2xl text-gray-400 h-10">
         <TypeAnimation
-          sequence={['Frontend Developer', 3000, 'React Expert', 3000, 'Web Designer', 3000]}
+          sequence={['Frontend Developer', 3000, 'React Expert', 3000, '', 300]}
           repeat={Infinity}
           style={{ display: 'inline-block' }}
         />
