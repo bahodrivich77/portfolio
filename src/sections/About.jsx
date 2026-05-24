@@ -1,96 +1,220 @@
-import { motion } from 'framer-motion';
-import { Code2, Layout, Wrench, Lightbulb } from 'lucide-react';
+import { motion } from 'framer-motion'
+import { MapPin, Calendar, Coffee, Heart, Rocket, Star } from 'lucide-react'
+import Cmcoder from '../assets/Cmcoder.jpg'
+import { useLanguage } from '../i18n/LanguageContext'
+import SectionHeading from '../components/SectionHeading'
 
-const skillCategories = [
-  {
-    title: "Languages",
-    icon: <Code2 className="text-blue-400" />,
-    skills: ["HTML5", "CSS3", "JavaScript (ES6+)", "TypeScript"],
-    gradient: "from-blue-500/20 to-cyan-500/20",
-    border: "group-hover:border-blue-500/50"
-  },
-  {
-    title: "Frameworks & Libraries",
-    icon: <Layout className="text-purple-400" />,
-    skills: ["React", "Next.js", "Tailwind CSS", "Framer Motion"],
-    gradient: "from-purple-500/20 to-pink-500/20",
-    border: "group-hover:border-purple-500/50"
-  },
-  {
-    title: "Tools",
-    icon: <Wrench className="text-orange-400" />,
-    skills: ["Git", "GitHub", "VS Code", "Figma", "Vite"],
-    gradient: "from-orange-500/20 to-yellow-500/20",
-    border: "group-hover:border-orange-500/50"
-  },
-  {
-    title: "Other Skills",
-    icon: <Lightbulb className="text-green-400" />,
-    skills: ["Responsive Design", "REST APIs", "UI/UX Fundamentals", "Clean Code"],
-    gradient: "from-green-500/20 to-emerald-500/20",
-    border: "group-hover:border-green-500/50"
-  }
-];
+const FACT_ICONS = [
+  { key: 'location', icon: <MapPin size={18} className="text-[var(--linkedin-blue)]" /> },
+  { key: 'experience', icon: <Calendar size={18} className="text-[var(--linkedin-blue-dark)]" /> },
+  { key: 'energy', icon: <Coffee size={18} className="text-amber-600" /> },
+  { key: 'stack', icon: <Heart size={18} className="text-rose-500" /> },
+  { key: 'goal', icon: <Rocket size={18} className="text-emerald-600" /> },
+  { key: 'hobby', icon: <Star size={18} className="text-amber-500" /> },
+]
 
-const About = () => {
+const TIMELINE_COLORS = [
+  'from-[#0a66c2] to-[#004182]',
+  'from-[#004182] to-[#0a66c2]',
+  'from-[#70b5f9] to-[#0a66c2]',
+  'from-[#0a66c2] to-[#70b5f9]',
+]
+
+export default function About() {
+  const { tx } = useLanguage()
+  const a = tx.about
+
+  const facts = FACT_ICONS.map(({ key, icon }) => ({
+    icon,
+    label: a.facts[key].label,
+    value: a.facts[key].value,
+  }))
+
+  const bio1Parts = a.bio1.split('{highlight}')
+
   return (
-    <section id="about" className="py-24 px-6 max-w-7xl mx-auto">
-      {/* Sarlavha qismi */}
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-16"
-      >
-        <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-gray-500 bg-clip-text text-transparent">
-          Men haqimda
-        </h2>
-        <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
-          Men zamonaviy frontend texnologiyalari orqali foydalanuvchilar uchun qulay va 
-          yuqori samaradorlikka ega raqamli mahsulotlar yarataman.
-        </p>
-      </motion.div>
+    <section id="about" className="py-20 md:py-28 px-4 sm:px-5">
+      <div className="max-w-6xl mx-auto">
 
-      {/* Skonstruktsiya (Kategoriyalar) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {skillCategories.map((category, idx) => (
-          <motion.div
-            key={category.title}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: idx * 0.1 }}
-            whileHover={{ y: -10 }}
-            className={`group relative p-8 rounded-[2rem] border border-white/5 bg-white/5 backdrop-blur-sm overflow-hidden transition-all duration-300 ${category.border}`}
-          >
-            {/* Orqa fondagi xira nur (Glow) */}
-            <div className={`absolute -inset-24 bg-gradient-to-br ${category.gradient} blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-
-            <div className="relative z-10">
-              {/* Ikonka va Sarlavha */}
-              <div className="flex items-center gap-4 mb-6">
-                <div className="p-3 bg-white/5 rounded-2xl group-hover:scale-110 transition-transform duration-300">
-                  {category.icon}
-                </div>
-                <h3 className="text-xl font-bold text-white/90">{category.title}</h3>
-              </div>
-
-              {/* Ko'nikmalar ro'yxati */}
-              <div className="flex flex-wrap gap-2">
-                {category.skills.map((skill) => (
-                  <span 
-                    key={skill}
-                    className="px-4 py-2 text-sm bg-white/5 border border-white/5 rounded-xl text-gray-400 group-hover:text-white group-hover:border-white/20 transition-all duration-300"
-                  >
-                    {skill}
+        <SectionHeading
+          eyebrow={a.eyebrow}
+          title={
+            a.title.includes(' ')
+              ? (
+                <>
+                  {a.title.split(' ')[0]}{' '}
+                  <span className="gradient-text">
+                    {a.title.split(' ').slice(1).join(' ')}
                   </span>
-                ))}
+                </>
+              )
+              : <span className="gradient-text">{a.title}</span>
+          }
+        />
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-start">
+
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="flex flex-col gap-6"
+          >
+
+            <div className="relative glow-border rounded-2xl overflow-hidden">
+              <div className="glass rounded-2xl p-3 sm:p-5">
+
+                <div className="relative rounded-xl overflow-hidden aspect-[3/4] sm:aspect-[4/3]">
+
+                  <img
+                    src={Cmcoder}
+                    alt={tx.common.name}
+                    className="
+                      w-full
+                      h-full
+                      object-cover
+                      object-center
+                      transition-transform
+                      duration-500
+                      hover:scale-[1.03]
+                    "
+                  />
+
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--linkedin-blue-dark)]/70 to-transparent" />
+
+                  <div className="absolute bottom-3 sm:bottom-4 left-3 sm:left-4 right-3 sm:right-4 text-white">
+
+                    <div className="text-lg sm:text-xl font-bold">
+                      {tx.common.name}
+                    </div>
+
+                    <div className="text-xs sm:text-sm text-[var(--linkedin-blue-light)]">
+                      {a.role}
+                    </div>
+
+                  </div>
+                </div>
               </div>
             </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+              {facts.map(({ icon, label, value }) => (
+                <motion.div
+                  key={label}
+                  whileHover={{ scale: 1.02 }}
+                  className="glass rounded-xl p-3 sm:p-4 flex items-start gap-3 glow-border"
+                >
+                  <div className="mt-0.5">
+                    {icon}
+                  </div>
+
+                  <div>
+                    <div className="text-[var(--text-muted)] text-xs">
+                      {label}
+                    </div>
+
+                    <div className="text-[var(--text-primary)] text-sm font-semibold mt-1">
+                      {value}
+                    </div>
+                  </div>
+
+                </motion.div>
+              ))}
+
+            </div>
           </motion.div>
-        ))}
+
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="flex flex-col gap-6"
+          >
+
+            <div className="glass rounded-2xl p-5 sm:p-7 glow-border">
+
+              <h3 className="text-xl sm:text-2xl font-bold mb-4 text-[var(--linkedin-blue)]">
+                {a.whoAmI}
+              </h3>
+
+              <p className="text-[var(--text-secondary)] leading-relaxed mb-4">
+
+                {bio1Parts[0].replace('{name}', tx.common.name)}
+
+                <span className="text-[var(--linkedin-blue)] font-semibold">
+                  {a.highlight}
+                </span>
+
+                {bio1Parts[1]}
+
+              </p>
+
+              <p className="text-[var(--text-secondary)] leading-relaxed">
+                {a.bio2}
+              </p>
+
+            </div>
+
+            <div className="glass rounded-2xl p-5 sm:p-7 glow-border">
+
+              <h3 className="text-lg sm:text-xl font-bold mb-6">
+                {a.journey}
+              </h3>
+
+              <div className="relative">
+
+                <div className="absolute left-[18px] top-3 bottom-3 w-0.5 bg-[var(--linkedin-blue)]/25" />
+
+                {a.timeline.map((item, i) => (
+
+                  <motion.div
+                    key={item.year}
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.12 }}
+                    className="flex gap-3 sm:gap-5 pb-6 last:pb-0"
+                  >
+
+                    <div className={`relative z-10 w-9 h-9 rounded-full bg-gradient-to-br ${TIMELINE_COLORS[i % 4]} flex items-center justify-center`}>
+
+                      <span className="text-white text-xs font-bold">
+                        {item.year.slice(2)}
+                      </span>
+
+                    </div>
+
+                    <div>
+
+                      <div className="text-xs text-[var(--text-muted)] mb-1">
+                        {item.year}
+                      </div>
+
+                      <div className="font-bold mb-1">
+                        {item.title}
+                      </div>
+
+                      <div className="text-sm text-[var(--text-secondary)]">
+                        {item.desc}
+                      </div>
+
+                    </div>
+
+                  </motion.div>
+
+                ))}
+
+              </div>
+
+            </div>
+
+          </motion.div>
+
+        </div>
       </div>
     </section>
-  );
-};
-
-export default About;
+  )
+}

@@ -1,23 +1,38 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react'
 
-const ThemeContext = createContext();
+const ThemeContext = createContext(null)
+const STORAGE_KEY = 'portfolio-theme'
 
-export const ThemeProvider = ({ children }) => {
-  const [darkMode, setDarkMode] = useState(true);
+function getInitialTheme() {
+  const saved = localStorage.getItem(STORAGE_KEY)
+  if (saved === 'light' || saved === 'dark') return saved
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
+export function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState(getInitialTheme)
+  const isDark = theme === 'dark'
 
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [darkMode]);
+    const root = document.documentElement
+    root.classList.toggle('dark', isDark)
+    localStorage.setItem(STORAGE_KEY, theme)
+
+    const meta = document.querySelector('meta[name="theme-color"]')
+    if (meta) meta.setAttribute('content', isDark ? '#1b1f23' : '#f4f6f9')
+  }, [theme, isDark])
+
+  const toggleTheme = () => setTheme((t) => (t === 'dark' ? 'light' : 'dark'))
 
   return (
-    <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
+    <ThemeContext.Provider value={{ theme, isDark, setTheme, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
-  );
-};
+  )
+}
 
-export const useTheme = () => useContext(ThemeContext);
+export function useTheme() {
+  const ctx = useContext(ThemeContext)
+  if (!ctx) throw new Error('useTheme must be used within ThemeProvider')
+  return ctx
+}

@@ -1,94 +1,103 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ExternalLink, BookOpen } from 'lucide-react';
+import { motion } from 'framer-motion'
+import { ExternalLink, BookOpen, Calendar, Clock } from 'lucide-react'
+import { useLanguage } from '../i18n/LanguageContext'
+import SectionHeading from '../components/SectionHeading'
 
-const blogPosts = [
-  {
-    id: 1,
-    title: "Frontend Evolution: Rust-powered Future",
-    description: "Frontend ekotizimi Rust asosidagi bundlerlar bilan yangi tezlik va samaradorlik bosqichiga o‘tmoqda 🚀",
-    category: "JavaScript",
-    link: "https://www.linkedin.com/feed/update/urn:li:activity:7438307192144977920/", // LinkedIn linkini shu yerga qo'ying
-    date: "Mart 15, 2026"
-  },
-  {
-    id: 2,
-    title: "Code Splitting: Foydalanuvchi Vaqtini Hurmat Qilish",
-    description: "Kerakli kodni keyin yuklash orqali ilova tezligini oshirish va foydalanuvchi tajribasini yaxshilash.",
-    category: "CSS",
-    link: "https://www.linkedin.com/posts/shohjahon-asqarov_code-splitting-haqida-faqat-kod-emas-yuklash-activity-7419094449668018176-1kDP?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFmt9FsBSZ4_ibo4kWNlXB_XcIL3hCGhFZQ",
-    date: "Mart 10, 2026"
-  },
-  {
-    id: 3,
-    title: "React vs Next.js: Juniors’ Common Misunderstanding",
-    description: "React is a UI library; Next.js is a full framework on top of React, offering routing, SSR/SSG, and API handling to scale production apps efficiently.",
-    category: "React",
-    link: "https://www.linkedin.com/posts/nirimon123_react-nextjs-frontendarchitecture-share-7439250038213718016---9B?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFmt9FsBSZ4_ibo4kWNlXB_XcIL3hCGhFZQ",
-    date: "Mart 5, 2026"
-  }
-];
+const POST_LINKS = [
+  'https://www.linkedin.com/feed/update/urn:li:activity:7438307192144977920/',
+  'https://www.linkedin.com/in/mirkarim-furqatov-823a6535b/',
+  'https://www.linkedin.com/in/mirkarim-furqatov-823a6535b/',
+  'https://www.linkedin.com/in/mirkarim-furqatov-823a6535b/',
+  'https://www.linkedin.com/in/mirkarim-furqatov-823a6535b/',
+  'https://www.linkedin.com/in/mirkarim-furqatov-823a6535b/',
+]
 
-const Blog = () => {
+const READ_TIMES = ['3', '5', '4', '6', '4', '5']
+
+export default function Blog() {
+  const { tx } = useLanguage()
+  const b = tx.blog
+
+  const posts = b.posts.map((post, i) => ({
+    id: i + 1,
+    ...post,
+    category: b.categories[i],
+    date: b.dates[i],
+    readTime: READ_TIMES[i],
+    link: POST_LINKS[i],
+  }))
+
   return (
-    <section id="blog" className="py-26 px-6 max-w-7xl mx-auto">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        className="text-center mb-16"
-      >
-        <h2 className="text-5xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-          Maqolalar & Blog
-        </h2>
-        <p className="text-gray-400 max-w-2xl mx-auto">
-          Dasturlash dunyosidagi yangiliklar va tajribalarim bilan LinkedIn-da muntazam bo'lishib boraman.
-        </p>
-      </motion.div>
+    <section id="blog" className="py-28 px-5">
+      <div className="max-w-6xl mx-auto">
+        <SectionHeading
+          eyebrow={b.eyebrow}
+          title={<span className="gradient-text">{b.title}</span>}
+          subtitle={b.subtitle}
+        />
 
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {blogPosts.map((post, index) => (
-          <motion.div
-            key={post.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
-            className="group relative bg-white/5 border border-white/10 p-8 rounded-[2.5rem] backdrop-blur-md hover:border-blue-500/50 transition-all duration-300 flex flex-col h-full"
-          >
-            {/* Kategoriya va Sana */}
-            <div className="flex justify-between items-center mb-6">
-              <span className="px-4 py-1 bg-blue-500/10 text-blue-400 text-xs font-bold rounded-full uppercase tracking-wider">
-                {post.category}
-              </span>
-              <span className="text-gray-500 text-xs">{post.date}</span>
-            </div>
-
-            {/* Sarlavha va Tavsif */}
-            <h3 className="text-2xl font-bold mb-4 group-hover:text-blue-400 transition-colors">
-              {post.title}
-            </h3>
-            <p className="text-gray-400 text-sm leading-relaxed mb-8 flex-grow">
-              {post.description}
-            </p>
-
-            {/* LinkedIn-ga havola */}
-            <a 
-              href={post.link} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-white font-bold hover:gap-4 transition-all duration-300"
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map((post, i) => (
+            <motion.div
+              key={post.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              whileHover={{ y: -6 }}
+              className="group glass p-6 flex flex-col h-full glow-border"
             >
-              Maqolani o'qish <ExternalLink size={18} className="text-blue-500" />
-            </a>
+              <div className="flex items-center justify-between mb-5">
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-[var(--linkedin-blue)]/10 text-[var(--linkedin-blue)] border border-[var(--linkedin-blue)]/20">
+                  {post.category}
+                </span>
+                <span className="flex items-center gap-1 text-[var(--text-muted)] text-xs">
+                  <Clock size={11} /> {post.readTime} {b.readTime}
+                </span>
+              </div>
 
-            {/* Bezak uchun BookOpen ikonasi */}
-            <div className="absolute -top-4 -right-4 p-4 bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-xl">
-              <BookOpen size={24} className="text-white" />
-            </div>
-          </motion.div>
-        ))}
+              <h3 className="text-lg font-bold mb-3 leading-snug text-[var(--text-primary)] group-hover:text-[var(--linkedin-blue)] transition-colors">
+                {post.title}
+              </h3>
+
+              <p className="text-[var(--text-secondary)] text-sm leading-relaxed flex-1 mb-5">{post.description}</p>
+
+              <div className="flex items-center justify-between pt-4 border-t border-[var(--border)]">
+                <div className="flex items-center gap-1.5 text-[var(--text-muted)] text-xs">
+                  <Calendar size={12} />
+                  {post.date}
+                </div>
+                <a
+                  href={post.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-sm font-bold text-[var(--linkedin-blue)] hover:underline"
+                >
+                  {b.read}
+                  <ExternalLink size={13} />
+                </a>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mt-14"
+        >
+          <a
+            href="https://www.linkedin.com/in/mirkarim-furqatov-823a6535b/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-8 py-4 btn-primary rounded-full text-sm"
+          >
+            <BookOpen size={17} />
+            {b.follow}
+          </a>
+        </motion.div>
       </div>
     </section>
-  );
-};
-
-export default Blog;
+  )
+}

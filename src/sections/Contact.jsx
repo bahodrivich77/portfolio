@@ -1,116 +1,228 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Send, Github, Linkedin, Instagram, MessageCircle, Mail, User, Send as TelegramIcon } from 'lucide-react';
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import {
+  Send, Github, Linkedin, Instagram, Mail, User,
+  MessageCircle, CheckCircle2, AlertCircle, MapPin, Clock
+} from 'lucide-react'
+import { useLanguage } from '../i18n/LanguageContext'
+import SectionHeading from '../components/SectionHeading'
 
-const Contact = () => {
-  const [status, setStatus] = useState("");
+const BOT_TOKEN = import.meta.env.VITE_BOT_TOKEN || ''
+const CHAT_ID = import.meta.env.VITE_CHAT_ID || ''
+
+const SOCIALS = [
+  {
+    name: 'Telegram',
+    handle: '@bahod1rovi_ch77',
+    link: 'https://t.me/bahod1rovi_ch77',
+    color: 'from-sky-500 to-blue-600',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
+        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.96 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+      </svg>
+    ),
+  },
+  {
+    name: 'Instagram',
+    handle: '@bahod1rovi_ch77',
+    link: 'https://www.instagram.com/bahod1rovi_ch77',
+    color: 'from-pink-500 to-rose-600',
+    icon: <Instagram size={20} />,
+  },
+  {
+    name: 'GitHub',
+    handle: 'bahodrivich77',
+    link: 'https://github.com/bahodrivich77',
+    color: 'from-gray-600 to-gray-800',
+    icon: <Github size={20} />,
+  },
+  {
+    name: 'LinkedIn',
+    handle: 'Mirkarim Furqatov',
+    link: 'https://www.linkedin.com/in/mirkarim-furqatov-823a6535b/',
+    color: 'from-[#0a66c2] to-[#004182]',
+    icon: <Linkedin size={20} />,
+  },
+]
+
+export default function Contact() {
+  const { tx } = useLanguage()
+  const c = tx.contact
+  const [status, setStatus] = useState(null)
+  const [form, setForm] = useState({ name: '', email: '', message: '' })
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus("Yuborilmoqda...");
-    
-    const token = "7692119190:AAGUxFcEan3HksRJWQbc1YP7aCxyJ2aQdnA";
-    const chat_id = "5728059391";
-    
-    const name = e.target.name.value;
-    const email = e.target.email.value;
-    const message = e.target.message.value;
+    e.preventDefault()
+    setStatus('sending')
 
-    const text = `🚀 *Yangi xabar!*\n\n👤 *Ism:* ${name}\n📧 *Email:* ${email}\n💬 *Xabar:* ${message}`;
+    const text = c.telegramMsg
+      .replace('{name}', form.name)
+      .replace('{email}', form.email)
+      .replace('{message}', form.message)
 
     try {
-      await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: chat_id,
-          text: text,
-          parse_mode: "Markdown"
-        })
-      });
-      setStatus("Xabar muvaffaqiyatli yuborildi! ✅");
-      e.target.reset();
-    } catch (error) {
-      setStatus("Xatolik yuz berdi. ❌");
+        body: JSON.stringify({ chat_id: CHAT_ID, text, parse_mode: 'Markdown' }),
+      })
+      if (res.ok) {
+        setStatus('ok')
+        setForm({ name: '', email: '', message: '' })
+      } else {
+        setStatus('err')
+      }
+    } catch {
+      setStatus('err')
     }
-  };
+
+    setTimeout(() => setStatus(null), 5000)
+  }
+
+  const infoItems = [
+    { icon: <MapPin size={16} className="text-[var(--linkedin-blue)]" />, label: c.info.location },
+    { icon: <Clock size={16} className="text-[var(--linkedin-blue-dark)]" />, label: c.info.timezone },
+    { icon: <CheckCircle2 size={16} className="text-green-600" />, label: c.info.open },
+  ]
 
   return (
-    <section id="contact" className="py-24 px-6 max-w-7xl mx-auto">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        className="text-center mb-16"
-      >
-        <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-blue-500 bg-clip-text text-transparent">
-          Aloqa uchun
-        </h2>
-        <p className="text-gray-400">Savollaringiz bormi? Quyidagi forma orqali menga to'g'ridan-to'g'ri xabar yuboring!</p>
-      </motion.div>
+    <section id="contact" className="py-28 px-5 bg-[var(--section-alt)]">
+      <div className="max-w-6xl mx-auto">
+        <SectionHeading
+          eyebrow={c.eyebrow}
+          title={<span className="gradient-text">{c.title}</span>}
+          subtitle={c.subtitle}
+        />
 
-      <div className="grid lg:grid-cols-2 gap-12 items-start">
-        
-        {/* Kontakt Formasi */}
-        <motion.div 
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          className="bg-white/5 p-8 rounded-3xl border border-white/10 backdrop-blur-xl shadow-2xl"
-        >
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="relative">
-              <User className="absolute left-4 top-4 text-gray-500" size={20} />
-              <input name="name" type="text" placeholder="Ismingiz" required className="w-full p-4 pl-12 bg-white/5 border border-white/10 rounded-2xl focus:border-purple-500 outline-none transition-all" />
-            </div>
-            <div className="relative">
-              <Mail className="absolute left-4 top-4 text-gray-500" size={20} />
-              <input name="email" type="email" placeholder="Email manzilingiz" required className="w-full p-4 pl-12 bg-white/5 border border-white/10 rounded-2xl focus:border-purple-500 outline-none transition-all" />
-            </div>
-            <div className="relative">
-              <MessageCircle className="absolute left-4 top-4 text-gray-500" size={20} />
-              <textarea name="message" placeholder="Xabaringiz..." rows="5" required className="w-full p-4 pl-12 bg-white/5 border border-white/10 rounded-2xl focus:border-purple-500 outline-none transition-all resize-none"></textarea>
-            </div>
-            <button type="submit" className="w-full py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl font-bold flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-purple-500/20">
-              <Send size={18} /> Yuborish
-            </button>
-            {status && <p className="text-center text-sm font-medium text-purple-400 animate-pulse">{status}</p>}
-          </form>
-        </motion.div>
+        <div className="grid lg:grid-cols-2 gap-10 items-start">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="glass rounded-2xl p-7 glow-border"
+          >
+            <h3 className="text-xl font-bold mb-6 text-[var(--text-primary)]">{c.formTitle}</h3>
 
-        {/* Ijtimoiy tarmoqlar (Yangi dizayn) */}
-        <motion.div 
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          className="flex flex-col gap-6"
-        >
-          <h3 className="text-2xl font-bold mb-2">Ijtimoiy tarmoqlar</h3>
-          
-          {[
-            { name: 'Telegram', icon: <TelegramIcon size={24} />, link: 'https://t.me/bahod1rovi_ch77', color: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
-            { name: 'Instagram', icon: <Instagram size={24} />, link: "https://www.instagram.com/bahod1rovi_ch77?igsh=MTZvZDkydzh1cDNuYQ==https://www.instagram.com/bahod1rovi_ch77?igsh=MTZvZDkydzh1cDNuYQ==", color: 'bg-pink-500/10 text-pink-400 border-pink-500/20' },
-            { name: 'GitHub', icon: <Github size={24} />, link:  "https://github.com/bahodrivich77/", color: 'bg-white/10 text-white border-white/20' },
-            { name: 'LinkedIn', icon: <Linkedin size={24} />, link:  "https://www.linkedin.com/in/mirkarim-furqatov-823a6535b/", color: 'bg-blue-600/10 text-blue-600 border-blue-600/20' }
-          ].map((social, index) => (
-            <motion.a
-              key={index}
-              href={social.link}
-              target="_blank"
-              whileHover={{ x: 10, backgroundColor: "rgba(255,255,255,0.08)" }}
-              className={`flex items-center justify-between p-5 rounded-3xl border backdrop-blur-md transition-all ${social.color}`}
-            >
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-white/5 rounded-2xl">
-                  {social.icon}
-                </div>
-                <span className="font-semibold text-lg">{social.name}</span>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <div className="relative">
+                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" size={18} />
+                <input
+                  name="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  type="text"
+                  placeholder={c.name}
+                  required
+                  className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-[var(--border)] bg-[var(--bg-page)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:border-[var(--linkedin-blue)] focus:outline-none transition-all text-sm"
+                />
               </div>
-              <span className="text-xs opacity-50 uppercase tracking-widest">Bog'lanish →</span>
-            </motion.a>
-          ))}
-        </motion.div>
 
+              <div className="relative">
+                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" size={18} />
+                <input
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  type="email"
+                  placeholder={c.email}
+                  required
+                  className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-[var(--border)] bg-[var(--bg-page)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:border-[var(--linkedin-blue)] focus:outline-none transition-all text-sm"
+                />
+              </div>
+
+              <div className="relative">
+                <MessageCircle className="absolute left-4 top-4 text-[var(--text-muted)]" size={18} />
+                <textarea
+                  name="message"
+                  value={form.message}
+                  onChange={handleChange}
+                  rows={5}
+                  placeholder={c.message}
+                  required
+                  className="w-full pl-11 pr-4 py-3.5 rounded-xl border border-[var(--border)] bg-[var(--bg-page)] text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:border-[var(--linkedin-blue)] focus:outline-none transition-all resize-none text-sm"
+                />
+              </div>
+
+              <motion.button
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                type="submit"
+                disabled={status === 'sending'}
+                className="w-full py-4 btn-primary rounded-xl flex items-center justify-center gap-2 disabled:opacity-70"
+              >
+                {status === 'sending' ? (
+                  <>
+                    <motion.div
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                      className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full"
+                    />
+                    {c.sending}
+                  </>
+                ) : (
+                  <><Send size={17} /> {c.send}</>
+                )}
+              </motion.button>
+
+              {status === 'ok' && (
+                <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-2 text-green-600 text-sm font-medium justify-center">
+                  <CheckCircle2 size={16} /> {c.success}
+                </motion.div>
+              )}
+              {status === 'err' && (
+                <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="flex items-center gap-2 text-red-600 text-sm font-medium justify-center">
+                  <AlertCircle size={16} /> {c.error}
+                </motion.div>
+              )}
+            </form>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col gap-5"
+          >
+            <div className="glass rounded-2xl p-5 flex flex-wrap gap-4">
+              {infoItems.map(({ icon, label }) => (
+                <div key={label} className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
+                  {icon} {label}
+                </div>
+              ))}
+            </div>
+
+            {SOCIALS.map((s, i) => (
+              <motion.a
+                key={s.name}
+                href={s.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                whileHover={{ x: 4 }}
+                className="flex items-center justify-between glass rounded-xl p-4 group transition-all glow-border"
+              >
+                <div className="flex items-center gap-4">
+                  <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${s.color} flex items-center justify-center text-white shadow-md`}>
+                    {s.icon}
+                  </div>
+                  <div>
+                    <div className="font-bold text-[var(--text-primary)] text-sm">{s.name}</div>
+                    <div className="text-[var(--text-muted)] text-xs">{s.handle}</div>
+                  </div>
+                </div>
+                <span className="text-[var(--text-muted)] group-hover:text-[var(--linkedin-blue)] text-xs transition-colors">
+                  {c.connect} →
+                </span>
+              </motion.a>
+            ))}
+          </motion.div>
+        </div>
       </div>
     </section>
-  );
-};
-
-export default Contact;
+  )
+}

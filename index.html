@@ -1,13 +1,21 @@
 <!doctype html>
-<html lang="en">
+<html lang="uz">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' style='stop-color:%23c084fc'/><stop offset='100%25' style='stop-color:%23db2777'/></linearGradient></defs><text x='50%25' y='54%25' dominant-baseline='central' text-anchor='middle' font-family='Arial, sans-serif' font-weight='900' font-size='65' fill='url(%23g)'>CM</text></svg>" />
-    
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio</title>
+    <meta name="description" content="Mirkarim Bahodirovich — Frontend dasturchi | React, Next.js, Tailwind CSS" />
+    <meta name="theme-color" content="#f4f6f9" />
+    <title>Mirkarim Bahodirovich | Frontend dasturchi</title>
   </head>
   <body>
+    <script>
+      (function () {
+        var s = localStorage.getItem('portfolio-theme');
+        var d = s === 'dark' || (!s && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (d) document.documentElement.classList.add('dark');
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
