@@ -6,9 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Mirkarim Bahodirovich — Frontend dasturchi | React, Next.js, Tailwind CSS" />
     <meta name="theme-color" content="#f4f6f9" />
+
+    <!-- ✅ Preconnect: Google Fonts uchun -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- ✅ LCP image preload — hero avatar -->
+    <link
+      rel="preload"
+      as="image"
+      href="/Cmcoder.webp"
+      type="image/webp"
+      fetchpriority="high"
+    />
+
+    <!-- ✅ OG meta tags -->
+    <meta property="og:title" content="Mirkarim Bahodirovich | Frontend Developer" />
+    <meta property="og:description" content="Junior Frontend Developer — React, Next.js, Tailwind CSS mutaxassisi." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mirkarim-dev.vercel.app/" />
+
     <title>Mirkarim Bahodirovich | Frontend dasturchi</title>
   </head>
   <body>
+    <!-- ✅ Theme script — FOUC oldini oladi -->
     <script>
       (function () {
         var s = localStorage.getItem('portfolio-theme');

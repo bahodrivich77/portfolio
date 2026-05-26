@@ -1,16 +1,23 @@
-import { useEffect, useState } from 'react'
-import Header from './components/Header'
-import Footer from './components/Footer'
+import { useEffect, useState, lazy, Suspense } from 'react'
+import Header   from './components/Header'
+import Footer   from './components/Footer'
 import GovBackground from './components/GovBackground'
-import Hero from './sections/Hero'
-import About from './sections/About'
-import Skills from './sections/Skills'
-import Projects from './sections/Projects'
-import Experience from './sections/Experience'
-import Blog from './sections/Blog'
-import Contact from './sections/Contact'
+import Hero     from './sections/Hero'
+
+// ✅ Lazy load — below-the-fold sections (TTI yaxshilanadi)
+const About      = lazy(() => import('./sections/About'))
+const Skills     = lazy(() => import('./sections/Skills'))
+const Projects   = lazy(() => import('./sections/Projects'))
+const Experience = lazy(() => import('./sections/Experience'))
+const Blog       = lazy(() => import('./sections/Blog'))
+const Contact    = lazy(() => import('./sections/Contact'))
 
 const SECTIONS = ['hero', 'about', 'skills', 'projects', 'experience', 'blog', 'contact']
+
+// ✅ Minimal fallback — CLS oldini olish uchun height berilgan
+function SectionFallback() {
+  return <div style={{ minHeight: 400 }} aria-hidden="true" />
+}
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('hero')
@@ -29,7 +36,7 @@ export default function App() {
       if (!el) return
       const obs = new IntersectionObserver(
         ([entry]) => { if (entry.isIntersecting) setActiveSection(id) },
-        { threshold: 0.35, rootMargin: '-60px 0px -60px 0px' }
+        { threshold: 0.3, rootMargin: '-60px 0px -60px 0px' }
       )
       obs.observe(el)
       observers.push(obs)
@@ -48,14 +55,29 @@ export default function App() {
 
       <Header activeSection={activeSection} scrolled={scrolled} />
 
-      <main className="relative z-10">
+      <main id="main-content" className="relative z-10">
+        {/* ✅ Hero — NOT lazy (LCP element) */}
         <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Experience />
-        <Blog />
-        <Contact />
+
+        {/* ✅ Rest — lazy loaded */}
+        <Suspense fallback={<SectionFallback />}>
+          <About />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Skills />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Projects />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Experience />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Blog />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Contact />
+        </Suspense>
       </main>
 
       <Footer />
