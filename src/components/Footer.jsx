@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import { Github, Linkedin, Instagram, Code2, Heart } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 
@@ -79,18 +78,16 @@ export default function Footer() {
             <p className="text-[var(--text-secondary)] text-sm mb-4">{tx.about.role}</p>
             <div className="flex gap-3">
               {SOCIALS.map(({ href, label, icon, hover }) => (
-                <motion.a
+                <a
                   key={label}
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`p-2.5 glass rounded-lg text-[var(--text-muted)] transition-all ${hover}`}
+                  className={`p-2.5 glass rounded-lg text-[var(--text-muted)] transition-transform duration-200 hover:-translate-y-0.5 ${hover}`}
                 >
                   {icon}
-                </motion.a>
+                </a>
               ))}
             </div>
           </div>

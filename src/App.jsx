@@ -1,16 +1,16 @@
 import { useEffect, useState, lazy, Suspense } from 'react'
-import Header   from './components/Header'
-import Footer   from './components/Footer'
+import Header from './components/Header'
 import GovBackground from './components/GovBackground'
-import Hero     from './sections/Hero'
+import Hero from './sections/Hero'
 
-// ✅ Lazy load — below-the-fold sections (TTI yaxshilanadi)
-const About      = lazy(() => import('./sections/About'))
-const Skills     = lazy(() => import('./sections/Skills'))
-const Projects   = lazy(() => import('./sections/Projects'))
+// ✅ Lazy load — below-the-fold sections and footer.
+const About = lazy(() => import('./sections/About'))
+const Skills = lazy(() => import('./sections/Skills'))
+const Projects = lazy(() => import('./sections/Projects'))
 const Experience = lazy(() => import('./sections/Experience'))
-const Blog       = lazy(() => import('./sections/Blog'))
-const Contact    = lazy(() => import('./sections/Contact'))
+const Blog = lazy(() => import('./sections/Blog'))
+const Contact = lazy(() => import('./sections/Contact'))
+const Footer = lazy(() => import('./components/Footer'))
 
 const SECTIONS = ['hero', 'about', 'skills', 'projects', 'experience', 'blog', 'contact']
 
@@ -62,25 +62,17 @@ export default function App() {
         {/* ✅ Rest — lazy loaded */}
         <Suspense fallback={<SectionFallback />}>
           <About />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
           <Skills />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
           <Projects />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
           <Experience />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
           <Blog />
-        </Suspense>
-        <Suspense fallback={<SectionFallback />}>
           <Contact />
         </Suspense>
       </main>
 
-      <Footer />
+      <Suspense fallback={<SectionFallback />}>
+        <Footer />
+      </Suspense>
     </div>
   )
 }

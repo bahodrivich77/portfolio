@@ -8,32 +8,29 @@ export default defineConfig({
     tailwindcss(),
   ],
   build: {
-    // ✅ Target modern browsers — kichikroq bundle
+    // ✅ Target modern browsers for smaller bundles.
     target: 'es2020',
 
-    // ✅ Chunk splitting — first load kamayadi
+    // ✅ Code splitting to keep initial payload low.
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Vendor chunklari alohida — cache ishlaydi
-          'react-vendor': ['react', 'react-dom'],
-          'motion':       ['framer-motion'],
-          'ui':           ['lucide-react'],
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('framer-motion')) return 'motion'
+            if (id.includes('lucide-react')) return 'icons'
+            if (id.includes('react-dom') || id.includes('react')) return 'react-vendor'
+            if (id.includes('clsx') || id.includes('tailwind-merge')) return 'ui-vendor'
+          }
         },
       },
     },
 
-    // ✅ CSS minify
     cssMinify: true,
-
-    // ✅ Chunk size warning
+    assetsInlineLimit: 4096,
     chunkSizeWarningLimit: 600,
-
-    // ✅ Source map faqat dev da
     sourcemap: false,
   },
 
-  // ✅ Dependency pre-bundling
   optimizeDeps: {
     include: ['react', 'react-dom', 'framer-motion', 'lucide-react'],
   },

@@ -81,6 +81,21 @@ html.dark {
   }
 }
 
+.animate-cursor {
+  display: inline-block;
+  width: 1px;
+  height: 1.1em;
+  background: currentColor;
+  animation: blink 1s step-end infinite;
+  margin-left: 0.35rem;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 /* ─── Light: yumshoq fon bloblari ─── */
 html:not(.dark) .gov-background {
   display: block;
