@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useMemo } from 'react'
-import { motion } from 'framer-motion'
+import { m as motion } from 'framer-motion'
 import { ArrowDown, Github, Linkedin, ExternalLink } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 

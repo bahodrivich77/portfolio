@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { m as motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 import LanguageSwitcher from './LanguageSwitcher'
@@ -87,20 +87,14 @@ export default function Header({ activeSection, scrolled }) {
                 <button
                   key={item.href}
                   onClick={() => scrollTo(item.href)}
-                  className="relative px-4 py-2 text-sm font-medium rounded-xl transition-all duration-300"
+                  className="relative px-4 py-2 text-sm font-medium rounded-xl"
                   style={{
                     color: isActive(item.href) ? '#00d4ff' : 'rgba(255,255,255,0.5)',
                     background: isActive(item.href) ? 'rgba(0,212,255,0.08)' : 'transparent',
+                    border: isActive(item.href) ? '1px solid rgba(0,212,255,0.15)' : '1px solid transparent',
+                    transition: 'color 0.3s ease, background 0.3s ease, border-color 0.3s ease',
                   }}
                 >
-                  {isActive(item.href) && (
-                    <motion.div
-                      layoutId="nav-pill"
-                      className="absolute inset-0 rounded-xl"
-                      style={{ background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.15)' }}
-                      transition={{ type: 'spring', stiffness: 400, damping: 35 }}
-                    />
-                  )}
                   <span className="relative z-10">{item.label}</span>
                 </button>
               ))}

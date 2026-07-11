@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { m as motion, useInView } from 'framer-motion'
 import { MapPin, Calendar, Coffee, Heart, Rocket, Star } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 
@@ -68,9 +68,9 @@ function TimelineItem({ item, index, isLast }) {
         <span style={{ fontSize: '0.7rem', color: 'rgba(255,255,255,0.3)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '0.04em' }}>
           {item.year}
         </span>
-        <h4 style={{ fontWeight: 700, color: '#fff', marginTop: 2, marginBottom: 4, fontSize: '0.95rem' }}>
+        <h3 style={{ fontWeight: 700, color: '#fff', marginTop: 2, marginBottom: 4, fontSize: '0.95rem' }}>
           {item.title}
-        </h4>
+        </h3>
         <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.85rem', lineHeight: 1.6 }}>
           {item.desc}
         </p>

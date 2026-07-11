@@ -52,7 +52,7 @@ export default function Footer() {
                 CM<span className="text-gradient-cyan">Coder</span>
               </span>
             </div>
-            <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.82rem', lineHeight: 1.7, maxWidth: 240 }}>
+            <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.82rem', lineHeight: 1.7, maxWidth: 240 }}>
               {f.tagline}
             </p>
 
@@ -81,7 +81,7 @@ export default function Footer() {
                     width: 32, height: 32, borderRadius: '0.5rem',
                     background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: 'rgba(255,255,255,0.35)', textDecoration: 'none',
+                    color: 'rgba(255,255,255,0.68)', textDecoration: 'none',
                     transition: 'all 0.2s ease',
                   }}
                   onMouseEnter={(e) => {
@@ -92,7 +92,7 @@ export default function Footer() {
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
                     e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
-                    e.currentTarget.style.color = 'rgba(255,255,255,0.35)'
+                    e.currentTarget.style.color = 'rgba(255,255,255,0.68)'
                   }}
                 >
                   {icon}
@@ -103,7 +103,7 @@ export default function Footer() {
 
           {/* Pages */}
           <div>
-            <div style={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase', marginBottom: '1rem' }}>
+            <div style={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', marginBottom: '1rem' }}>
               {f.pages}
             </div>
             <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
@@ -113,12 +113,12 @@ export default function Footer() {
                   onClick={() => scrollTo(href)}
                   style={{
                     background: 'none', border: 'none', padding: 0,
-                    fontSize: '0.85rem', color: 'rgba(255,255,255,0.35)',
+                    fontSize: '0.85rem', color: 'rgba(255,255,255,0.68)',
                     cursor: 'pointer', textAlign: 'left',
                     transition: 'color 0.2s',
                   }}
                   onMouseEnter={(e) => e.currentTarget.style.color = '#00d4ff'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.68)'}
                 >
                   {tx.nav[key]}
                 </button>
@@ -128,23 +128,23 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <div style={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.2)', textTransform: 'uppercase', marginBottom: '1rem' }}>
+            <div style={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', marginBottom: '1rem' }}>
               {f.contact}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-              <a href="https://t.me/bahod1rovi_ch77" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s' }}
+              <a href="https://t.me/bahod1rovi_ch77" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.68)', textDecoration: 'none', transition: 'color 0.2s' }}
                 onMouseEnter={(e) => e.currentTarget.style.color = '#229ED9'}
-                onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.68)'}
               >
                 @bahod1rovi_ch77
               </a>
-              <a href="https://github.com/bahodrivich77/" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.35)', textDecoration: 'none', transition: 'color 0.2s' }}
+              <a href="https://github.com/bahodrivich77/" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.68)', textDecoration: 'none', transition: 'color 0.2s' }}
                 onMouseEnter={(e) => e.currentTarget.style.color = '#e6edf3'}
-                onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.35)'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.68)'}
               >
                 github.com/bahodrivich77
               </a>
-              <div style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.25)' }}>
+              <div style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.62)' }}>
                 Tashkent, Uzbekistan
               </div>
             </div>
@@ -163,10 +163,10 @@ export default function Footer() {
             gap: '0.75rem',
           }}
         >
-          <span style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.2)' }}>
+          <span style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.6)' }}>
             © {year} Mirkarim Bahodirovich. {f.rights}
           </span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.78rem', color: 'rgba(255,255,255,0.2)' }}>
+          <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.78rem', color: 'rgba(255,255,255,0.6)' }}>
             {f.built}{' '}
             <Heart size={11} style={{ color: '#f43f5e', fill: '#f43f5e' }} />{' '}
             {f.with} React + Vite

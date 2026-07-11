@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { m as motion, useInView } from 'framer-motion'
 import { ExternalLink, BookOpen, Calendar, Clock, ArrowUpRight } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 

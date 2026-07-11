@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { m as motion, useInView } from 'framer-motion'
 import { Briefcase, GraduationCap, Trophy } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 
@@ -37,7 +37,6 @@ function StatCounter({ value, label, index, inView }) {
 
 function ExperienceCard({ card, index, total, inView }) {
   const isLeft = index % 2 === 0
-  const isFirst = index === 0
   const isLast = index === total - 1
   const accent = card.color
 
@@ -136,9 +135,9 @@ function CardContent({ card, accent }) {
           <card.icon size={11} style={{ color: accent }} />
         </span>
       </div>
-      <h4 style={{ fontWeight: 700, color: '#fff', fontSize: '0.92rem', marginBottom: 2, lineHeight: 1.3 }}>
+      <h3 style={{ fontWeight: 700, color: '#fff', fontSize: '0.92rem', marginBottom: 2, lineHeight: 1.3 }}>
         {card.title}
-      </h4>
+      </h3>
       <div style={{ color: accent, fontSize: '0.78rem', fontWeight: 600, marginBottom: '0.5rem' }}>
         {card.org}
       </div>

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { m as motion, useInView } from 'framer-motion'
 import { Send, Github, Linkedin, Instagram, CheckCircle2, AlertCircle, Terminal, MapPin, Clock } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 

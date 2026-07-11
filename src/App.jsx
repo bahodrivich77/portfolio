@@ -1,7 +1,11 @@
-import { useEffect, useState, lazy, Suspense } from 'react'
+import { useEffect, useState, useRef, lazy, Suspense } from 'react'
+import { LazyMotion } from 'framer-motion'
 import Header from './components/Header'
 import Hero from './sections/Hero'
 import CustomCursor from './components/CustomCursor'
+import { useSectionKeyNav } from './hooks/useSectionKeyNav'
+
+const loadMotionFeatures = () => import('./lib/motionFeatures').then((mod) => mod.default)
 
 const About = lazy(() => import('./sections/About'))
 const Skills = lazy(() => import('./sections/Skills'))
@@ -40,6 +44,9 @@ function SectionFallback() {
 export default function App() {
   const [activeSection, setActiveSection] = useState('hero')
   const [scrolled, setScrolled] = useState(false)
+  const lenisRef = useRef(null)
+
+  useSectionKeyNav(SECTIONS, lenisRef)
 
   // Lenis smooth scroll
   useEffect(() => {
@@ -55,6 +62,7 @@ export default function App() {
           smoothTouch: false,
           touchMultiplier: 2,
         })
+        lenisRef.current = lenis
 
         const raf = (time) => {
           lenis.raf(time)
@@ -66,7 +74,10 @@ export default function App() {
       }
     }
     initLenis()
-    return () => lenis?.destroy()
+    return () => {
+      lenis?.destroy()
+      lenisRef.current = null
+    }
   }, [])
 
   useEffect(() => {
@@ -91,9 +102,10 @@ export default function App() {
   }, [])
 
   return (
-    <div className="relative overflow-x-hidden min-h-screen" style={{ background: '#050508', color: '#fff' }}>
-      {/* Custom cursor — desktop only */}
-      <CustomCursor />
+    <LazyMotion features={loadMotionFeatures} strict>
+      <div className="relative overflow-x-hidden min-h-screen" style={{ background: '#050508', color: '#fff' }}>
+        {/* Custom cursor — desktop only */}
+        <CustomCursor />
 
       {/* Atmospheric background */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
@@ -147,6 +159,7 @@ export default function App() {
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }
       `}</style>
-    </div>
+      </div>
+    </LazyMotion>
   )
 }

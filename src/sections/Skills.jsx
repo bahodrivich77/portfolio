@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { m as motion, useInView } from 'framer-motion'
 import { useLanguage } from '../i18n/LanguageContext'
 
 const TECH_NODES = [

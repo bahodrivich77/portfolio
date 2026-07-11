@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { motion, AnimatePresence, useInView } from 'framer-motion'
+import { m as motion, AnimatePresence, useInView } from 'framer-motion'
 import { ExternalLink, Github, ArrowUpRight, X, Layers, Zap, Target } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 
@@ -148,7 +148,7 @@ function ProjectCard({ project, index, inView, onClick }) {
 
       {/* Title */}
       <h3 style={{
-        fontSize: '1.1rem', fontWeight: 800, color: '#fff',
+        fontSize: '1.1rem', fontWeight: 800,
         marginBottom: '0.5rem', letterSpacing: '-0.01em',
         transition: 'color 0.2s',
         color: hovered ? project.accent : '#fff',
