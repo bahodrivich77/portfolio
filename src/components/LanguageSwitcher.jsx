@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Globe, Check } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 
-export default function LanguageSwitcher({ variant = 'desktop' }) {
+export default function LanguageSwitcher() {
   const { lang, setLang, languages } = useLanguage()
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
@@ -17,54 +17,79 @@ export default function LanguageSwitcher({ variant = 'desktop' }) {
     return () => document.removeEventListener('mousedown', onClickOutside)
   }, [])
 
-  const select = (code) => {
-    setLang(code)
-    setOpen(false)
-  }
-
-  const isMobile = variant === 'mobile'
-
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} style={{ position: 'relative' }}>
       <button
         type="button"
         onClick={() => setOpen(!open)}
-        aria-label="Tilni tanlash"
+        aria-label="Select language"
         aria-expanded={open}
-        className={
-          isMobile
-            ? 'flex items-center gap-2 w-full py-4 px-6 rounded-2xl text-lg font-semibold glass border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--linkedin-blue)] hover:border-[var(--linkedin-blue)]/30 transition-all'
-            : 'flex items-center gap-2 px-3 py-2 rounded-full text-sm font-semibold border border-[var(--border)] bg-[var(--card-bg)] text-[var(--text-secondary)] hover:border-[var(--linkedin-blue)]/40 hover:text-[var(--linkedin-blue)] transition-all shadow-sm'
-        }
+        style={{
+          display: 'flex', alignItems: 'center', gap: '0.4rem',
+          padding: '0.5rem 0.75rem', borderRadius: '0.6rem',
+          border: '1px solid rgba(255,255,255,0.08)',
+          background: open ? 'rgba(0,212,255,0.06)' : 'rgba(255,255,255,0.04)',
+          color: 'rgba(255,255,255,0.5)',
+          fontSize: '0.78rem', fontWeight: 700,
+          cursor: 'pointer', transition: 'all 0.2s',
+          letterSpacing: '0.04em',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = 'rgba(0,212,255,0.25)'
+          e.currentTarget.style.color = '#00d4ff'
+        }}
+        onMouseLeave={(e) => {
+          if (!open) {
+            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'
+            e.currentTarget.style.color = 'rgba(255,255,255,0.5)'
+          }
+        }}
       >
-        <Globe size={isMobile ? 20 : 16} className="text-[var(--linkedin-blue)] shrink-0" />
-        <span>{current?.label}</span>
+        <Globe size={13} style={{ color: '#00d4ff' }} />
+        {current?.label}
       </button>
 
       {open && (
-        <div
-          className={
-            isMobile
-              ? 'mt-2 w-full rounded-2xl border border-[var(--border)] bg-[var(--card-bg)] shadow-xl overflow-hidden'
-              : 'absolute right-0 top-full mt-2 min-w-[140px] rounded-xl border border-[var(--border)] bg-[var(--card-bg)] shadow-xl overflow-hidden z-[60]'
-          }
-        >
+        <div style={{
+          position: 'absolute', right: 0, top: 'calc(100% + 0.5rem)',
+          minWidth: 150, borderRadius: '0.75rem',
+          border: '1px solid rgba(255,255,255,0.08)',
+          background: '#0d1117',
+          boxShadow: '0 16px 40px rgba(0,0,0,0.6), 0 0 0 1px rgba(0,212,255,0.08)',
+          overflow: 'hidden', zIndex: 60,
+        }}>
           {languages.map((l) => (
             <button
               key={l.code}
               type="button"
-              onClick={() => select(l.code)}
-              className={`w-full flex items-center justify-between gap-3 px-4 py-3 text-sm font-medium transition-colors ${
-                lang === l.code
-                  ? 'bg-[var(--linkedin-blue)]/10 text-[var(--linkedin-blue)]'
-                  : 'text-[var(--text-secondary)] hover:bg-[var(--bg-muted)]'
-              }`}
+              onClick={() => { setLang(l.code); setOpen(false) }}
+              style={{
+                width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                gap: '0.75rem', padding: '0.65rem 1rem',
+                fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer', border: 'none',
+                background: lang === l.code ? 'rgba(0,212,255,0.06)' : 'transparent',
+                color: lang === l.code ? '#00d4ff' : 'rgba(255,255,255,0.45)',
+                transition: 'all 0.15s',
+                textAlign: 'left',
+              }}
+              onMouseEnter={(e) => {
+                if (lang !== l.code) {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.8)'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (lang !== l.code) {
+                  e.currentTarget.style.background = 'transparent'
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.45)'
+                }
+              }}
             >
               <span>
-                <span className="font-bold">{l.label}</span>
-                <span className="text-[var(--text-muted)] ml-2">{l.name}</span>
+                <span style={{ fontWeight: 800 }}>{l.label}</span>
+                <span style={{ marginLeft: '0.4rem', opacity: 0.5, fontSize: '0.72rem' }}>{l.name}</span>
               </span>
-              {lang === l.code && <Check size={16} />}
+              {lang === l.code && <Check size={13} />}
             </button>
           ))}
         </div>

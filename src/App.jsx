@@ -1,9 +1,8 @@
 import { useEffect, useState, lazy, Suspense } from 'react'
 import Header from './components/Header'
-import GovBackground from './components/GovBackground'
 import Hero from './sections/Hero'
+import CustomCursor from './components/CustomCursor'
 
-// ✅ Lazy load — below-the-fold sections and footer.
 const About = lazy(() => import('./sections/About'))
 const Skills = lazy(() => import('./sections/Skills'))
 const Projects = lazy(() => import('./sections/Projects'))
@@ -14,17 +13,64 @@ const Footer = lazy(() => import('./components/Footer'))
 
 const SECTIONS = ['hero', 'about', 'skills', 'projects', 'experience', 'blog', 'contact']
 
-// ✅ Minimal fallback — CLS oldini olish uchun height berilgan
+function SectionDivider() {
+  return (
+    <div
+      aria-hidden="true"
+      style={{
+        width: '100%', height: 1, overflow: 'hidden',
+        background: 'linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.06) 30%, rgba(168,85,247,0.06) 70%, transparent 100%)',
+      }}
+    />
+  )
+}
+
 function SectionFallback() {
-  return <div style={{ minHeight: 400 }} aria-hidden="true" />
+  return (
+    <div
+      style={{ minHeight: 400, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      aria-hidden="true"
+    >
+      <div className="w-6 h-6 border-2 border-t-transparent rounded-full"
+        style={{ borderColor: 'rgba(0,212,255,0.3)', borderTopColor: '#00d4ff', animation: 'spin 1s linear infinite' }} />
+    </div>
+  )
 }
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('hero')
   const [scrolled, setScrolled] = useState(false)
 
+  // Lenis smooth scroll
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50)
+    let lenis
+    const initLenis = async () => {
+      try {
+        const { default: Lenis } = await import('@studio-freight/lenis')
+        lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smooth: true,
+          mouseMultiplier: 1,
+          smoothTouch: false,
+          touchMultiplier: 2,
+        })
+
+        const raf = (time) => {
+          lenis.raf(time)
+          requestAnimationFrame(raf)
+        }
+        requestAnimationFrame(raf)
+      } catch {
+        // Lenis not available, use native scroll
+      }
+    }
+    initLenis()
+    return () => lenis?.destroy()
+  }, [])
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 60)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -36,7 +82,7 @@ export default function App() {
       if (!el) return
       const obs = new IntersectionObserver(
         ([entry]) => { if (entry.isIntersecting) setActiveSection(id) },
-        { threshold: 0.3, rootMargin: '-60px 0px -60px 0px' }
+        { threshold: 0.25, rootMargin: '-80px 0px -80px 0px' }
       )
       obs.observe(el)
       observers.push(obs)
@@ -45,34 +91,62 @@ export default function App() {
   }, [])
 
   return (
-    <div className="relative bg-[var(--bg-page)] text-[var(--text-primary)] overflow-x-hidden min-h-screen">
-      <GovBackground />
+    <div className="relative overflow-x-hidden min-h-screen" style={{ background: '#050508', color: '#fff' }}>
+      {/* Custom cursor — desktop only */}
+      <CustomCursor />
 
-      <div className="hidden dark:block fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="orb orb-blue absolute -top-32 -right-32 opacity-80" />
-        <div className="orb orb-light absolute bottom-0 -left-40 opacity-60" />
+      {/* Atmospheric background */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        {/* Deep space gradient */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,212,255,0.06) 0%, transparent 60%)'
+        }} />
+        {/* Cyan orb top right */}
+        <div className="atmo-orb" style={{
+          width: 'clamp(400px, 60vw, 800px)',
+          height: 'clamp(400px, 60vw, 800px)',
+          top: '-20%', right: '-15%',
+          background: 'radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%)',
+        }} />
+        {/* Purple orb bottom left */}
+        <div className="atmo-orb" style={{
+          width: 'clamp(300px, 50vw, 600px)',
+          height: 'clamp(300px, 50vw, 600px)',
+          bottom: '10%', left: '-15%',
+          background: 'radial-gradient(circle, rgba(168,85,247,0.06) 0%, transparent 70%)',
+        }} />
+        {/* Subtle grid */}
+        <div className="grid-bg" style={{ position: 'absolute', inset: 0, opacity: 0.5 }} />
       </div>
 
       <Header activeSection={activeSection} scrolled={scrolled} />
 
       <main id="main-content" className="relative z-10">
-        {/* ✅ Hero — NOT lazy (LCP element) */}
         <Hero />
-
-        {/* ✅ Rest — lazy loaded */}
         <Suspense fallback={<SectionFallback />}>
+          <SectionDivider />
           <About />
+          <SectionDivider />
           <Skills />
+          <SectionDivider />
           <Projects />
+          <SectionDivider />
           <Experience />
+          <SectionDivider />
           <Blog />
+          <SectionDivider />
           <Contact />
         </Suspense>
       </main>
 
-      <Suspense fallback={<SectionFallback />}>
+      <Suspense fallback={null}>
         <Footer />
       </Suspense>
+
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+      `}</style>
     </div>
   )
 }

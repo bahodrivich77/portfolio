@@ -16,9 +16,12 @@ export default defineConfig({
       output: {
         manualChunks(id) {
           if (id.includes('node_modules')) {
-            if (id.includes('framer-motion')) return 'motion'
+            if (id.includes('framer-motion') || id.includes('motion-dom')) return 'motion'
             if (id.includes('lucide-react')) return 'icons'
-            if (id.includes('react-dom') || id.includes('react')) return 'react-vendor'
+            if (id.includes('@react-three') || id.includes('three')) return 'three'
+            if (id.includes('@studio-freight/lenis') || id.includes('lenis')) return 'lenis'
+            if (id.includes('gsap')) return 'gsap'
+            if (id.includes('react-dom') || id.includes('react/')) return 'react-vendor'
             if (id.includes('clsx') || id.includes('tailwind-merge')) return 'ui-vendor'
           }
         },
