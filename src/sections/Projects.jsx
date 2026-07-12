@@ -100,47 +100,85 @@ function BrowserMockup({ accent, emoji, category }) {
 }
 
 function ProjectCard({ project, index, inView, onClick }) {
+  const cardRef = useRef(null)
+  const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0 })
   const [hovered, setHovered] = useState(false)
+
+  const handleMouseMove = (e) => {
+    const card = cardRef.current
+    if (!card) return
+
+    const rect = card.getBoundingClientRect()
+    // Calculate relative mouse position on the card (-0.5 to 0.5)
+    const x = (e.clientX - rect.left) / rect.width - 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+
+    // Maximum tilt angles in degrees
+    const maxTilt = 10
+    setTilt({
+      rotateX: -y * maxTilt,
+      rotateY: x * maxTilt,
+    })
+  }
+
+  const handleMouseLeave = () => {
+    setHovered(false)
+    setTilt({ rotateX: 0, rotateY: 0 })
+  }
 
   return (
     <motion.div
+      ref={cardRef}
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: index * 0.15, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ y: -8 }}
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={handleMouseLeave}
       onClick={onClick}
       style={{
         borderRadius: '1.25rem',
-        border: `1px solid ${hovered ? project.accent + '30' : 'rgba(255,255,255,0.06)'}`,
+        border: `1px solid ${hovered ? project.accent + '40' : 'rgba(255,255,255,0.06)'}`,
         background: hovered
-          ? `radial-gradient(ellipse at 50% 0%, ${project.accent}06, rgba(255,255,255,0.02))`
+          ? `radial-gradient(ellipse at 50% 0%, ${project.accent}08, rgba(255,255,255,0.02))`
           : 'rgba(255,255,255,0.02)',
         backdropFilter: 'blur(20px)',
         padding: '1.5rem',
         cursor: 'pointer',
-        transition: 'border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease',
-        boxShadow: hovered ? `0 0 40px ${project.accent}08` : 'none',
-        display: 'flex', flexDirection: 'column',
+        boxShadow: hovered ? `0 15px 45px ${project.accent}12, 0 0 25px ${project.accent}05` : 'none',
+        display: 'flex',
+        flexDirection: 'column',
+        // High-end cinematic 3D hardware tilt effects
+        transform: `perspective(1000px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale(${hovered ? 1.02 : 1})`,
+        transition: hovered ? 'transform 0.05s ease, border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease' : 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease',
+        transformStyle: 'preserve-3d',
       }}
     >
-      {/* Browser mockup */}
-      <BrowserMockup accent={project.accent} emoji={project.emoji} category={project.category} />
+      {/* Browser mockup wrapped in 3D depth container */}
+      <div style={{ transform: 'translateZ(20px)', transformStyle: 'preserve-3d' }}>
+        <BrowserMockup accent={project.accent} emoji={project.emoji} category={project.category} />
+      </div>
 
       {/* Badge row */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem', transform: 'translateZ(10px)' }}>
         <span style={{
-          padding: '0.2rem 0.6rem', borderRadius: 9999,
-          fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.08em',
-          background: `${project.accent}12`, border: `1px solid ${project.accent}25`,
-          color: project.accent, textTransform: 'uppercase',
+          padding: '0.2rem 0.6rem',
+          borderRadius: 9999,
+          fontSize: '0.65rem',
+          fontWeight: 700,
+          letterSpacing: '0.08em',
+          background: `${project.accent}12`,
+          border: `1px solid ${project.accent}25`,
+          color: project.accent,
+          textTransform: 'uppercase',
         }}>
           {project.badge}
         </span>
         <span style={{
-          fontSize: '0.65rem', color: 'rgba(255,255,255,0.25)',
+          fontSize: '0.65rem',
+          color: 'rgba(255,255,255,0.25)',
           fontFamily: 'JetBrains Mono, monospace',
+          marginLeft: 'auto',
         }}>
           #{String(index + 1).padStart(2, '0')}
         </span>
@@ -148,31 +186,38 @@ function ProjectCard({ project, index, inView, onClick }) {
 
       {/* Title */}
       <h3 style={{
-        fontSize: '1.1rem', fontWeight: 800,
-        marginBottom: '0.5rem', letterSpacing: '-0.01em',
+        fontSize: '1.1rem',
+        fontWeight: 800,
+        marginBottom: '0.5rem',
+        letterSpacing: '-0.01em',
         transition: 'color 0.2s',
         color: hovered ? project.accent : '#fff',
+        transform: 'translateZ(15px)',
       }}>
         {project.title}
       </h3>
 
       {/* Description */}
       <p style={{
-        color: 'rgba(255,255,255,0.45)', fontSize: '0.85rem',
-        lineHeight: 1.65, marginBottom: '1rem', flex: 1,
+        color: 'rgba(255,255,255,0.45)',
+        fontSize: '0.85rem',
+        lineHeight: 1.65,
+        marginBottom: '1rem',
+        flex: 1,
+        transform: 'translateZ(10px)',
       }}>
         {project.description}
       </p>
 
       {/* Tags */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.25rem' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.25rem', transform: 'translateZ(10px)' }}>
         {project.tags.map((t) => (
           <span key={t} className="tech-badge" style={{ color: 'rgba(255,255,255,0.4)', borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)' }}>{t}</span>
         ))}
       </div>
 
       {/* Links */}
-      <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+      <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', transform: 'translateZ(15px)' }}>
         <a
           href={project.github}
           target="_blank"

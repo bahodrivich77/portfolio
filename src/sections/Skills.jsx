@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useEffect } from 'react'
 import { m as motion, useInView } from 'framer-motion'
 import { useLanguage } from '../i18n/LanguageContext'
 
@@ -30,140 +30,328 @@ const MARQUEE_TECHS = [
   'REST API', 'Node.js', 'VS Code', 'Vercel', 'React Router',
 ]
 
-const SIZE_MAP = { lg: 72, md: 56, sm: 44, xs: 36 }
+const SIZE_MAP = { lg: 38, md: 30, sm: 24, xs: 20 }
 
-// Positions around a center point — manually tuned for visual balance
-const NODE_POSITIONS = [
-  { x: 50,  y: 50  }, // React — center
-  { x: 65,  y: 28  }, // TypeScript
-  { x: 35,  y: 28  }, // JavaScript
-  { x: 72,  y: 50  }, // Next.js
-  { x: 28,  y: 50  }, // Tailwind
-  { x: 68,  y: 72  }, // Git
-  { x: 40,  y: 75  }, // Figma
-  { x: 55,  y: 78  }, // Vite
-  { x: 20,  y: 35  }, // GitHub
-  { x: 80,  y: 35  }, // HTML5
-  { x: 82,  y: 65  }, // CSS3
-  { x: 18,  y: 65  }, // Framer
-  { x: 50,  y: 18  }, // Node.js
-  { x: 15,  y: 50  }, // REST API
-  { x: 85,  y: 50  }, // VS Code
-]
+// Interactive 3D constellation/node-graph projected onto canvas
+function InteractiveUniverseCanvas({ inView }) {
+  const canvasRef = useRef(null)
+  const containerRef = useRef(null)
+  const nodesRef = useRef([])
+  const animationRef = useRef(null)
+  const mouseRef = useRef({ x: -9999, y: -9999, px: -9999, py: -9999, isDown: false, activeNode: null })
 
-function TechNode({ node, pos, index, inView }) {
-  const sz = SIZE_MAP[node.size] || 44
-  const isHighlighted = node.level >= 85
+  // Initialize interactive 3D particle node physics
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const container = containerRef.current
+    if (!canvas || !container) return
+
+    const ctx = canvas.getContext('2d')
+
+    const resize = () => {
+      const rect = container.getBoundingClientRect()
+      canvas.width = rect.width
+      canvas.height = rect.width * 0.58 // maintain consistent cinematic wide ratio
+    }
+    resize()
+    window.addEventListener('resize', resize, { passive: true })
+
+    // Build interactive node list with local 3D velocities & coordinates
+    if (nodesRef.current.length === 0) {
+      nodesRef.current = TECH_NODES.map((node) => {
+        // Distribute uniformly in 3D sphere space
+        const theta = Math.random() * Math.PI * 2
+        const phi = Math.acos((Math.random() * 2) - 1)
+        const dist = 100 + Math.random() * 120
+
+        return {
+          ...node,
+          // 3D coordinates relative to center
+          x3d: dist * Math.sin(phi) * Math.cos(theta),
+          y3d: dist * Math.sin(phi) * Math.sin(theta),
+          z3d: dist * Math.cos(phi),
+          // Projected 2D screen coordinate coordinates
+          x: 0,
+          y: 0,
+          vx: 0,
+          vy: 0,
+          radius: SIZE_MAP[node.size] || 24,
+          glow: Math.random() * 0.5 + 0.5,
+          angle: Math.random() * Math.PI * 2,
+          speed: 0.003 + Math.random() * 0.004,
+        }
+      })
+    }
+
+    const onMouseMove = (e) => {
+      const rect = canvas.getBoundingClientRect()
+      const mx = e.clientX - rect.left
+      const my = e.clientY - rect.top
+      mouseRef.current.x = mx
+      mouseRef.current.y = my
+
+      // Check hover
+      if (!mouseRef.current.isDown) {
+        let hoveredNode = null
+        for (const node of nodesRef.current) {
+          const dx = node.x - mx
+          const dy = node.y - my
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          if (dist < node.radius + 10) {
+            hoveredNode = node
+            break
+          }
+        }
+        canvas.style.cursor = hoveredNode ? 'grab' : 'default'
+      } else if (mouseRef.current.activeNode) {
+        canvas.style.cursor = 'grabbing'
+        const node = mouseRef.current.activeNode
+        node.x = mx
+        node.y = my
+      }
+    }
+
+    const onMouseDown = () => {
+      mouseRef.current.isDown = true
+      const mx = mouseRef.current.x
+      const my = mouseRef.current.y
+
+      for (const node of nodesRef.current) {
+        const dx = node.x - mx
+        const dy = node.y - my
+        const dist = Math.sqrt(dx * dx + dy * dy)
+        if (dist < node.radius + 10) {
+          mouseRef.current.activeNode = node
+          break
+        }
+      }
+    }
+
+    const onMouseUp = () => {
+      mouseRef.current.isDown = false
+      mouseRef.current.activeNode = null
+      canvas.style.cursor = 'default'
+    }
+
+    const onMouseLeave = () => {
+      mouseRef.current.x = -9999
+      mouseRef.current.y = -9999
+      mouseRef.current.isDown = false
+      mouseRef.current.activeNode = null
+    }
+
+    canvas.addEventListener('mousemove', onMouseMove, { passive: true })
+    canvas.addEventListener('mousedown', onMouseDown, { passive: true })
+    canvas.addEventListener('mouseup', onMouseUp, { passive: true })
+    canvas.addEventListener('mouseleave', onMouseLeave, { passive: true })
+
+    // Touch support
+    const onTouchMove = (e) => {
+      if (e.touches.length > 0) {
+        const t = e.touches[0]
+        const rect = canvas.getBoundingClientRect()
+        const mx = t.clientX - rect.left
+        const my = t.clientY - rect.top
+        mouseRef.current.x = mx
+        mouseRef.current.y = my
+
+        if (mouseRef.current.isDown && mouseRef.current.activeNode) {
+          const node = mouseRef.current.activeNode
+          node.x = mx
+          node.y = my
+        }
+      }
+    }
+
+    const onTouchStart = (e) => {
+      if (e.touches.length > 0) {
+        mouseRef.current.isDown = true
+        const t = e.touches[0]
+        const rect = canvas.getBoundingClientRect()
+        const mx = t.clientX - rect.left
+        const my = t.clientY - rect.top
+        mouseRef.current.x = mx
+        mouseRef.current.y = my
+
+        for (const node of nodesRef.current) {
+          const dx = node.x - mx
+          const dy = node.y - my
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          if (dist < node.radius + 15) {
+            mouseRef.current.activeNode = node
+            break
+          }
+        }
+      }
+    }
+
+    canvas.addEventListener('touchmove', onTouchMove, { passive: true })
+    canvas.addEventListener('touchstart', onTouchStart, { passive: true })
+    canvas.addEventListener('touchend', onMouseUp, { passive: true })
+
+    // Core Animation loop simulating dynamic 3D orbital dynamics & spring network
+    const render = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      const cx = canvas.width / 2
+      const cy = canvas.height / 2
+      const rotationSpeed = 0.004
+
+      // Rotate nodes in virtual 3D space
+      nodesRef.current.forEach((node) => {
+        if (node !== mouseRef.current.activeNode) {
+          // Rotate around Y axis
+          const cosY = Math.cos(rotationSpeed)
+          const sinY = Math.sin(rotationSpeed)
+          const xRot = node.x3d * cosY - node.z3d * sinY
+          const zRot = node.x3d * sinY + node.z3d * cosY
+
+          // Rotate around X axis slightly
+          const cosX = Math.cos(rotationSpeed * 0.4)
+          const sinX = Math.sin(rotationSpeed * 0.4)
+          const yRot = node.y3d * cosX - zRot * sinX
+          const finalZ = node.y3d * sinX + zRot * cosX
+
+          node.x3d = xRot
+          node.y3d = yRot
+          node.z3d = finalZ
+
+          // 3D projection mathematical transformation (focal length = 250)
+          const fov = 250
+          const scale = fov / (fov + finalZ)
+          node.projScale = scale
+
+          // Target projected coordinates
+          const targetX = cx + xRot * scale
+          const targetY = cy + yRot * scale
+
+          // Smooth lerp to projected coordinate with soft physics drag
+          node.x += (targetX - node.x) * 0.08
+          node.y += (targetY - node.y) * 0.08
+        }
+      })
+
+      // Draw Connection Constellation Lines with variable opacity depending on 3D depth
+      ctx.lineWidth = 0.8
+      for (let i = 0; i < nodesRef.current.length; i++) {
+        for (let j = i + 1; j < nodesRef.current.length; j++) {
+          const n1 = nodesRef.current[i]
+          const n2 = nodesRef.current[j]
+
+          const dist3D = Math.sqrt(
+            Math.pow(n1.x3d - n2.x3d, 2) +
+            Math.pow(n1.y3d - n2.y3d, 2) +
+            Math.pow(n1.z3d - n2.z3d, 2)
+          )
+
+          // Only draw close connections to create a beautiful neural constellation net
+          if (dist3D < 160) {
+            const opacity = (1 - dist3D / 160) * 0.22 * Math.min(n1.projScale || 1, n2.projScale || 1)
+            ctx.beginPath()
+            ctx.moveTo(n1.x, n1.y)
+            ctx.lineTo(n2.x, n2.y)
+
+            const gradient = ctx.createLinearGradient(n1.x, n1.y, n2.x, n2.y)
+            gradient.addColorStop(0, n1.color + Math.floor(opacity * 255).toString(16).padStart(2, '0'))
+            gradient.addColorStop(1, n2.color + Math.floor(opacity * 255).toString(16).padStart(2, '0'))
+
+            ctx.strokeStyle = gradient
+            ctx.stroke()
+          }
+        }
+      }
+
+      // Draw Nodes in depth-sorted order to preserve flawless overlapping visual aesthetics
+      const sortedNodes = [...nodesRef.current].sort((a, b) => (b.z3d || 0) - (a.z3d || 0))
+
+      sortedNodes.forEach((node) => {
+        const scale = node.projScale || 1
+        const radius = node.radius * (0.6 + scale * 0.5)
+
+        // Mouse attraction / repulsion physics
+        const mx = mouseRef.current.x
+        const my = mouseRef.current.y
+        const dx = node.x - mx
+        const dy = node.y - my
+        const mouseDist = Math.sqrt(dx * dx + dy * dy)
+
+        let hoverIntensity = 0
+        if (mouseDist < 90) {
+          hoverIntensity = (90 - mouseDist) / 90
+          // Draw subtle interactive connection to cursor
+          ctx.beginPath()
+          ctx.moveTo(node.x, node.y)
+          ctx.lineTo(mx, my)
+          ctx.strokeStyle = `${node.color}15`
+          ctx.stroke()
+        }
+
+        // Depth shader mapping color opacities
+        const baseAlpha = 0.15 + scale * 0.5
+        const finalAlpha = Math.min(1, baseAlpha + hoverIntensity * 0.4)
+
+        ctx.save()
+
+        // Glow layer
+        ctx.shadowBlur = (node.level >= 85 ? 15 : 6) * scale
+        ctx.shadowColor = node.color
+
+        // Node circle
+        ctx.beginPath()
+        ctx.arc(node.x, node.y, radius, 0, Math.PI * 2)
+        ctx.fillStyle = `radial-gradient`
+
+        const radialGrad = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, radius)
+        radialGrad.addColorStop(0, `${node.color}35`)
+        radialGrad.addColorStop(0.7, `${node.color}10`)
+        radialGrad.addColorStop(1, `${node.color}00`)
+        ctx.fillStyle = radialGrad
+        ctx.fill()
+
+        ctx.strokeStyle = `${node.color}${Math.floor((0.2 + scale * 0.6) * 255).toString(16).padStart(2, '0')}`
+        ctx.lineWidth = 1.2
+        ctx.stroke()
+
+        // Clean shadow settings to render text razor sharp
+        ctx.shadowBlur = 0
+        ctx.shadowColor = 'transparent'
+
+        // Text labels inside nodes
+        ctx.font = `bold ${Math.max(8, 10 * scale)}px Inter, system-ui, sans-serif`
+        ctx.fillStyle = `rgba(255, 255, 255, ${finalAlpha})`
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        ctx.fillText(node.name, node.x, node.y)
+
+        ctx.restore()
+      })
+
+      animationRef.current = requestAnimationFrame(render)
+    }
+
+    if (inView) {
+      render()
+    }
+
+    return () => {
+      cancelAnimationFrame(animationRef.current)
+      window.removeEventListener('resize', resize)
+      canvas.removeEventListener('mousemove', onMouseMove)
+      canvas.removeEventListener('mousedown', onMouseDown)
+      canvas.removeEventListener('mouseup', onMouseUp)
+      canvas.removeEventListener('mouseleave', onMouseLeave)
+      canvas.removeEventListener('touchmove', onTouchMove)
+      canvas.removeEventListener('touchstart', onTouchStart)
+      canvas.removeEventListener('touchend', onMouseUp)
+    }
+  }, [inView])
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0 }}
-      animate={inView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-      transition={{ delay: index * 0.06, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ scale: 1.15, zIndex: 20 }}
-      style={{
-        position: 'absolute',
-        left: `${pos.x}%`,
-        top: `${pos.y}%`,
-        transform: 'translate(-50%, -50%)',
-        zIndex: index,
-        cursor: 'default',
-      }}
-      className={node.size === 'lg' || node.size === 'md' ? 'animate-float' : ''}
-    >
-      <div
-        style={{
-          width: sz,
-          height: sz,
-          borderRadius: '50%',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: `radial-gradient(circle, ${node.color}14 0%, ${node.color}06 70%)`,
-          border: `1px solid ${node.color}${isHighlighted ? '40' : '20'}`,
-          backdropFilter: 'blur(8px)',
-          boxShadow: isHighlighted ? `0 0 20px ${node.color}20, 0 0 40px ${node.color}08` : 'none',
-          transition: 'box-shadow 0.3s ease',
-        }}
-      >
-        <span style={{
-          fontSize: node.size === 'lg' ? '0.65rem' : '0.55rem',
-          fontWeight: 700,
-          color: node.color,
-          textAlign: 'center',
-          lineHeight: 1.2,
-          padding: '0 4px',
-          opacity: 0.9,
-        }}>
-          {node.name}
-        </span>
-      </div>
-    </motion.div>
-  )
-}
-
-function UniverseCanvas({ inView }) {
-  return (
-    <div style={{ position: 'relative', width: '100%', paddingBottom: '65%', minHeight: 320 }}>
-      {/* Connection lines SVG */}
-      <svg
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
-        aria-hidden="true"
-      >
-        {/* Connect React center to all neighbors */}
-        {[1,2,3,4,12,5,8].map((toIdx) => (
-          <line
-            key={toIdx}
-            x1={`${NODE_POSITIONS[0].x}%`}
-            y1={`${NODE_POSITIONS[0].y}%`}
-            x2={`${NODE_POSITIONS[toIdx].x}%`}
-            y2={`${NODE_POSITIONS[toIdx].y}%`}
-            stroke="rgba(0,212,255,0.06)"
-            strokeWidth="0.8"
-            strokeDasharray="4 4"
-          />
-        ))}
-        {/* A few cross connections */}
-        {[[1,9],[2,8],[3,10],[4,11],[5,6],[6,7]].map(([a, b]) => (
-          <line
-            key={`${a}-${b}`}
-            x1={`${NODE_POSITIONS[a].x}%`}
-            y1={`${NODE_POSITIONS[a].y}%`}
-            x2={`${NODE_POSITIONS[b].x}%`}
-            y2={`${NODE_POSITIONS[b].y}%`}
-            stroke="rgba(168,85,247,0.05)"
-            strokeWidth="0.6"
-            strokeDasharray="3 6"
-          />
-        ))}
-      </svg>
-
-      {/* Nodes */}
-      {TECH_NODES.map((node, i) => (
-        <TechNode
-          key={node.name}
-          node={node}
-          pos={NODE_POSITIONS[i] || { x: 50, y: 50 }}
-          index={i}
-          inView={inView}
-        />
-      ))}
-
-      {/* Center pulse */}
-      <motion.div
-        animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.6, 0.3] }}
-        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-        style={{
-          position: 'absolute',
-          left: '50%', top: '50%',
-          width: 120, height: 120,
-          transform: 'translate(-50%, -50%)',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }}
-        aria-hidden="true"
+    <div ref={containerRef} className="relative w-full h-full min-h-[360px]" style={{ touchAction: 'none' }}>
+      <canvas
+        ref={canvasRef}
+        className="block w-full h-full"
+        aria-label="Interactive 3D Technology Constellation Graph"
       />
     </div>
   )
@@ -350,14 +538,14 @@ export default function Skills() {
           </div>
         </div>
 
-        {/* Universe visualization */}
+        {/* Dynamic 3D projected interactive constellation universe map */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
           transition={{ delay: 0.2, duration: 0.8 }}
           style={{
             marginBottom: 'clamp(3rem, 6vw, 5rem)',
-            padding: 'clamp(1.5rem, 3vw, 2.5rem)',
+            padding: 'clamp(1rem, 3vw, 2.5rem)',
             borderRadius: '1.5rem',
             border: '1px solid rgba(255,255,255,0.05)',
             background: 'rgba(255,255,255,0.015)',
@@ -366,10 +554,10 @@ export default function Skills() {
         >
           <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
             <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: 'JetBrains Mono, monospace' }}>
-              Technology Universe
+              Technology Constellation Map (Grabbable & Orbiting)
             </span>
           </div>
-          <UniverseCanvas inView={inView} />
+          <InteractiveUniverseCanvas inView={inView} />
         </motion.div>
 
         {/* Skill cards */}

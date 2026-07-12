@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState, useMemo } from 'react'
+import { useEffect, useRef, useState, useMemo, lazy, Suspense } from 'react'
 import { m as motion } from 'framer-motion'
 import { ArrowDown, Github, Linkedin, ExternalLink } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 
-// ─── Particle Canvas (pure WebGL-free canvas) ────────────────────
+// Lazy-load the heavy Three.js background dynamically only after initial load/idle
+const ThreeHeroBackground = lazy(() => import('./ThreeHeroBackground'))
+
+// ─── Particle Canvas (pure WebGL-free canvas fallback) ────────────
 function ParticleField() {
   const canvasRef = useRef(null)
 
@@ -254,7 +257,7 @@ function Typewriter({ texts }) {
   }, [textList])
 
   return (
-    <span className="font-medium" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 'clamp(1rem, 2.5vw, 1.25rem)' }}>
+    <span className="font-medium font-display" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 'clamp(1rem, 2.5vw, 1.35rem)', letterSpacing: '0.02em' }}>
       {display}
       <span className="animate-cursor" aria-hidden="true" />
     </span>
@@ -297,6 +300,24 @@ function MagneticButton({ onClick, children, primary = true, className = '' }) {
 export default function Hero() {
   const { tx } = useLanguage()
   const h = tx.hero
+  const [loadThreeBackground, setLoadThreeBackground] = useState(false)
+
+  // Use requestIdleCallback or passive timeout to defer Three.js so it never blocks FCP / LCP / main thread
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    if (prefersReducedMotion) return
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => {
+        setLoadThreeBackground(true)
+      }, { timeout: 2000 })
+    } else {
+      const t = setTimeout(() => {
+        setLoadThreeBackground(true)
+      }, 1500)
+      return () => clearTimeout(t)
+    }
+  }, [])
 
   const scrollDown = () => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
 
@@ -316,8 +337,14 @@ export default function Hero() {
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
       style={{ paddingTop: '5rem', paddingBottom: '4rem' }}
     >
-      {/* Particle background */}
-      <ParticleField />
+      {/* Dynamic 3D WebGL / Canvas2D Particle system background switcher */}
+      {loadThreeBackground ? (
+        <Suspense fallback={<ParticleField />}>
+          <ThreeHeroBackground />
+        </Suspense>
+      ) : (
+        <ParticleField />
+      )}
       <FloatingRings />
 
       {/* Content */}
@@ -420,7 +447,7 @@ export default function Hero() {
               rel="noopener noreferrer"
               aria-label={label}
               whileHover={{ y: -3 }}
-              className="p-3 rounded-xl"
+              className="p-3 rounded-xl animate-scale-interactive"
               style={{
                 background: 'rgba(255,255,255,0.04)',
                 border: '1px solid rgba(255,255,255,0.07)',
