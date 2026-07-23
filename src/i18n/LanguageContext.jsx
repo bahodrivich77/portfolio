@@ -4,6 +4,8 @@ import { translations, LANGUAGES } from './translations'
 const LanguageContext = createContext(null)
 const STORAGE_KEY = 'portfolio-lang'
 
+/* eslint-disable react-refresh/only-export-components */
+
 export function LanguageProvider({ children }) {
   const [lang, setLang] = useState(() => {
     const saved = localStorage.getItem(STORAGE_KEY)

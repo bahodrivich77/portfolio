@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState, useMemo, lazy, Suspense } from 'react'
 import { m as motion } from 'framer-motion'
-import { ArrowDown, Github, Linkedin, ExternalLink } from 'lucide-react'
+import { ArrowDown, Github, Linkedin, Shield, Key, FileText, CheckCircle2 } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 
-// Lazy-load the heavy Three.js background dynamically only after initial load/idle
+// Lazy-load the heavy Three.js gold/emerald defensive constellation background
 const ThreeHeroBackground = lazy(() => import('./ThreeHeroBackground'))
 
-// ─── Particle Canvas (pure WebGL-free canvas fallback) ────────────
+// ─── Pure WebGL-free Canvas Fallback (Emerald/Gold Particles) ────
 function ParticleField() {
   const canvasRef = useRef(null)
 
@@ -29,65 +29,62 @@ function ParticleField() {
     }
     window.addEventListener('mousemove', onMouseMove, { passive: true })
 
-    // Create particles
-    const COUNT = Math.min(120, Math.floor((window.innerWidth * window.innerHeight) / 12000))
+    const COUNT = Math.min(100, Math.floor((window.innerWidth * window.innerHeight) / 14000))
     const particles = Array.from({ length: COUNT }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      r: Math.random() * 1.5 + 0.3,
-      alpha: Math.random() * 0.5 + 0.1,
-      hue: Math.random() > 0.6 ? 280 : 195, // cyan or purple
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      r: Math.random() * 1.5 + 0.5,
+      alpha: Math.random() * 0.4 + 0.1,
+      hue: Math.random() > 0.65 ? 'gold' : 'emerald', // emerald or gold
     }))
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       particles.forEach((p, i) => {
-        // Mouse repulsion
         const dx = p.x - mouse.x
         const dy = p.y - mouse.y
         const dist = Math.sqrt(dx * dx + dy * dy)
-        if (dist < 120) {
-          const force = (120 - dist) / 120
-          p.vx += (dx / dist) * force * 0.3
-          p.vy += (dy / dist) * force * 0.3
+        if (dist < 100) {
+          const force = (100 - dist) / 100
+          p.vx += (dx / dist) * force * 0.15
+          p.vy += (dy / dist) * force * 0.15
         }
 
-        // Damping
         p.vx *= 0.98
         p.vy *= 0.98
 
         p.x += p.vx
         p.y += p.vy
 
-        // Wrap
         if (p.x < 0) p.x = canvas.width
         if (p.x > canvas.width) p.x = 0
         if (p.y < 0) p.y = canvas.height
         if (p.y > canvas.height) p.y = 0
 
-        // Draw particle
         ctx.beginPath()
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
-        ctx.fillStyle = p.hue === 195
-          ? `rgba(0, 212, 255, ${p.alpha})`
-          : `rgba(168, 85, 247, ${p.alpha})`
+        ctx.fillStyle = p.hue === 'emerald'
+          ? `rgba(52, 211, 153, ${p.alpha})`
+          : `rgba(251, 191, 36, ${p.alpha})`
         ctx.fill()
 
-        // Draw connections
+        // Draw tactical defense mesh lines
         for (let j = i + 1; j < particles.length; j++) {
           const q = particles[j]
           const ddx = p.x - q.x
           const ddy = p.y - q.y
           const d = Math.sqrt(ddx * ddx + ddy * ddy)
-          if (d < 100) {
-            const opacity = (1 - d / 100) * 0.12
+          if (d < 90) {
+            const opacity = (1 - d / 90) * 0.08
             ctx.beginPath()
             ctx.moveTo(p.x, p.y)
             ctx.lineTo(q.x, q.y)
-            ctx.strokeStyle = `rgba(0, 212, 255, ${opacity})`
+            ctx.strokeStyle = p.hue === 'emerald'
+              ? `rgba(52, 211, 153, ${opacity})`
+              : `rgba(251, 191, 36, ${opacity})`
             ctx.lineWidth = 0.5
             ctx.stroke()
           }
@@ -119,108 +116,173 @@ function ParticleField() {
   )
 }
 
-// ─── Floating ring decoration ─────────────────────────────────────
+// ─── Floating Defensive rings ─────────────────────────────────────
 function FloatingRings() {
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true" style={{ zIndex: 1 }}>
-      {/* Large outer ring */}
       <div
         className="spin-slow"
         style={{
           position: 'absolute',
-          width: 'clamp(500px, 70vw, 900px)',
-          height: 'clamp(500px, 70vw, 900px)',
+          width: 'clamp(450px, 60vw, 800px)',
+          height: 'clamp(450px, 60vw, 800px)',
           top: '50%', left: '50%',
           transform: 'translate(-50%, -50%)',
           borderRadius: '50%',
-          border: '1px solid rgba(0, 212, 255, 0.04)',
+          border: '1px solid rgba(4, 120, 87, 0.05)',
         }}
       />
-      {/* Mid ring — dashed */}
       <div
         className="spin-slow-reverse"
         style={{
           position: 'absolute',
-          width: 'clamp(350px, 50vw, 660px)',
-          height: 'clamp(350px, 50vw, 660px)',
+          width: 'clamp(300px, 45vw, 600px)',
+          height: 'clamp(300px, 45vw, 600px)',
           top: '50%', left: '50%',
           transform: 'translate(-50%, -50%)',
           borderRadius: '50%',
-          border: '1px dashed rgba(168, 85, 247, 0.06)',
+          border: '1px dashed rgba(217, 119, 6, 0.08)',
         }}
       />
     </div>
   )
 }
 
-// ─── Avatar with glowing frame ───────────────────────────────────
-function Avatar({ name }) {
+// ─── Holographic Government Credential Badge ──────────────────────
+function GovernmentCredential({ name, role }) {
+  const [glare, setGlare] = useState({ x: 50, y: 50 })
+  const cardRef = useRef(null)
+
+  const handleMouseMove = (e) => {
+    const card = cardRef.current
+    if (!card) return
+    const rect = card.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width) * 100
+    const y = ((e.clientY - rect.top) / rect.height) * 100
+    setGlare({ x, y })
+  }
+
   return (
     <motion.div
-      initial={{ scale: 0.8, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
+      initial={{ scale: 0.9, opacity: 0, y: 30 }}
+      animate={{ scale: 1, opacity: 1, y: 0 }}
       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      className="relative mb-8 mx-auto"
-      style={{ width: 'fit-content' }}
+      className="relative mb-8 mx-auto group cursor-crosshair"
+      style={{ width: 'fit-content', perspective: '1000px' }}
+      onMouseMove={handleMouseMove}
+      ref={cardRef}
     >
-      {/* Outer glow ring */}
+      {/* Dynamic Gold Glow behind the badge */}
       <div
         className="pulse-glow"
         style={{
           position: 'absolute',
-          inset: -8,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%)',
+          inset: -12,
+          borderRadius: '1.25rem',
+          background: 'radial-gradient(circle, rgba(217,119,6,0.1) 0%, transparent 70%)',
+          filter: 'blur(10px)',
         }}
       />
-      {/* Rotating gradient ring */}
+
+      {/* Cybernetic Frame & Card */}
       <div
-        className="spin-slow"
+        className="relative overflow-hidden"
         style={{
-          position: 'absolute',
-          inset: -4,
-          borderRadius: '50%',
-          background: 'conic-gradient(from 0deg, #00d4ff, #a855f7, #6366f1, transparent, #00d4ff)',
-          padding: '2px',
+          width: 'clamp(280px, 90vw, 360px)',
+          background: 'rgba(15, 23, 42, 0.85)',
+          border: '2px solid #334155',
+          borderRadius: '1rem',
+          padding: '1.25rem',
+          boxShadow: '0 20px 50px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(4, 120, 87, 0.1)',
+          backdropFilter: 'blur(20px)',
+          transition: 'all 0.5s cubic-bezier(0.25, 1, 0.5, 1)',
+          transformStyle: 'preserve-3d',
         }}
       >
-        <div style={{ width: '100%', height: '100%', borderRadius: '50%', background: '#050508' }} />
-      </div>
+        {/* Holographic Glare Overlay */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(217, 119, 6, 0.08) 0%, rgba(4, 120, 87, 0.05) 40%, transparent 80%)`,
+            pointerEvents: 'none',
+            zIndex: 3,
+          }}
+        />
 
-      {/* Avatar image */}
-      <div
-        style={{
-          position: 'relative',
-          width: 'clamp(120px, 20vw, 160px)',
-          height: 'clamp(120px, 20vw, 160px)',
-          borderRadius: '50%',
-          overflow: 'hidden',
-          border: '2px solid rgba(0,212,255,0.2)',
-        }}
-      >
-        <picture>
-          <source srcSet="/Cmcoder-sm.webp 320w, /Cmcoder.webp 640w" sizes="160px" type="image/webp" />
-          <img
-            src="/Cmcoder.webp"
-            alt={name}
-            width="160"
-            height="160"
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-          />
-        </picture>
-      </div>
+        {/* Tactical Status Bar */}
+        <div className="flex items-center justify-between border-b border-slate-700/50 pb-2.5 mb-3 text-[0.62rem] text-slate-400 font-mono tracking-widest">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" style={{ boxShadow: '0 0 6px #059669' }} />
+            SECURE LINK ACTIVE
+          </div>
+          <div className="text-[#fbbf24] flex items-center gap-1">
+            <Shield size={10} /> ACCESS LEVEL: 05
+          </div>
+        </div>
 
-      {/* Online badge */}
-      <div style={{
-        position: 'absolute', bottom: 4, right: 4,
-        width: 16, height: 16, borderRadius: '50%',
-        background: '#22c55e',
-        border: '2px solid #050508',
-        boxShadow: '0 0 8px rgba(34,197,94,0.6)',
-      }} />
+        {/* Card Main Area */}
+        <div className="flex gap-4 items-start">
+          {/* Avatar Area with cybernetic brackets */}
+          <div className="relative flex-shrink-0">
+            <div className="absolute -inset-1.5 border border-dashed border-[#047857]/50 rounded-lg animate-spin-slow" />
+            <div
+              style={{
+                width: 80,
+                height: 80,
+                borderRadius: '0.5rem',
+                overflow: 'hidden',
+                border: '1px solid #D97706',
+                background: '#0B1120',
+              }}
+            >
+              <picture>
+                <source srcSet="/Cmcoder-sm.webp 320w, /Cmcoder.webp 640w" sizes="80px" type="image/webp" />
+                <img
+                  src="/Cmcoder.webp"
+                  alt={name}
+                  width="80"
+                  height="80"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </picture>
+            </div>
+            {/* Stamp Overlay */}
+            <div className="absolute -bottom-1 -right-1 bg-emerald-950 text-[#34d399] border border-emerald-500 text-[0.45rem] px-1 py-0.5 rounded font-mono font-bold scale-90 tracking-tighter">
+              VERIFIED
+            </div>
+          </div>
+
+          {/* Dossier Text */}
+          <div className="flex-1 text-left">
+            <div className="text-[0.6rem] text-[#fbbf24] font-mono tracking-widest uppercase font-bold mb-0.5 flex items-center gap-1">
+              <CheckCircle2 size={10} /> Certified official
+            </div>
+            <h3 className="font-display font-extrabold text-white text-base tracking-tight leading-none mb-1">
+              {name}
+            </h3>
+            <p className="text-slate-400 text-[0.68rem] leading-tight font-mono mb-2">
+              {role}
+            </p>
+            {/* Cryptographic Key Signature readout */}
+            <div className="bg-slate-900/80 rounded px-2 py-1 border border-slate-800 text-[0.5rem] font-mono text-emerald-400/90 leading-none flex items-center gap-1">
+              <Key size={8} className="text-[#fbbf24]" />
+              SIG: F72D:8801:40A2:ED49
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Audit Hash */}
+        <div className="mt-3.5 pt-2 border-t border-slate-700/50 flex items-center justify-between text-[0.55rem] text-slate-500 font-mono">
+          <div>AUTH_ID: 8820-GOV-ID</div>
+          <div className="flex items-center gap-1">
+            <FileText size={8} /> INTEGRITY CHECK: PASSED
+          </div>
+        </div>
+      </div>
     </motion.div>
   )
 }
@@ -243,13 +305,13 @@ function Typewriter({ texts }) {
       if (char <= current.length) {
         setDisplay(current.slice(0, char))
         char++
-        timer = setTimeout(loop, 60)
+        timer = setTimeout(loop, 55)
       } else {
         timer = setTimeout(() => {
           char = 0
           idx = (idx + 1) % textList.length
           loop()
-        }, 2500)
+        }, 2200)
       }
     }
     loop()
@@ -257,7 +319,7 @@ function Typewriter({ texts }) {
   }, [textList])
 
   return (
-    <span className="font-medium font-display" style={{ color: 'rgba(255,255,255,0.7)', fontSize: 'clamp(1rem, 2.5vw, 1.35rem)', letterSpacing: '0.02em' }}>
+    <span className="font-bold font-mono tracking-wider" style={{ color: '#fbbf24', fontSize: 'clamp(0.95rem, 2.5vw, 1.25rem)' }}>
       {display}
       <span className="animate-cursor" aria-hidden="true" />
     </span>
@@ -274,7 +336,7 @@ function MagneticButton({ onClick, children, primary = true, className = '' }) {
     const rect = btn.getBoundingClientRect()
     const x = e.clientX - rect.left - rect.width / 2
     const y = e.clientY - rect.top - rect.height / 2
-    btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`
+    btn.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`
   }
 
   const handleMouseLeave = () => {
@@ -287,9 +349,9 @@ function MagneticButton({ onClick, children, primary = true, className = '' }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
-      whileTap={{ scale: 0.96 }}
-      className={`${primary ? 'btn-primary' : 'btn-outline'} px-8 py-4 text-base font-semibold ${className}`}
-      style={{ transition: 'transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease' }}
+      whileTap={{ scale: 0.95 }}
+      className={`${primary ? 'btn-primary' : 'btn-outline'} px-8 py-3.5 text-sm font-bold uppercase tracking-wider ${className}`}
+      style={{ transition: 'transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease' }}
     >
       {children}
     </motion.button>
@@ -302,7 +364,6 @@ export default function Hero() {
   const h = tx.hero
   const [loadThreeBackground, setLoadThreeBackground] = useState(false)
 
-  // Use requestIdleCallback or passive timeout to defer Three.js so it never blocks FCP / LCP / main thread
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
     if (prefersReducedMotion) return
@@ -310,34 +371,33 @@ export default function Hero() {
     if ('requestIdleCallback' in window) {
       window.requestIdleCallback(() => {
         setLoadThreeBackground(true)
-      }, { timeout: 2000 })
+      }, { timeout: 1800 })
     } else {
       const t = setTimeout(() => {
         setLoadThreeBackground(true)
-      }, 1500)
+      }, 1200)
       return () => clearTimeout(t)
     }
   }, [])
 
   const scrollDown = () => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
 
-  // Stagger animation variants
   const container = {
     hidden: {},
-    show: { transition: { staggerChildren: 0.12, delayChildren: 0.4 } },
+    show: { transition: { staggerChildren: 0.1, delayChildren: 0.3 } },
   }
   const item = {
-    hidden: { opacity: 0, y: 30 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
+    hidden: { opacity: 0, y: 25 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.75, ease: [0.16, 1, 0.3, 1] } },
   }
 
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
-      style={{ paddingTop: '5rem', paddingBottom: '4rem' }}
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-[#0B1120]"
+      style={{ paddingTop: '6rem', paddingBottom: '4rem' }}
     >
-      {/* Dynamic 3D WebGL / Canvas2D Particle system background switcher */}
+      {/* Tactical WebGL gold/emerald particle defense grid */}
       {loadThreeBackground ? (
         <Suspense fallback={<ParticleField />}>
           <ThreeHeroBackground />
@@ -347,6 +407,11 @@ export default function Hero() {
       )}
       <FloatingRings />
 
+      {/* Grid line decorators matching futuristic authority */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#047857]/30 to-transparent" />
+      <div className="absolute inset-y-0 left-12 w-px bg-gradient-to-b from-transparent via-[#047857]/10 to-transparent" />
+      <div className="absolute inset-y-0 right-12 w-px bg-gradient-to-b from-transparent via-[#047857]/10 to-transparent" />
+
       {/* Content */}
       <motion.div
         variants={container}
@@ -354,28 +419,20 @@ export default function Hero() {
         animate="show"
         className="relative z-10 flex flex-col items-center text-center px-5 max-w-4xl w-full"
       >
-        {/* Avatar */}
+        {/* Holographic Credential Badge */}
         <motion.div variants={item}>
-          <Avatar name={tx.common.name} />
+          <GovernmentCredential name={tx.common.name} role={tx.about.role} />
         </motion.div>
 
-        {/* Status badge */}
-        <motion.div variants={item}>
-          <div className="eyebrow-pill mb-6">
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block', boxShadow: '0 0 6px #22c55e' }} />
-            {h.badge}
-          </div>
-        </motion.div>
-
-        {/* Name */}
+        {/* Authoritative Title */}
         <motion.h1
           variants={item}
           className="font-display"
           style={{
-            fontSize: 'clamp(2.5rem, 8vw, 6rem)',
+            fontSize: 'clamp(2.2rem, 7vw, 4.5rem)',
             fontWeight: 800,
-            lineHeight: 1.05,
-            letterSpacing: '-0.03em',
+            lineHeight: 1.08,
+            letterSpacing: '-0.02em',
             marginBottom: '1rem',
           }}
         >
@@ -383,121 +440,63 @@ export default function Hero() {
           <span className="text-gradient">{tx.common.name.split(' ').slice(1).join(' ')}</span>
         </motion.h1>
 
-        {/* Typewriter role */}
+        {/* Role Typewriter */}
         <motion.div variants={item} style={{ minHeight: '2rem', marginBottom: '1.5rem' }}>
           <Typewriter texts={h.typeSequence} />
         </motion.div>
 
-        {/* Bio */}
+        {/* Secure Positioning / Bio */}
         <motion.p
           variants={item}
+          className="font-sans"
           style={{
             maxWidth: '38rem',
             lineHeight: 1.7,
-            fontSize: 'clamp(0.9rem, 2vw, 1.05rem)',
-            color: 'rgba(255,255,255,0.45)',
+            fontSize: 'clamp(0.85rem, 2vw, 1rem)',
+            color: '#94a3b8',
             marginBottom: '2.5rem',
           }}
         >
-          Building digital experiences that feel{' '}
-          <span style={{ color: '#00d4ff', fontWeight: 600 }}>alive</span>.
-          {' '}Frontend Developer ·{' '}
-          <span style={{ color: '#a855f7', fontWeight: 600 }}>UI/UX Enthusiast</span>
-          {' '}· Creative Technologist
+          {h.positioning}
         </motion.p>
 
-        {/* CTAs */}
-        <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 w-full justify-center mb-8">
+        {/* Actions */}
+        <motion.div variants={item} className="flex flex-col sm:flex-row gap-4 w-full justify-center mb-10">
           <MagneticButton onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })} primary>
             {h.ctaProjects}
-            <ExternalLink size={16} className="inline ml-2" />
           </MagneticButton>
           <MagneticButton onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} primary={false}>
             {h.ctaContact}
           </MagneticButton>
         </motion.div>
 
-        {/* Social links */}
-        <motion.div variants={item} className="flex gap-3 mb-12">
-          {[
-            {
-              href: 'https://github.com/bahodrivich77/',
-              label: 'GitHub',
-              icon: <Github size={18} />,
-            },
-            {
-              href: 'https://www.linkedin.com/in/mirkarim-furqatov-823a6535b/',
-              label: 'LinkedIn',
-              icon: <Linkedin size={18} />,
-            },
-            {
-              href: 'https://t.me/bahod1rovi_ch77',
-              label: 'Telegram',
-              icon: (
-                <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18" aria-hidden="true">
-                  <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.96 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
-                </svg>
-              ),
-            },
-          ].map(({ href, label, icon }) => (
-            <motion.a
-              key={href}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={label}
-              whileHover={{ y: -3 }}
-              className="p-3 rounded-xl animate-scale-interactive"
-              style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(255,255,255,0.07)',
-                color: 'rgba(255,255,255,0.4)',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(0,212,255,0.3)'
-                e.currentTarget.style.color = '#00d4ff'
-                e.currentTarget.style.background = 'rgba(0,212,255,0.06)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'
-                e.currentTarget.style.color = 'rgba(255,255,255,0.4)'
-                e.currentTarget.style.background = 'rgba(255,255,255,0.04)'
-              }}
-            >
-              {icon}
-            </motion.a>
-          ))}
-        </motion.div>
-
-        {/* Stats */}
+        {/* Stats Grid */}
         <motion.div
           variants={item}
-          className="grid grid-cols-3 gap-4 w-full max-w-sm sm:max-w-md"
+          className="grid grid-cols-3 gap-3 w-full max-w-md sm:max-w-2xl"
         >
           {[
-            { value: '2+', label: h.stats.experience },
-            { value: '10+', label: h.stats.projects },
-            { value: '100%', label: h.stats.quality },
+            { value: '08+', label: h.stats.experience },
+            { value: '15+', label: h.stats.projects },
+            { value: '99.9%', label: h.stats.quality },
           ].map(({ value, label }, i) => (
             <motion.div
               key={label}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2 + i * 0.1, duration: 0.6 }}
-              className="text-center py-4 px-2 rounded-xl"
+              transition={{ delay: 1.1 + i * 0.08, duration: 0.5 }}
+              className="text-center py-3.5 px-2.5 rounded-lg border border-[#334155] bg-slate-900/60 backdrop-blur-md"
               style={{
-                background: 'rgba(255,255,255,0.02)',
-                border: '1px solid rgba(255,255,255,0.05)',
+                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.03)',
               }}
             >
               <div
-                className="font-display text-2xl sm:text-3xl font-extrabold text-gradient"
+                className="font-display text-2xl sm:text-3xl font-extrabold text-[#fbbf24]"
                 style={{ letterSpacing: '-0.02em' }}
               >
                 {value}
               </div>
-              <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.72rem', marginTop: 4, letterSpacing: '0.04em' }}>
+              <div style={{ color: '#94a3b8', fontSize: '0.65rem', marginTop: 5, letterSpacing: '0.05em', textTransform: 'uppercase', fontWeight: 600 }}>
                 {label}
               </div>
             </motion.div>
@@ -511,30 +510,29 @@ export default function Hero() {
         aria-label="Scroll down"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
-        className="absolute bottom-8 left-1/2 flex flex-col items-center gap-2 transition-all duration-300"
-        style={{ transform: 'translateX(-50%)', color: 'rgba(255,255,255,0.2)' }}
-        onMouseEnter={(e) => e.currentTarget.style.color = '#00d4ff'}
-        onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.2)'}
+        transition={{ delay: 1.8 }}
+        className="absolute bottom-8 left-1/2 flex flex-col items-center gap-1.5 transition-all duration-300"
+        style={{ transform: 'translateX(-50%)', color: '#94a3b8' }}
+        onMouseEnter={(e) => e.currentTarget.style.color = '#34d399'}
+        onMouseLeave={(e) => e.currentTarget.style.color = '#94a3b8'}
       >
-        <span style={{ fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+        <span style={{ fontSize: '0.62rem', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>
           {h.scroll}
         </span>
         <motion.div
-          animate={{ y: [0, 6, 0] }}
+          animate={{ y: [0, 5, 0] }}
           transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <ArrowDown size={16} />
+          <ArrowDown size={14} className="text-[#34d399]" />
         </motion.div>
       </motion.button>
 
-      {/* Bottom gradient fade */}
+      {/* Bottom fade */}
       <div
         aria-hidden="true"
+        className="absolute bottom-0 inset-x-0 h-48 pointer-events-none z-2"
         style={{
-          position: 'absolute', bottom: 0, left: 0, right: 0, height: '200px',
-          background: 'linear-gradient(to bottom, transparent, #050508)',
-          pointerEvents: 'none', zIndex: 2,
+          background: 'linear-gradient(to bottom, transparent, #0B1120)',
         }}
       />
     </section>
