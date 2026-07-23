@@ -2,13 +2,15 @@ import { createContext, useContext, useEffect } from 'react'
 
 const ThemeContext = createContext(null)
 
+/* eslint-disable react-refresh/only-export-components */
+
 // Portfolio is always dark — ThemeProvider kept for compatibility
 export function ThemeProvider({ children }) {
   useEffect(() => {
     document.documentElement.classList.add('dark')
     localStorage.setItem('portfolio-theme', 'dark')
     const meta = document.querySelector('meta[name="theme-color"]')
-    if (meta) meta.setAttribute('content', '#050508')
+    if (meta) meta.setAttribute('content', '#0B1120')
   }, [])
 
   return (

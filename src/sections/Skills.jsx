@@ -4,35 +4,36 @@ import { useLanguage } from '../i18n/LanguageContext'
 
 const TECH_NODES = [
   // Core — center cluster
-  { name: 'React',       level: 90, category: 'framework', color: '#61dafb', size: 'lg' },
-  { name: 'TypeScript',  level: 72, category: 'language',  color: '#3178c6', size: 'md' },
-  { name: 'JavaScript',  level: 88, category: 'language',  color: '#f7df1e', size: 'md' },
-  { name: 'Next.js',     level: 78, category: 'framework', color: '#ffffff', size: 'md' },
-  { name: 'Tailwind',    level: 92, category: 'framework', color: '#06b6d4', size: 'md' },
-  // Tools
-  { name: 'Git',         level: 85, category: 'tool',      color: '#f05032', size: 'sm' },
-  { name: 'Figma',       level: 70, category: 'design',    color: '#f24e1e', size: 'sm' },
-  { name: 'Vite',        level: 88, category: 'tool',      color: '#646cff', size: 'sm' },
-  { name: 'GitHub',      level: 85, category: 'tool',      color: '#e6edf3', size: 'sm' },
-  // Frontend
-  { name: 'HTML5',       level: 95, category: 'language',  color: '#e34f26', size: 'sm' },
-  { name: 'CSS3',        level: 90, category: 'language',  color: '#1572b6', size: 'sm' },
-  { name: 'Framer M.',   level: 82, category: 'framework', color: '#bb4fff', size: 'sm' },
-  // Emerging
-  { name: 'Node.js',     level: 45, category: 'backend',   color: '#339933', size: 'xs' },
-  { name: 'REST API',    level: 80, category: 'other',     color: '#00d4ff', size: 'xs' },
-  { name: 'VS Code',     level: 95, category: 'tool',      color: '#007acc', size: 'xs' },
+  { name: 'Go (Golang)', level: 92, category: 'language',  color: '#34d399', size: 'lg' },
+  { name: 'Rust',        level: 80, category: 'language',  color: '#fbbf24', size: 'lg' },
+  { name: 'Kubernetes',  level: 88, category: 'framework', color: '#34d399', size: 'md' },
+  { name: 'DevSecOps',   level: 85, category: 'framework', color: '#fbbf24', size: 'md' },
+  { name: 'C++ / C',     level: 78, category: 'language',  color: '#34d399', size: 'md' },
+  // Tools / Infrastructure
+  { name: 'Docker',      level: 90, category: 'tool',      color: '#fbbf24', size: 'sm' },
+  { name: 'AWS GovCloud',level: 82, category: 'tool',      color: '#34d399', size: 'sm' },
+  { name: 'Linux Kernel',level: 88, category: 'tool',      color: '#fbbf24', size: 'sm' },
+  { name: 'Git / GitHub',level: 92, category: 'tool',      color: '#34d399', size: 'sm' },
+  // Cryptography / Standards
+  { name: 'GOST Crypto', level: 95, category: 'other',     color: '#fbbf24', size: 'sm' },
+  { name: 'ISO 27001',   level: 90, category: 'other',     color: '#34d399', size: 'sm' },
+  { name: 'gRPC / Proto',level: 85, category: 'framework', color: '#fbbf24', size: 'sm' },
+  // Emerging / Backend
+  { name: 'PostgreSQL',  level: 87, category: 'backend',   color: '#34d399', size: 'xs' },
+  { name: 'Redis',       level: 85, category: 'backend',   color: '#fbbf24', size: 'xs' },
+  { name: 'Bash Script', level: 90, category: 'language',  color: '#34d399', size: 'xs' },
 ]
 
 const MARQUEE_TECHS = [
-  'React', 'Next.js', 'TypeScript', 'JavaScript', 'Tailwind CSS',
-  'Framer Motion', 'HTML5', 'CSS3', 'Git', 'GitHub', 'Vite', 'Figma',
-  'REST API', 'Node.js', 'VS Code', 'Vercel', 'React Router',
+  'Go (Golang)', 'Rust', 'Kubernetes', 'DevSecOps', 'C++ / C',
+  'AWS GovCloud', 'Linux Kernel', 'GOST Cryptography', 'ISO 27001',
+  'mTLS', 'gRPC', 'Apache Kafka', 'PostgreSQL', 'Redis', 'Docker',
+  'Bash Scripting', 'FedRAMP', 'OAuth 2.0',
 ]
 
 const SIZE_MAP = { lg: 38, md: 30, sm: 24, xs: 20 }
 
-// Interactive 3D constellation/node-graph projected onto canvas
+// Interactive 3D constellation projected onto canvas (Emerald & Gold nodes)
 function InteractiveUniverseCanvas({ inView }) {
   const canvasRef = useRef(null)
   const containerRef = useRef(null)
@@ -40,7 +41,6 @@ function InteractiveUniverseCanvas({ inView }) {
   const animationRef = useRef(null)
   const mouseRef = useRef({ x: -9999, y: -9999, px: -9999, py: -9999, isDown: false, activeNode: null })
 
-  // Initialize interactive 3D particle node physics
   useEffect(() => {
     const canvas = canvasRef.current
     const container = containerRef.current
@@ -51,26 +51,22 @@ function InteractiveUniverseCanvas({ inView }) {
     const resize = () => {
       const rect = container.getBoundingClientRect()
       canvas.width = rect.width
-      canvas.height = rect.width * 0.58 // maintain consistent cinematic wide ratio
+      canvas.height = rect.width * 0.55 // Cinematic wide ratio
     }
     resize()
     window.addEventListener('resize', resize, { passive: true })
 
-    // Build interactive node list with local 3D velocities & coordinates
     if (nodesRef.current.length === 0) {
       nodesRef.current = TECH_NODES.map((node) => {
-        // Distribute uniformly in 3D sphere space
         const theta = Math.random() * Math.PI * 2
         const phi = Math.acos((Math.random() * 2) - 1)
-        const dist = 100 + Math.random() * 120
+        const dist = 100 + Math.random() * 110
 
         return {
           ...node,
-          // 3D coordinates relative to center
           x3d: dist * Math.sin(phi) * Math.cos(theta),
           y3d: dist * Math.sin(phi) * Math.sin(theta),
           z3d: dist * Math.cos(phi),
-          // Projected 2D screen coordinate coordinates
           x: 0,
           y: 0,
           vx: 0,
@@ -78,7 +74,7 @@ function InteractiveUniverseCanvas({ inView }) {
           radius: SIZE_MAP[node.size] || 24,
           glow: Math.random() * 0.5 + 0.5,
           angle: Math.random() * Math.PI * 2,
-          speed: 0.003 + Math.random() * 0.004,
+          speed: 0.002 + Math.random() * 0.003,
         }
       })
     }
@@ -90,7 +86,6 @@ function InteractiveUniverseCanvas({ inView }) {
       mouseRef.current.x = mx
       mouseRef.current.y = my
 
-      // Check hover
       if (!mouseRef.current.isDown) {
         let hoveredNode = null
         for (const node of nodesRef.current) {
@@ -145,7 +140,6 @@ function InteractiveUniverseCanvas({ inView }) {
     canvas.addEventListener('mouseup', onMouseUp, { passive: true })
     canvas.addEventListener('mouseleave', onMouseLeave, { passive: true })
 
-    // Touch support
     const onTouchMove = (e) => {
       if (e.touches.length > 0) {
         const t = e.touches[0]
@@ -189,26 +183,22 @@ function InteractiveUniverseCanvas({ inView }) {
     canvas.addEventListener('touchstart', onTouchStart, { passive: true })
     canvas.addEventListener('touchend', onMouseUp, { passive: true })
 
-    // Core Animation loop simulating dynamic 3D orbital dynamics & spring network
     const render = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       const cx = canvas.width / 2
       const cy = canvas.height / 2
-      const rotationSpeed = 0.004
+      const rotationSpeed = 0.003
 
-      // Rotate nodes in virtual 3D space
       nodesRef.current.forEach((node) => {
         if (node !== mouseRef.current.activeNode) {
-          // Rotate around Y axis
           const cosY = Math.cos(rotationSpeed)
           const sinY = Math.sin(rotationSpeed)
           const xRot = node.x3d * cosY - node.z3d * sinY
           const zRot = node.x3d * sinY + node.z3d * cosY
 
-          // Rotate around X axis slightly
-          const cosX = Math.cos(rotationSpeed * 0.4)
-          const sinX = Math.sin(rotationSpeed * 0.4)
+          const cosX = Math.cos(rotationSpeed * 0.3)
+          const sinX = Math.sin(rotationSpeed * 0.3)
           const yRot = node.y3d * cosX - zRot * sinX
           const finalZ = node.y3d * sinX + zRot * cosX
 
@@ -216,22 +206,18 @@ function InteractiveUniverseCanvas({ inView }) {
           node.y3d = yRot
           node.z3d = finalZ
 
-          // 3D projection mathematical transformation (focal length = 250)
           const fov = 250
           const scale = fov / (fov + finalZ)
           node.projScale = scale
 
-          // Target projected coordinates
           const targetX = cx + xRot * scale
           const targetY = cy + yRot * scale
 
-          // Smooth lerp to projected coordinate with soft physics drag
           node.x += (targetX - node.x) * 0.08
           node.y += (targetY - node.y) * 0.08
         }
       })
 
-      // Draw Connection Constellation Lines with variable opacity depending on 3D depth
       ctx.lineWidth = 0.8
       for (let i = 0; i < nodesRef.current.length; i++) {
         for (let j = i + 1; j < nodesRef.current.length; j++) {
@@ -244,9 +230,8 @@ function InteractiveUniverseCanvas({ inView }) {
             Math.pow(n1.z3d - n2.z3d, 2)
           )
 
-          // Only draw close connections to create a beautiful neural constellation net
-          if (dist3D < 160) {
-            const opacity = (1 - dist3D / 160) * 0.22 * Math.min(n1.projScale || 1, n2.projScale || 1)
+          if (dist3D < 150) {
+            const opacity = (1 - dist3D / 150) * 0.25 * Math.min(n1.projScale || 1, n2.projScale || 1)
             ctx.beginPath()
             ctx.moveTo(n1.x, n1.y)
             ctx.lineTo(n2.x, n2.y)
@@ -261,14 +246,12 @@ function InteractiveUniverseCanvas({ inView }) {
         }
       }
 
-      // Draw Nodes in depth-sorted order to preserve flawless overlapping visual aesthetics
       const sortedNodes = [...nodesRef.current].sort((a, b) => (b.z3d || 0) - (a.z3d || 0))
 
       sortedNodes.forEach((node) => {
         const scale = node.projScale || 1
         const radius = node.radius * (0.6 + scale * 0.5)
 
-        // Mouse attraction / repulsion physics
         const mx = mouseRef.current.x
         const my = mouseRef.current.y
         const dx = node.x - mx
@@ -278,7 +261,6 @@ function InteractiveUniverseCanvas({ inView }) {
         let hoverIntensity = 0
         if (mouseDist < 90) {
           hoverIntensity = (90 - mouseDist) / 90
-          // Draw subtle interactive connection to cursor
           ctx.beginPath()
           ctx.moveTo(node.x, node.y)
           ctx.lineTo(mx, my)
@@ -286,20 +268,16 @@ function InteractiveUniverseCanvas({ inView }) {
           ctx.stroke()
         }
 
-        // Depth shader mapping color opacities
-        const baseAlpha = 0.15 + scale * 0.5
+        const baseAlpha = 0.2 + scale * 0.5
         const finalAlpha = Math.min(1, baseAlpha + hoverIntensity * 0.4)
 
         ctx.save()
 
-        // Glow layer
         ctx.shadowBlur = (node.level >= 85 ? 15 : 6) * scale
         ctx.shadowColor = node.color
 
-        // Node circle
         ctx.beginPath()
         ctx.arc(node.x, node.y, radius, 0, Math.PI * 2)
-        ctx.fillStyle = `radial-gradient`
 
         const radialGrad = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, radius)
         radialGrad.addColorStop(0, `${node.color}35`)
@@ -312,12 +290,10 @@ function InteractiveUniverseCanvas({ inView }) {
         ctx.lineWidth = 1.2
         ctx.stroke()
 
-        // Clean shadow settings to render text razor sharp
         ctx.shadowBlur = 0
         ctx.shadowColor = 'transparent'
 
-        // Text labels inside nodes
-        ctx.font = `bold ${Math.max(8, 10 * scale)}px Inter, system-ui, sans-serif`
+        ctx.font = `bold ${Math.max(8, 10 * scale)}px 'JetBrains Mono', monospace`
         ctx.fillStyle = `rgba(255, 255, 255, ${finalAlpha})`
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
@@ -362,48 +338,49 @@ function SkillCard({ category, skills, index, inView }) {
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay: 0.3 + index * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ delay: 0.25 + index * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       className="glass-hover"
       style={{
         padding: '1.5rem',
-        borderRadius: '1.25rem',
-        border: '1px solid rgba(255,255,255,0.05)',
-        background: 'rgba(255,255,255,0.02)',
+        borderRadius: '0.75rem',
+        border: '1px solid #334155',
+        background: 'rgba(15, 23, 42, 0.75)',
+        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.02)',
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
         <div style={{
-          width: 36, height: 36, borderRadius: '0.6rem',
-          background: `${category.color}12`, border: `1px solid ${category.color}25`,
+          width: 36, height: 36, borderRadius: '0.375rem',
+          background: `${category.color}15`, border: `1px solid ${category.color}40`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           fontSize: '1rem',
         }}>
           {category.emoji}
         </div>
-        <span style={{ fontWeight: 700, color: '#fff', fontSize: '0.9rem' }}>{category.label}</span>
+        <span style={{ fontWeight: 800, color: '#fff', fontSize: '0.9rem', letterSpacing: '-0.01em' }}>{category.label}</span>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
         {skills.map(({ name, level, color }) => (
           <div key={name}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.82rem', fontWeight: 500 }}>{name}</span>
-              <span style={{ color: color || '#00d4ff', fontSize: '0.72rem', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>
+              <span style={{ color: '#94a3b8', fontSize: '0.82rem', fontWeight: 600 }}>{name}</span>
+              <span style={{ color: color || '#34d399', fontSize: '0.72rem', fontWeight: 700, fontFamily: 'JetBrains Mono, monospace' }}>
                 {level}%
               </span>
             </div>
-            <div style={{ height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 9999, overflow: 'hidden' }}>
+            <div style={{ height: 4, background: 'rgba(255,255,255,0.05)', borderRadius: 9999, overflow: 'hidden' }}>
               <motion.div
                 initial={{ width: 0 }}
                 animate={inView ? { width: `${level}%` } : { width: 0 }}
-                transition={{ duration: 1.2, ease: 'easeOut', delay: 0.4 + index * 0.1 }}
+                transition={{ duration: 1.2, ease: 'easeOut', delay: 0.3 + index * 0.08 }}
                 style={{
                   height: '100%',
                   borderRadius: 9999,
                   background: color
-                    ? `linear-gradient(90deg, ${color}, ${color}aa)`
-                    : 'linear-gradient(90deg, #00d4ff, #a855f7)',
-                  boxShadow: `0 0 8px ${color || '#00d4ff'}40`,
+                    ? `linear-gradient(90deg, ${color}, ${color}cc)`
+                    : 'linear-gradient(90deg, #047857, #fbbf24)',
+                  boxShadow: `0 0 8px ${color || '#047857'}40`,
                 }}
               />
             </div>
@@ -416,47 +393,47 @@ function SkillCard({ category, skills, index, inView }) {
 
 const SKILL_CATEGORIES = [
   {
-    label: 'Languages',
-    emoji: '⌨️',
-    color: '#f7df1e',
+    label: 'Core Languages',
+    emoji: '⚙️',
+    color: '#34d399',
     skills: [
-      { name: 'JavaScript', level: 88, color: '#f7df1e' },
-      { name: 'TypeScript', level: 72, color: '#3178c6' },
-      { name: 'HTML5',      level: 95, color: '#e34f26' },
-      { name: 'CSS3',       level: 90, color: '#1572b6' },
+      { name: 'Go (Golang)', level: 92, color: '#34d399' },
+      { name: 'Rust',        level: 80, color: '#fbbf24' },
+      { name: 'C++ / C',     level: 78, color: '#34d399' },
+      { name: 'Bash Script', level: 90, color: '#fbbf24' },
     ],
   },
   {
-    label: 'Frameworks',
-    emoji: '⚛️',
-    color: '#61dafb',
+    label: 'Systems & K8s',
+    emoji: '☸️',
+    color: '#fbbf24',
     skills: [
-      { name: 'React',          level: 90, color: '#61dafb' },
-      { name: 'Next.js',        level: 78, color: '#e6edf3' },
-      { name: 'Tailwind CSS',   level: 92, color: '#06b6d4' },
-      { name: 'Framer Motion',  level: 82, color: '#bb4fff' },
+      { name: 'Kubernetes',  level: 88, color: '#34d399' },
+      { name: 'Docker / OCI',level: 90, color: '#fbbf24' },
+      { name: 'gRPC / Proto',level: 85, color: '#34d399' },
+      { name: 'mTLS Mesh',   level: 80, color: '#fbbf24' },
     ],
   },
   {
-    label: 'Tools',
-    emoji: '🔧',
-    color: '#f05032',
+    label: 'Infrastructure',
+    emoji: '☁️',
+    color: '#34d399',
     skills: [
-      { name: 'Git / GitHub',  level: 85, color: '#f05032' },
-      { name: 'Vite',          level: 88, color: '#646cff' },
-      { name: 'Figma',         level: 70, color: '#f24e1e' },
-      { name: 'VS Code',       level: 95, color: '#007acc' },
+      { name: 'AWS GovCloud',level: 82, color: '#34d399' },
+      { name: 'Linux Kernel',level: 88, color: '#fbbf24' },
+      { name: 'GitOps / CD', level: 85, color: '#34d399' },
+      { name: 'Ansible',     level: 75, color: '#fbbf24' },
     ],
   },
   {
-    label: 'Other',
-    emoji: '🌐',
-    color: '#00d4ff',
+    label: 'Security & Audit',
+    emoji: '🛡️',
+    color: '#fbbf24',
     skills: [
-      { name: 'Responsive Design', level: 93, color: '#00d4ff' },
-      { name: 'REST APIs',          level: 80, color: '#10b981' },
-      { name: 'UI/UX Thinking',     level: 75, color: '#a855f7' },
-      { name: 'Clean Code',         level: 82, color: '#6366f1' },
+      { name: 'GOST Crypto', level: 95, color: '#34d399' },
+      { name: 'ISO 27001',   level: 90, color: '#fbbf24' },
+      { name: 'OAuth / IAM', level: 88, color: '#34d399' },
+      { name: 'Pentesting',  level: 75, color: '#fbbf24' },
     ],
   },
 ]
@@ -475,15 +452,15 @@ export default function Skills() {
       style={{
         padding: 'clamp(5rem, 10vw, 8rem) 0',
         overflow: 'hidden',
-        background: 'rgba(8, 11, 18, 0.6)',
+        background: 'rgba(15, 23, 42, 0.4)',
         position: 'relative',
       }}
     >
-      {/* Atmospheric left glow */}
+      {/* Atmosphere left emerald glow */}
       <div aria-hidden="true" style={{
         position: 'absolute', top: '30%', left: '-10%',
         width: 500, height: 500, borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(0,212,255,0.04) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(4,120,87,0.06) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
@@ -506,15 +483,15 @@ export default function Skills() {
           </h2>
         </motion.div>
 
-        {/* Marquee */}
+        {/* Marquee with Emerald and Gold branding */}
         <div style={{ position: 'relative', marginBottom: 'clamp(3rem, 6vw, 5rem)', overflow: 'hidden' }}>
           <div style={{
             position: 'absolute', left: 0, top: 0, bottom: 0, width: 80,
-            background: 'linear-gradient(90deg, #080b12, transparent)', zIndex: 10, pointerEvents: 'none',
+            background: 'linear-gradient(90deg, #0B1120, transparent)', zIndex: 10, pointerEvents: 'none',
           }} />
           <div style={{
             position: 'absolute', right: 0, top: 0, bottom: 0, width: 80,
-            background: 'linear-gradient(270deg, #080b12, transparent)', zIndex: 10, pointerEvents: 'none',
+            background: 'linear-gradient(270deg, #0B1120, transparent)', zIndex: 10, pointerEvents: 'none',
           }} />
           <div className="marquee-track">
             {doubled.map((tech, i) => (
@@ -524,14 +501,15 @@ export default function Skills() {
                 style={{
                   display: 'flex', alignItems: 'center', gap: '0.5rem',
                   margin: '0 0.5rem', padding: '0.6rem 1.25rem',
-                  borderRadius: '0.75rem', whiteSpace: 'nowrap',
-                  border: '1px solid rgba(255,255,255,0.05)',
-                  background: 'rgba(255,255,255,0.02)',
-                  fontSize: '0.8rem', fontWeight: 600,
-                  color: 'rgba(255,255,255,0.45)',
+                  borderRadius: '0.375rem', whiteSpace: 'nowrap',
+                  border: '1px solid #334155',
+                  background: 'rgba(15, 23, 42, 0.6)',
+                  fontSize: '0.8rem', fontWeight: 700,
+                  color: '#94a3b8',
+                  fontFamily: 'JetBrains Mono, monospace',
                 }}
               >
-                <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#00d4ff', opacity: 0.6, flexShrink: 0 }} />
+                <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#fbbf24', opacity: 0.85, flexShrink: 0 }} />
                 {tech}
               </div>
             ))}
@@ -546,15 +524,16 @@ export default function Skills() {
           style={{
             marginBottom: 'clamp(3rem, 6vw, 5rem)',
             padding: 'clamp(1rem, 3vw, 2.5rem)',
-            borderRadius: '1.5rem',
-            border: '1px solid rgba(255,255,255,0.05)',
-            background: 'rgba(255,255,255,0.015)',
+            borderRadius: '1rem',
+            border: '1px solid #334155',
+            background: 'rgba(15, 23, 42, 0.65)',
             backdropFilter: 'blur(12px)',
+            boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.02)',
           }}
         >
           <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
-            <span style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', fontFamily: 'JetBrains Mono, monospace' }}>
-              Technology Constellation Map (Grabbable & Orbiting)
+            <span style={{ color: '#fbbf24', fontSize: '0.7rem', letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: 'JetBrains Mono, monospace', fontWeight: 700 }}>
+              Tactical Systems Constellation Graph (Grabbable & Orbiting)
             </span>
           </div>
           <InteractiveUniverseCanvas inView={inView} />

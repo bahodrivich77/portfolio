@@ -9,24 +9,19 @@ export default function ThreeHeroBackground() {
     if (!container) return
 
     let renderer, scene, camera
-    let particleSystem, originalPositions, particleSpeeds
+    let shieldPoints, ringPoints1, ringPoints2
     let animationFrameId
     let mouse = { x: 0, y: 0, targetX: 0, targetY: 0 }
 
-    // Detect capabilities
     const isMobile = window.innerWidth < 768
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-    // Configuration
-    const PARTICLE_COUNT = prefersReducedMotion ? 0 : (isMobile ? 400 : 1800)
-
-    if (PARTICLE_COUNT === 0) {
-      // Graceful CSS-only fallback if reduced-motion is requested
+    if (prefersReducedMotion) {
       return
     }
 
-    // Create custom smooth circle texture to avoid external file requests
-    const createParticleTexture = () => {
+    // Custom smooth particle texture
+    const createParticleTexture = (colorHex) => {
       const canvas = document.createElement('canvas')
       canvas.width = 64
       canvas.height = 64
@@ -34,8 +29,8 @@ export default function ThreeHeroBackground() {
 
       const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32)
       gradient.addColorStop(0, 'rgba(255, 255, 255, 1)')
-      gradient.addColorStop(0.2, 'rgba(0, 212, 255, 0.8)')
-      gradient.addColorStop(0.5, 'rgba(168, 85, 247, 0.25)')
+      gradient.addColorStop(0.2, colorHex)
+      gradient.addColorStop(0.6, 'rgba(11, 17, 32, 0.15)')
       gradient.addColorStop(1, 'rgba(0, 0, 0, 0)')
 
       ctx.fillStyle = gradient
@@ -46,20 +41,16 @@ export default function ThreeHeroBackground() {
       return texture
     }
 
-    // Initialize Three.js Scene
     const init = () => {
       const width = container.clientWidth
       const height = container.clientHeight
 
-      // Scene & Fog for depth cinematic feel
       scene = new THREE.Scene()
-      scene.fog = new THREE.FogExp2(0x050508, 0.0015)
+      scene.fog = new THREE.FogExp2(0x0B1120, 0.002)
 
-      // Camera
       camera = new THREE.PerspectiveCamera(60, width / height, 1, 1000)
-      camera.position.z = 250
+      camera.position.z = 240
 
-      // Renderer - optimized with powerPreference & alpha
       renderer = new THREE.WebGLRenderer({
         antialias: !isMobile,
         alpha: true,
@@ -69,63 +60,47 @@ export default function ThreeHeroBackground() {
       renderer.setSize(width, height)
       container.appendChild(renderer.domElement)
 
-      // Particles Geometry
-      const geometry = new THREE.BufferGeometry()
-      const positions = new Float32Array(PARTICLE_COUNT * 3)
-      const colors = new Float32Array(PARTICLE_COUNT * 3)
-      const sizes = new Float32Array(PARTICLE_COUNT)
+      // Group to hold all objects for unified parallax rotation
+      const mainGroup = new THREE.Group()
+      scene.add(mainGroup)
 
-      originalPositions = new Float32Array(PARTICLE_COUNT * 3)
-      particleSpeeds = new Float32Array(PARTICLE_COUNT)
+      // Group 1: The 3D Emerald Security Shield Emblem in the center
+      const shieldGeometry = new THREE.BufferGeometry()
+      const shieldCount = isMobile ? 300 : 700
+      const shieldPositions = new Float32Array(shieldCount * 3)
+      const shieldColors = new Float32Array(shieldCount * 3)
 
-      const colorCyan = new THREE.Color('#00d4ff')
-      const colorPurple = new THREE.Color('#a855f7')
-      const colorIndigo = new THREE.Color('#6366f1')
+      const emeraldColor = new THREE.Color('#047857')
+      const brightEmerald = new THREE.Color('#34d399')
 
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        // Distribute in a beautiful cinematic double-helix or wave galaxy
-        const theta = Math.random() * Math.PI * 2
-        const r = 50 + Math.random() * 150
-        const x = Math.cos(theta) * r
-        const y = Math.sin(theta) * (r * 0.4) + (Math.random() - 0.5) * 30
-        const z = (Math.random() - 0.5) * 180
+      for (let i = 0; i < shieldCount; i++) {
+        // Parametric formulas to create a 3D high-tech military shield shape
+        const u = Math.random() * Math.PI * 2 // Angle around the shield
+        const v = Math.random() // Height of the shield (-0.5 to 0.5)
 
-        positions[i * 3] = x
-        positions[i * 3 + 1] = y
-        positions[i * 3 + 2] = z
+        // Custom math to form a pointed security shield
+        const widthFactor = Math.sin(v * Math.PI) * (1 - v * 0.4)
+        const x = Math.sin(u) * 45 * widthFactor
+        const z = Math.cos(u) * 20 * widthFactor
+        const y = (v - 0.5) * 80 + (Math.abs(x) > 1 ? -Math.pow(x/25, 2) * 5 : 0) // curved shield back
 
-        originalPositions[i * 3] = x
-        originalPositions[i * 3 + 1] = y
-        originalPositions[i * 3 + 2] = z
+        shieldPositions[i * 3] = x
+        shieldPositions[i * 3 + 1] = y
+        shieldPositions[i * 3 + 2] = z
 
-        particleSpeeds[i] = 0.1 + Math.random() * 0.4
-
-        // Color blending
-        let mixedColor
-        const rand = Math.random()
-        if (rand < 0.4) {
-          mixedColor = colorCyan.clone().lerp(colorIndigo, Math.random())
-        } else if (rand < 0.8) {
-          mixedColor = colorPurple.clone().lerp(colorIndigo, Math.random())
-        } else {
-          mixedColor = colorCyan.clone().lerp(colorPurple, Math.random())
-        }
-
-        colors[i * 3] = mixedColor.r
-        colors[i * 3 + 1] = mixedColor.g
-        colors[i * 3 + 2] = mixedColor.b
-
-        sizes[i] = isMobile ? (3 + Math.random() * 6) : (4 + Math.random() * 12)
+        const mixColor = emeraldColor.clone().lerp(brightEmerald, Math.random() * 0.5)
+        shieldColors[i * 3] = mixColor.r
+        shieldColors[i * 3 + 1] = mixColor.g
+        shieldColors[i * 3 + 2] = mixColor.b
       }
 
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-      geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+      shieldGeometry.setAttribute('position', new THREE.BufferAttribute(shieldPositions, 3))
+      shieldGeometry.setAttribute('color', new THREE.BufferAttribute(shieldColors, 3))
 
-      // Material
-      const texture = createParticleTexture()
-      const material = new THREE.PointsMaterial({
-        size: isMobile ? 8 : 12,
-        map: texture,
+      const shieldTexture = createParticleTexture('#34d399')
+      const shieldMaterial = new THREE.PointsMaterial({
+        size: isMobile ? 6 : 9,
+        map: shieldTexture,
         vertexColors: true,
         transparent: true,
         opacity: 0.85,
@@ -133,102 +108,128 @@ export default function ThreeHeroBackground() {
         depthWrite: false,
       })
 
-      particleSystem = new THREE.Points(geometry, material)
-      scene.add(particleSystem)
+      shieldPoints = new THREE.Points(shieldGeometry, shieldMaterial)
+      mainGroup.add(shieldPoints)
 
-      // Lights for atmospheric volumetric glow effect
-      const dirLight1 = new THREE.DirectionalLight(0x00d4ff, 1.5)
+      // Group 2: Golden Orbital Defensive Ring 1 (Horizontal tilt)
+      const ring1Geom = new THREE.BufferGeometry()
+      const ring1Count = isMobile ? 250 : 500
+      const ring1Pos = new Float32Array(ring1Count * 3)
+      const goldColor = new THREE.Color('#D97706')
+      const goldBright = new THREE.Color('#fbbf24')
+
+      for (let i = 0; i < ring1Count; i++) {
+        const theta = (i / ring1Count) * Math.PI * 2 + Math.random() * 0.05
+        const radius = 100 + (Math.random() - 0.5) * 6
+        const x = Math.cos(theta) * radius
+        const z = Math.sin(theta) * radius
+        const y = (Math.random() - 0.5) * 4
+
+        ring1Pos[i * 3] = x
+        ring1Pos[i * 3 + 1] = y
+        ring1Pos[i * 3 + 2] = z
+      }
+      ring1Geom.setAttribute('position', new THREE.BufferAttribute(ring1Pos, 3))
+      const goldTexture = createParticleTexture('#fbbf24')
+      const ringMaterial1 = new THREE.PointsMaterial({
+        size: isMobile ? 4 : 6,
+        map: goldTexture,
+        color: goldBright,
+        transparent: true,
+        opacity: 0.75,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false,
+      })
+      ringPoints1 = new THREE.Points(ring1Geom, ringMaterial1)
+      ringPoints1.rotation.x = Math.PI / 4
+      ringPoints1.rotation.y = Math.PI / 6
+      mainGroup.add(ringPoints1)
+
+      // Group 3: Golden Orbital Defensive Ring 2 (Vertical tilted)
+      const ring2Geom = new THREE.BufferGeometry()
+      const ring2Count = isMobile ? 200 : 400
+      const ring2Pos = new Float32Array(ring2Count * 3)
+
+      for (let i = 0; i < ring2Count; i++) {
+        const theta = (i / ring2Count) * Math.PI * 2 + Math.random() * 0.05
+        const radius = 120 + (Math.random() - 0.5) * 4
+        const x = Math.cos(theta) * radius
+        const z = Math.sin(theta) * radius
+        const y = (Math.random() - 0.5) * 3
+
+      ring2Pos[i * 3] = x
+      ring2Pos[i * 3 + 1] = y
+      ring2Pos[i * 3 + 2] = z
+    }
+    ring2Geom.setAttribute('position', new THREE.BufferAttribute(ring2Pos, 3))
+    const ringMaterial2 = new THREE.PointsMaterial({
+      size: isMobile ? 3 : 5,
+      map: goldTexture,
+      color: goldColor,
+      transparent: true,
+      opacity: 0.65,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    })
+    ringPoints2 = new THREE.Points(ring2Geom, ringMaterial2)
+    ringPoints2.rotation.x = -Math.PI / 3
+    ringPoints2.rotation.y = Math.PI / 4
+    mainGroup.add(ringPoints2)
+
+      // Unified lights
+      const dirLight1 = new THREE.DirectionalLight(0x047857, 2)
       dirLight1.position.set(1, 1, 1).normalize()
       scene.add(dirLight1)
 
-      const dirLight2 = new THREE.DirectionalLight(0xa855f7, 1)
+      const dirLight2 = new THREE.DirectionalLight(0xD97706, 1.5)
       dirLight2.position.set(-1, -1, 1).normalize()
       scene.add(dirLight2)
 
-      const ambientLight = new THREE.AmbientLight(0x0a0a14)
+      const ambientLight = new THREE.AmbientLight(0x0B1120)
       scene.add(ambientLight)
     }
 
-    // Dynamic wave / particle movement algorithm
-    const animateParticles = (time) => {
-      const positionsAttr = particleSystem.geometry.attributes.position
-      const positions = positionsAttr.array
-
-      const t = time * 0.0005
-
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        const i3 = i * 3
-        const speed = particleSpeeds[i]
-
-        // Smooth wave function simulating galactic dust flows
-        const x = originalPositions[i3]
-        const y = originalPositions[i3 + 1]
-        const z = originalPositions[i3 + 2]
-
-        // Noise flow field mathematical approximation
-        positions[i3] = x + Math.sin(t + y * 0.02) * 12 * speed
-        positions[i3 + 1] = y + Math.cos(t + x * 0.02) * 8 * speed
-        positions[i3 + 2] = z + Math.sin(t * 1.5 + (x + y) * 0.01) * 10 * speed
-
-        // Interactive mouse gravity deflection
-        const mx = mouse.x * 120
-        const my = mouse.y * 120
-        const dx = positions[i3] - mx
-        const dy = positions[i3 + 1] - my
-        const dist = Math.sqrt(dx * dx + dy * dy)
-
-        if (dist < 80) {
-          const force = (80 - dist) / 80
-          positions[i3] += (dx / dist) * force * 15
-          positions[i3 + 1] += (dy / dist) * force * 15
-        }
-      }
-
-      positionsAttr.needsUpdate = true
-    }
-
-    // Animation Loop
     const tick = (time) => {
-      // Inertial damping / lerp for smooth dynamic parallax camera drift
       mouse.x += (mouse.targetX - mouse.x) * 0.04
       mouse.y += (mouse.targetY - mouse.y) * 0.04
 
-      // Drift camera slightly based on mouse parallax coordinates
-      camera.position.x = mouse.x * 60
-      camera.position.y = -mouse.y * 60
+      camera.position.x = mouse.x * 50
+      camera.position.y = -mouse.y * 50
       camera.lookAt(scene.position)
 
-      // Galactic spin
-      if (particleSystem) {
-        particleSystem.rotation.y = time * 0.00003
-        animateParticles(time)
+      const t = time * 0.001
+
+      // Rotate elements independently for high-tech security vibe
+      if (shieldPoints) {
+        shieldPoints.rotation.y = t * 0.15
+
+        // Gentle breathing animation of the shield particles
+        const positions = shieldPoints.geometry.attributes.position.array
+        for (let i = 0; i < positions.length / 3; i++) {
+          const i3 = i * 3
+          // Displace along Y very subtly
+          positions[i3 + 1] += Math.sin(t + positions[i3] * 0.1) * 0.05
+        }
+        shieldPoints.geometry.attributes.position.needsUpdate = true
+      }
+
+      if (ringPoints1) {
+        ringPoints1.rotation.z = -t * 0.08
+        ringPoints1.rotation.y = Math.sin(t * 0.05) * 0.2
+      }
+
+      if (ringPoints2) {
+        ringPoints2.rotation.z = t * 0.12
+        ringPoints2.rotation.x = Math.cos(t * 0.04) * 0.2
       }
 
       renderer.render(scene, camera)
       animationFrameId = requestAnimationFrame(tick)
     }
 
-    // Event Handlers
     const handleMouseMove = (e) => {
       mouse.targetX = (e.clientX / window.innerWidth) * 2 - 1
       mouse.targetY = -(e.clientY / window.innerHeight) * 2 + 1
-    }
-
-    const handleTouchMove = (e) => {
-      if (e.touches.length > 0) {
-        const t = e.touches[0]
-        mouse.targetX = (t.clientX / window.innerWidth) * 2 - 1
-        mouse.targetY = -(t.clientY / window.innerHeight) * 2 + 1
-      }
-    }
-
-    // Gyroscope / Device orientation fallback for cinematic feel on actual mobile phones
-    const handleDeviceOrientation = (e) => {
-      if (e.beta && e.gamma) {
-        // Map tilt range beautifully
-        mouse.targetX = THREE.MathUtils.clamp(e.gamma / 30, -1, 1)
-        mouse.targetY = THREE.MathUtils.clamp((e.beta - 45) / 30, -1, 1)
-      }
     }
 
     const handleResize = () => {
@@ -240,27 +241,16 @@ export default function ThreeHeroBackground() {
       renderer.setSize(width, height)
     }
 
-    // Execute setup
     init()
     animationFrameId = requestAnimationFrame(tick)
 
-    // Listeners
     window.addEventListener('mousemove', handleMouseMove, { passive: true })
-    window.addEventListener('touchmove', handleTouchMove, { passive: true })
     window.addEventListener('resize', handleResize, { passive: true })
-    if (window.DeviceOrientationEvent) {
-      window.addEventListener('deviceorientation', handleDeviceOrientation, { passive: true })
-    }
 
-    // Cleanup
     return () => {
       cancelAnimationFrame(animationFrameId)
       window.removeEventListener('mousemove', handleMouseMove)
-      window.removeEventListener('touchmove', handleTouchMove)
       window.removeEventListener('resize', handleResize)
-      if (window.DeviceOrientationEvent) {
-        window.removeEventListener('deviceorientation', handleDeviceOrientation)
-      }
 
       if (renderer) {
         renderer.dispose()
@@ -270,9 +260,17 @@ export default function ThreeHeroBackground() {
         }
       }
 
-      if (particleSystem) {
-        particleSystem.geometry.dispose()
-        particleSystem.material.dispose()
+      if (shieldPoints) {
+        shieldPoints.geometry.dispose()
+        shieldPoints.material.dispose()
+      }
+      if (ringPoints1) {
+        ringPoints1.geometry.dispose()
+        ringPoints1.material.dispose()
+      }
+      if (ringPoints2) {
+        ringPoints2.geometry.dispose()
+        ringPoints2.material.dispose()
       }
     }
   }, [])
