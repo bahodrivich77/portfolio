@@ -1,205 +1,67 @@
 import { useRef } from 'react'
 import { m as motion, useInView } from 'framer-motion'
-import { Briefcase, GraduationCap, Trophy } from 'lucide-react'
+import { Briefcase, GraduationCap, Award, Calendar } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 
-const CARD_META = [
-  { type: 'edu',         icon: GraduationCap, tags: ['React', 'JavaScript', 'Tailwind'],      color: '#00d4ff' },
-  { type: 'work',        icon: Briefcase,     tags: ['React', 'Next.js', 'Freelance'],        color: '#10b981' },
-  { type: 'achievement', icon: Trophy,        tags: ['Portfolio', 'React', 'Design'],         color: '#f59e0b' },
-  { type: 'edu',         icon: GraduationCap, tags: ['Next.js', 'TypeScript', 'API'],         color: '#a855f7' },
-  { type: 'work',        icon: Briefcase,     tags: ['GitHub', 'Open Source', 'Community'],   color: '#6366f1' },
-]
-
-function StatCounter({ value, label, index, inView }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay: 0.4 + index * 0.1, duration: 0.6 }}
-      style={{
-        textAlign: 'center',
-        padding: '1.5rem 1rem',
-        borderRadius: '1rem',
-        border: '1px solid rgba(255,255,255,0.05)',
-        background: 'rgba(255,255,255,0.02)',
-      }}
-    >
-      <div className="font-display text-gradient" style={{ fontSize: 'clamp(1.6rem, 4vw, 2.25rem)', fontWeight: 800, letterSpacing: '-0.02em' }}>
-        {value}
-      </div>
-      <div style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.75rem', marginTop: 6, letterSpacing: '0.04em' }}>
-        {label}
-      </div>
-    </motion.div>
-  )
-}
-
-function ExperienceCard({ card, index, total, inView }) {
-  const isLeft = index % 2 === 0
-  const isLast = index === total - 1
-  const accent = card.color
+function ExperienceNode({ item, index, isLast }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-50px' })
 
   return (
-    <div style={{
-      display: 'grid',
-      gridTemplateColumns: '1fr 2rem 1fr',
-      alignItems: 'start',
-      gap: '0 1rem',
-    }}>
-      {/* Left content */}
+    <div ref={ref} className="relative flex gap-8 pb-12 last:pb-0">
+      {/* Timeline Line */}
+      {!isLast && (
+        <div className="absolute left-[15px] top-8 bottom-0 w-px bg-white/5 overflow-hidden">
+          <motion.div
+            initial={{ height: 0 }}
+            animate={inView ? { height: '100%' } : {}}
+            transition={{ duration: 1, ease: 'easeInOut' }}
+            className="w-full bg-grad-premium opacity-50"
+          />
+        </div>
+      )}
+
+      {/* Node Icon */}
       <motion.div
-        initial={{ opacity: 0, x: isLeft ? -30 : 0 }}
-        animate={inView ? { opacity: 1, x: 0 } : {}}
-        transition={{ delay: index * 0.12, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        style={{ paddingBottom: isLast ? 0 : '2rem', gridColumn: isLeft ? 1 : 3 }}
+        initial={{ scale: 0, opacity: 0 }}
+        animate={inView ? { scale: 1, opacity: 1 } : {}}
+        transition={{ type: 'spring', stiffness: 300, damping: 20, delay: 0.1 }}
+        className="relative z-10 w-8 h-8 rounded-full bg-space-black border border-cyan/40 flex items-center justify-center shadow-[0_0_15px_rgba(0,212,255,0.2)]"
       >
-        {isLeft && (
-          <div
-            className="glass-hover"
-            style={{
-              padding: '1.25rem',
-              borderRadius: '1rem',
-              border: `1px solid ${accent}20`,
-              background: `radial-gradient(ellipse at 0% 0%, ${accent}05, rgba(255,255,255,0.015))`,
-            }}
-          >
-            <CardContent card={card} accent={accent} />
-          </div>
-        )}
+        <div className="w-2 h-2 rounded-full bg-cyan animate-pulse" />
       </motion.div>
 
-      {/* Center timeline */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={inView ? { scale: 1 } : {}}
-          transition={{ delay: index * 0.12 + 0.1, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            width: 32, height: 32, borderRadius: '50%',
-            background: `linear-gradient(135deg, ${accent}, ${accent}80)`,
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: `0 0 16px ${accent}30`,
-            zIndex: 1, flexShrink: 0,
-          }}
-        >
-          <card.icon size={14} color="#fff" />
-        </motion.div>
-        {!isLast && (
-          <div style={{
-            width: 1, flex: 1, minHeight: 40,
-            background: `linear-gradient(to bottom, ${accent}30, rgba(168,85,247,0.1))`,
-            marginTop: 4,
-          }} />
-        )}
-      </div>
-
-      {/* Right content */}
+      {/* Content Card */}
       <motion.div
-        initial={{ opacity: 0, x: !isLeft ? 30 : 0 }}
+        initial={{ opacity: 0, x: 20 }}
         animate={inView ? { opacity: 1, x: 0 } : {}}
-        transition={{ delay: index * 0.12, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        style={{ paddingBottom: isLast ? 0 : '2rem', gridColumn: !isLeft ? 3 : 1 }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+        className="glass-card p-6 rounded-2xl flex-1"
       >
-        {!isLeft && (
-          <div
-            className="glass-hover"
-            style={{
-              padding: '1.25rem',
-              borderRadius: '1rem',
-              border: `1px solid ${accent}20`,
-              background: `radial-gradient(ellipse at 100% 0%, ${accent}05, rgba(255,255,255,0.015))`,
-            }}
-          >
-            <CardContent card={card} accent={accent} />
+        <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <div>
+            <h3 className="text-xl font-bold text-white">{item.title}</h3>
+            <div className="text-cyan text-sm font-mono uppercase tracking-widest font-semibold">{item.org}</div>
           </div>
-        )}
+          <div className="flex items-center gap-2 px-3 py-1 bg-white/5 rounded-lg border border-white/10 text-xs font-bold text-muted">
+            <Calendar size={12} />
+            {item.period}
+          </div>
+        </div>
+        <p className="text-muted leading-relaxed mb-6">
+          {item.desc}
+        </p>
+        
+        {/* Achievements Tags (Simulated from desc or static) */}
+        <div className="flex flex-wrap gap-2">
+          {['Scalability', 'Performance', 'UI/UX', 'Architecture'].map(tag => (
+            <span key={tag} className="text-[10px] font-bold uppercase tracking-widest px-2 py-1 bg-cyan/5 border border-cyan/10 text-cyan/70 rounded">
+              {tag}
+            </span>
+          ))}
+        </div>
       </motion.div>
     </div>
-  )
-}
-
-function CardContent({ card, accent }) {
-  return (
-    <>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-        <span style={{ fontSize: '0.65rem', color: 'rgba(255,255,255,0.3)', fontFamily: 'JetBrains Mono, monospace', letterSpacing: '0.04em' }}>
-          {card.period}
-        </span>
-        <span style={{
-          width: 24, height: 24, borderRadius: '0.4rem',
-          background: `${accent}12`, border: `1px solid ${accent}20`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0,
-        }}>
-          <card.icon size={11} style={{ color: accent }} />
-        </span>
-      </div>
-      <h3 style={{ fontWeight: 700, color: '#fff', fontSize: '0.92rem', marginBottom: 2, lineHeight: 1.3 }}>
-        {card.title}
-      </h3>
-      <div style={{ color: accent, fontSize: '0.78rem', fontWeight: 600, marginBottom: '0.5rem' }}>
-        {card.org}
-      </div>
-      <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.8rem', lineHeight: 1.6, marginBottom: '0.75rem' }}>
-        {card.desc}
-      </p>
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
-        {card.tags.map((t) => (
-          <span key={t} style={{
-            padding: '0.15rem 0.5rem', borderRadius: 9999,
-            fontSize: '0.62rem', fontWeight: 600,
-            background: `${accent}08`, border: `1px solid ${accent}15`,
-            color: `${accent}cc`,
-          }}>
-            {t}
-          </span>
-        ))}
-      </div>
-    </>
-  )
-}
-
-// Mobile card (simplified single column)
-function MobileCard({ card, index, inView }) {
-  const accent = card.color
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ delay: index * 0.1, duration: 0.6 }}
-      style={{ display: 'flex', gap: '1rem' }}
-    >
-      {/* Timeline track */}
-      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
-        <div style={{
-          width: 32, height: 32, borderRadius: '50%',
-          background: `linear-gradient(135deg, ${accent}, ${accent}80)`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: `0 0 12px ${accent}25`, flexShrink: 0,
-        }}>
-          <card.icon size={14} color="#fff" />
-        </div>
-        {index < CARD_META.length - 1 && (
-          <div style={{ width: 1, flex: 1, minHeight: 20, background: `${accent}20`, marginTop: 4 }} />
-        )}
-      </div>
-
-      <div
-        className="glass-hover"
-        style={{
-          flex: 1,
-          padding: '1rem',
-          borderRadius: '1rem',
-          border: `1px solid ${accent}15`,
-          background: 'rgba(255,255,255,0.02)',
-          marginBottom: index < CARD_META.length - 1 ? '0.75rem' : 0,
-        }}
-      >
-        <CardContent card={card} accent={accent} />
-      </div>
-    </motion.div>
   )
 }
 
@@ -209,72 +71,38 @@ export default function Experience() {
   const sectionRef = useRef(null)
   const inView = useInView(sectionRef, { once: true, margin: '-80px' })
 
-  const cards = CARD_META.map((meta, i) => ({
-    ...meta,
-    ...e.cards[i],
-  }))
-
-  const stats = [
-    { value: '2+', label: e.stats.experience },
-    { value: '10+', label: e.stats.projects },
-    { value: '5+', label: e.stats.tech },
-    { value: '∞', label: e.stats.motivation },
-  ]
-
   return (
     <section
       id="experience"
       ref={sectionRef}
-      style={{
-        padding: 'clamp(5rem, 10vw, 8rem) 0',
-        background: 'rgba(8,11,18,0.6)',
-        position: 'relative', overflow: 'hidden',
-      }}
+      className="relative py-24 md:py-32 overflow-hidden"
     >
-      <div aria-hidden="true" style={{
-        position: 'absolute', top: '20%', right: '-10%',
-        width: 500, height: 500, borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)',
-        pointerEvents: 'none',
-      }} />
-
-      <div style={{ maxWidth: 900, margin: '0 auto', padding: '0 1.25rem' }}>
+      <div className="max-w-4xl mx-auto px-6 relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          style={{ textAlign: 'center', marginBottom: 'clamp(3rem, 6vw, 5rem)' }}
+          className="text-center mb-20"
         >
-          <div className="eyebrow-pill" style={{ display: 'inline-flex', marginBottom: '1.5rem' }}>
-            {e.eyebrow}
-          </div>
-          <h2 className="font-display" style={{
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-            fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.1,
-          }}>
-            <span className="text-gradient">{e.title}</span>
+          <div className="badge-work mb-6">{e.eyebrow}</div>
+          <h2 className="font-display text-4xl md:text-6xl font-black mb-6">
+            Professional <span className="text-gradient">Timeline</span>.
           </h2>
+          <p className="text-muted max-w-2xl mx-auto text-lg leading-relaxed">
+            A chronological journey of technical leadership, architectural decisions, and continuous engineering evolution.
+          </p>
         </motion.div>
 
-        {/* Timeline — desktop alternating */}
-        <div className="hidden md:block" style={{ marginBottom: 'clamp(3rem, 6vw, 4rem)' }}>
-          {cards.map((card, i) => (
-            <ExperienceCard key={i} card={card} index={i} total={cards.length} inView={inView} />
-          ))}
-        </div>
-
-        {/* Timeline — mobile single column */}
-        <div className="md:hidden" style={{ marginBottom: 'clamp(3rem, 6vw, 4rem)' }}>
-          {cards.map((card, i) => (
-            <MobileCard key={i} card={card} index={i} inView={inView} />
-          ))}
-        </div>
-
-        {/* Stats */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '1rem' }}>
-          {stats.map(({ value, label }, i) => (
-            <StatCounter key={label} value={value} label={label} index={i} inView={inView} />
+        {/* Timeline */}
+        <div className="relative">
+          {e.cards.map((item, i) => (
+            <ExperienceNode
+              key={i}
+              item={item}
+              index={i}
+              isLast={i === e.cards.length - 1}
+            />
           ))}
         </div>
       </div>

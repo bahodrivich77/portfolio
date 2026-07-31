@@ -3,6 +3,7 @@ import { LazyMotion } from 'framer-motion'
 import Header from './components/Header'
 import Hero from './sections/Hero'
 import CustomCursor from './components/CustomCursor'
+import GovBackground from './components/GovBackground'
 import { useSectionKeyNav } from './hooks/useSectionKeyNav'
 
 const loadMotionFeatures = () => import('./lib/motionFeatures').then((mod) => mod.default)
@@ -103,62 +104,40 @@ export default function App() {
 
   return (
     <LazyMotion features={loadMotionFeatures} strict>
-      <div className="relative overflow-x-hidden min-h-screen" style={{ background: '#050508', color: '#fff' }}>
+      <div className="relative overflow-x-hidden min-h-screen" style={{ background: '#050816', color: '#fff' }}>
         {/* Custom cursor — desktop only */}
         <CustomCursor />
 
-      {/* Atmospheric background */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-        {/* Deep space gradient */}
-        <div style={{
-          position: 'absolute', inset: 0,
-          background: 'radial-gradient(ellipse 80% 50% at 50% -20%, rgba(0,212,255,0.06) 0%, transparent 60%)'
-        }} />
-        {/* Cyan orb top right */}
-        <div className="atmo-orb" style={{
-          width: 'clamp(400px, 60vw, 800px)',
-          height: 'clamp(400px, 60vw, 800px)',
-          top: '-20%', right: '-15%',
-          background: 'radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 70%)',
-        }} />
-        {/* Purple orb bottom left */}
-        <div className="atmo-orb" style={{
-          width: 'clamp(300px, 50vw, 600px)',
-          height: 'clamp(300px, 50vw, 600px)',
-          bottom: '10%', left: '-15%',
-          background: 'radial-gradient(circle, rgba(168,85,247,0.06) 0%, transparent 70%)',
-        }} />
-        {/* Subtle grid */}
-        <div className="grid-bg" style={{ position: 'absolute', inset: 0, opacity: 0.5 }} />
-      </div>
+        {/* Neural Network Background */}
+        <GovBackground />
 
-      <Header activeSection={activeSection} scrolled={scrolled} />
+        <Header activeSection={activeSection} scrolled={scrolled} />
 
-      <main id="main-content" className="relative z-10">
-        <Hero />
-        <Suspense fallback={<SectionFallback />}>
-          <SectionDivider />
-          <About />
-          <SectionDivider />
-          <Skills />
-          <SectionDivider />
-          <Projects />
-          <SectionDivider />
-          <Experience />
-          <SectionDivider />
-          <Blog />
-          <SectionDivider />
-          <Contact />
+        <main id="main-content" className="relative z-10">
+          <Hero />
+          <Suspense fallback={<SectionFallback />}>
+            <SectionDivider />
+            <About />
+            <SectionDivider />
+            <Skills />
+            <SectionDivider />
+            <Projects />
+            <SectionDivider />
+            <Experience />
+            <SectionDivider />
+            <Blog />
+            <SectionDivider />
+            <Contact />
+          </Suspense>
+        </main>
+
+        <Suspense fallback={null}>
+          <Footer />
         </Suspense>
-      </main>
 
-      <Suspense fallback={null}>
-        <Footer />
-      </Suspense>
-
-      <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
-      `}</style>
+        <style>{`
+          @keyframes spin { to { transform: rotate(360deg); } }
+        `}</style>
       </div>
     </LazyMotion>
   )
