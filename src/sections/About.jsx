@@ -1,6 +1,5 @@
 import { useRef, useEffect, useState } from 'react'
-import { m as motion, useInView, useSpring, useTransform } from 'framer-motion'
-import { useLanguage } from '../i18n/LanguageContext'
+import { m as motion, useInView } from 'framer-motion'
 import { Briefcase, Award, Zap, Code, Target } from 'lucide-react'
 
 function AnimatedCounter({ value, duration = 2 }) {
@@ -51,16 +50,14 @@ function StatCard({ icon: Icon, value, label, index }) {
 }
 
 export default function About() {
-  const { tx } = useLanguage()
-  const a = tx.about
   const sectionRef = useRef(null)
   const inView = useInView(sectionRef, { once: true, margin: '-100px' })
 
   const stats = [
-    { icon: Briefcase, value: '2', label: 'Years Experience' },
-    { icon: Code, value: '10', label: 'Projects Completed' },
-    { icon: Zap, value: '15', label: 'Technologies' },
-    { icon: Award, value: '5', label: 'Achievements' },
+    { icon: Briefcase, value: '2', label: 'Yil tajriba' },
+    { icon: Code, value: '10', label: 'Bajarilgan loyiha' },
+    { icon: Zap, value: '15', label: 'Texnologiyalar' },
+    { icon: Award, value: '5', label: 'Yutuqlar' },
   ]
 
   return (
@@ -77,16 +74,16 @@ export default function About() {
             animate={inView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8 }}
           >
-            <div className="badge-work mb-6">{a.eyebrow}</div>
+            <div className="badge-work mb-6">Tanishaylik</div>
             <h2 className="font-display text-4xl md:text-6xl font-black mb-8 leading-tight">
-              Designing the <span className="text-gradient">Future</span> of Web.
+              Men haqimda
             </h2>
             <div className="space-y-6 text-lg text-muted leading-relaxed font-medium">
               <p>
-                {a.bio1.replace('{highlight}', a.highlight).replace('{name}', tx.common.name)}
+                G'oyalarni responsive va interaktiv interfeyslarga aylantirishdan zavqlanaman. Hozirda frontend engineering ko'nikmalarini chuqurlashtirish, real loyihalar yaratish va zamonaviy va intuitiv foydalanuvchi tajribalari shakllantirish bilan shug'ullanmoqdaman.
               </p>
               <p>
-                {a.bio2}
+                Har bir loyihada faqat chiroyli ko'rinishdan emas — toza kod yozish, komponent arxitekturasi va uzoq muddatda saqlanuvchi yechimlar yaratishdan qoniqaman.
               </p>
             </div>
 
@@ -96,8 +93,8 @@ export default function About() {
                 <img src="/Cmcoder.webp" alt="Profile" className="w-full h-full object-cover" />
               </div>
               <div>
-                <div className="text-white font-bold text-lg">{tx.common.name}</div>
-                <div className="text-cyan font-mono text-sm uppercase tracking-widest">{a.role}</div>
+                <div className="text-white font-bold text-lg">Mirkarim Bahodirovich</div>
+                <div className="text-cyan font-mono text-sm uppercase tracking-widest">Frontend Developer</div>
               </div>
             </div>
           </motion.div>
@@ -121,10 +118,10 @@ export default function About() {
               </div>
               <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
                 <div className="w-2 h-2 bg-cyan rounded-full" />
-                Professional Mission
+                Professional maqsad
               </h3>
               <p className="text-muted leading-relaxed">
-                To bridge the gap between complex engineering requirements and intuitive user experiences, delivering scalable solutions that define industry standards.
+                Murakkab engineering talablari va intuitiv foydalanuvchi tajribalari o'rtasidagi tafovutni yo'qotib, sanoat standartlarini belgilovchi kengaytiriluvchi yechimlarni yetkazib berish.
               </p>
             </motion.div>
           </div>

@@ -1,17 +1,14 @@
 import { Github, Linkedin, Heart } from 'lucide-react'
-import { useLanguage } from '../i18n/LanguageContext'
 
 const FOOTER_LINKS = [
-  { key: 'about', href: '#about' },
-  { key: 'skills', href: '#skills' },
-  { key: 'projects', href: '#projects' },
-  { key: 'experience', href: '#experience' },
-  { key: 'contact', href: '#contact' },
+  { key: 'about', label: 'Men haqimda', href: '#about' },
+  { key: 'skills', label: "Ko'nikmalar", href: '#skills' },
+  { key: 'projects', label: 'Loyihalar', href: '#projects' },
+  { key: 'experience', label: 'Tajriba', href: '#experience' },
+  { key: 'contact', label: 'Aloqa', href: '#contact' },
 ]
 
 export default function Footer() {
-  const { tx } = useLanguage()
-  const f = tx.footer
   const year = new Date().getFullYear()
 
   const scrollTo = (href) => {
@@ -53,7 +50,7 @@ export default function Footer() {
               </span>
             </div>
             <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.82rem', lineHeight: 1.7, maxWidth: 240 }}>
-              {f.tagline}
+              Zamonaviy, chiroyli va tez veb-ilovalar yaratuvchi frontend dasturchi.
             </p>
 
             {/* Social links */}
@@ -104,10 +101,10 @@ export default function Footer() {
           {/* Pages */}
           <div>
             <div style={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', marginBottom: '1rem' }}>
-              {f.pages}
+              Sahifalar
             </div>
             <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-              {FOOTER_LINKS.map(({ key, href }) => (
+              {FOOTER_LINKS.map(({ key, label, href }) => (
                 <button
                   key={key}
                   onClick={() => scrollTo(href)}
@@ -120,7 +117,7 @@ export default function Footer() {
                   onMouseEnter={(e) => e.currentTarget.style.color = '#00d4ff'}
                   onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.68)'}
                 >
-                  {tx.nav[key]}
+                  {label}
                 </button>
               ))}
             </nav>
@@ -129,7 +126,7 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <div style={{ fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.1em', color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', marginBottom: '1rem' }}>
-              {f.contact}
+              Aloqa
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
               <a href="https://t.me/bahod1rovi_ch77" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.68)', textDecoration: 'none', transition: 'color 0.2s' }}
@@ -164,12 +161,12 @@ export default function Footer() {
           }}
         >
           <span style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.6)' }}>
-            © {year} Mirkarim Bahodirovich. {f.rights}
+            © {year} Mirkarim Bahodirovich. Barcha huquqlar himoyalangan.
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: '0.35rem', fontSize: '0.78rem', color: 'rgba(255,255,255,0.6)' }}>
-            {f.built}{' '}
+            Yaratildi{' '}
             <Heart size={11} style={{ color: '#f43f5e', fill: '#f43f5e' }} />{' '}
-            {f.with} React + Vite
+            bilan React + Vite
           </span>
         </div>
       </div>

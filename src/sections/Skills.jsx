@@ -1,6 +1,5 @@
 import { useRef } from 'react'
 import { m as motion, useInView } from 'framer-motion'
-import { useLanguage } from '../i18n/LanguageContext'
 import { Layout, Server, Wrench, Globe, Zap } from 'lucide-react'
 
 const SKILL_CATEGORIES = [
@@ -27,7 +26,7 @@ const SKILL_CATEGORIES = [
     ],
   },
   {
-    label: 'Tools & Devops',
+    label: 'Asboblar va DevOps',
     icon: Wrench,
     color: '#3b82f6',
     skills: [
@@ -38,14 +37,14 @@ const SKILL_CATEGORIES = [
     ],
   },
   {
-    label: 'Architecture',
+    label: 'Arxitektura',
     icon: Globe,
     color: '#10b981',
     skills: [
-      { name: 'System Design', level: 75 },
-      { name: 'UI/UX Design', level: 80 },
-      { name: 'SEO Optimization', level: 85 },
-      { name: 'Performance', level: 90 },
+      { name: 'Tizimli dizayn', level: 75 },
+      { name: 'UI/UX Dizayn', level: 80 },
+      { name: 'SEO Optimallashtirish', level: 85 },
+      { name: 'Unumdorlik', level: 90 },
     ],
   },
 ]
@@ -98,8 +97,6 @@ function CategoryCard({ category, index }) {
 }
 
 export default function Skills() {
-  const { tx } = useLanguage()
-  const s = tx.skills
   const sectionRef = useRef(null)
   const inView = useInView(sectionRef, { once: true, margin: '-80px' })
 
@@ -117,12 +114,12 @@ export default function Skills() {
           transition={{ duration: 0.7 }}
           className="text-center mb-20"
         >
-          <div className="badge-work mb-6">{s.eyebrow}</div>
+          <div className="badge-work mb-6">Stack</div>
           <h2 className="font-display text-4xl md:text-6xl font-black mb-6">
-            Technical <span className="text-gradient">Arsenal</span>.
+            Mening <span className="text-gradient">ko'nikmalarim</span>.
           </h2>
           <p className="text-muted max-w-2xl mx-auto text-lg">
-            A comprehensive suite of modern technologies and methodologies used to build high-performance enterprise solutions.
+            Yuqori unumdorlikka ega korporativ yechimlarni yaratish uchun foydalaniladigan zamonaviy texnologiyalar va metodologiyalar to'plami.
           </p>
         </motion.div>
 
@@ -146,15 +143,15 @@ export default function Skills() {
               <Zap size={32} />
             </div>
             <div>
-              <h4 className="text-xl font-bold text-white mb-1">Continuous Innovation</h4>
-              <p className="text-muted">Always staying ahead with the latest industry trends and emerging technologies.</p>
+              <h4 className="text-xl font-bold text-white mb-1">Doimiy innovatsiya</h4>
+              <p className="text-muted">Har doim eng yangi sanoat tendentsiyalari va rivojlanayotgan texnologiyalar bilan hamnafas.</p>
             </div>
           </div>
           <button
             onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
             className="btn-premium whitespace-nowrap"
           >
-            See My Stack in Action
+            Loyihalarimni ko'rish
           </button>
         </motion.div>
       </div>

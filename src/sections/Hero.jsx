@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from 'react'
 import { m as motion } from 'framer-motion'
-import { ArrowRight, Github, Linkedin, ExternalLink, ChevronDown } from 'lucide-react'
-import { useLanguage } from '../i18n/LanguageContext'
+import { ArrowRight, Github, Linkedin, ChevronDown } from 'lucide-react'
 
 // ─── Typewriter ───────────────────────────────────────────────────
 function Typewriter({ texts }) {
@@ -75,9 +74,6 @@ function MagneticButton({ onClick, children, primary = true, className = '' }) {
 }
 
 export default function Hero() {
-  const { tx } = useLanguage()
-  const h = tx.hero
-
   const scrollDown = () => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })
 
   return (
@@ -102,36 +98,41 @@ export default function Hero() {
           >
             <div className="badge-work">
               <span className="pulse-dot" />
-              {h.badge}
+              Ish uchun ochiq
             </div>
           </motion.div>
 
           {/* Main Title */}
           <h1 className="font-display text-6xl md:text-8xl font-black mb-6 leading-[0.9] tracking-tighter">
-            <span className="text-white/60 block text-3xl md:text-4xl font-bold mb-2">Hello, I'm</span>
-            <span className="text-white block">{tx.common.name.split(' ')[0]}</span>
-            <span className="text-gradient block">{tx.common.name.split(' ').slice(1).join(' ')}</span>
+            <span className="text-white/60 block text-3xl md:text-4xl font-bold mb-2">Salom, men</span>
+            <span className="text-white block">Mirkarim</span>
+            <span className="text-gradient block">Bahodirovich</span>
           </h1>
 
           {/* Typewriter Role */}
           <div className="text-xl md:text-2xl mb-8 flex items-center gap-3">
             <span className="text-white/40">Expert</span>
-            <Typewriter texts={h.typeSequence} />
+            <Typewriter texts={[
+              'Frontend Developer',
+              'React & Next.js',
+              'UI/UX ga e\'tibor beraman',
+              'Tailwind CSS',
+            ]} />
           </div>
 
           {/* Description */}
           <p className="text-lg md:text-xl text-muted max-w-xl mb-12 leading-relaxed font-medium">
-            Building modern digital products, scalable web applications and intelligent solutions with <span className="text-white">enterprise-grade</span> quality.
+            G'oyalarni chiroyli, tez va qulay interfeyslarga aylantirib, har bir loyihaga engineering yondashuvi bilan kirishaman.
           </p>
 
           {/* CTAs */}
           <div className="flex flex-wrap gap-4 mb-16">
             <MagneticButton onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })} primary>
-              {h.ctaProjects}
+              Loyihalarni ko'rish
               <ArrowRight size={18} />
             </MagneticButton>
             <MagneticButton onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} primary={false}>
-              {h.ctaContact}
+              Aloqa
             </MagneticButton>
           </div>
 
@@ -171,7 +172,7 @@ export default function Hero() {
         onClick={scrollDown}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 group text-muted hover:text-white transition-colors"
       >
-        <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Explore Journey</span>
+        <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Pastga</span>
         <div className="w-px h-12 bg-grad-premium opacity-30 group-hover:opacity-100 transition-opacity" />
         <ChevronDown size={16} className="animate-bounce" />
       </button>

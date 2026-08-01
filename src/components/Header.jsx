@@ -1,25 +1,17 @@
 import { useState, useEffect } from 'react'
 import { m as motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
-import { useLanguage } from '../i18n/LanguageContext'
-import LanguageSwitcher from './LanguageSwitcher'
 
-const NAV_KEYS = [
-  { key: 'about', href: '#about' },
-  { key: 'skills', href: '#skills' },
-  { key: 'experience', href: '#experience' },
-  { key: 'projects', href: '#projects' },
-  { key: 'contact', href: '#contact' },
+const NAV_ITEMS = [
+  { label: 'Men haqimda', href: '#about' },
+  { label: "Ko'nikmalar", href: '#skills' },
+  { label: 'Tajriba', href: '#experience' },
+  { label: 'Loyihalar', href: '#projects' },
+  { label: 'Aloqa', href: '#contact' },
 ]
 
 export default function Header({ activeSection, scrolled }) {
-  const { tx } = useLanguage()
   const [menuOpen, setMenuOpen] = useState(false)
-
-  const NAV_ITEMS = NAV_KEYS.map(({ key, href }) => ({
-    label: tx.nav[key],
-    href,
-  }))
 
   useEffect(() => {
     document.body.classList.toggle('mobile-nav-open', menuOpen)
@@ -92,12 +84,11 @@ export default function Header({ activeSection, scrolled }) {
 
           {/* Right Actions */}
           <div className="hidden md:flex items-center gap-4 shrink-0">
-            <LanguageSwitcher />
             <button
               onClick={() => scrollTo('#contact')}
               className="btn-premium !py-2 !px-4 !text-xs !rounded-xl"
             >
-              {tx.nav.cta}
+              Bog'lanish
             </button>
           </div>
 
@@ -133,9 +124,6 @@ export default function Header({ activeSection, scrolled }) {
                 {item.label}
               </motion.button>
             ))}
-            <div className="flex gap-4 mt-8">
-              <LanguageSwitcher />
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
