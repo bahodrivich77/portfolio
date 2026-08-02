@@ -54,7 +54,7 @@ function SkillProgress({ name, level, color }) {
     <div className="mb-4 last:mb-0">
       <div className="flex justify-between mb-2">
         <span className="text-sm font-bold text-white/80">{name}</span>
-        <span className="text-xs font-mono text-muted">{level}%</span>
+        
       </div>
       <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
         <motion.div
