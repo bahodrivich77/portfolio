@@ -2,8 +2,8 @@
 <browserconfig>
   <msapplication>
     <tile>
-      <square70x70logo src="/Cmcoder-sm.webp"/>
-      <square150x150logo src="/Cmcoder-sm.webp"/>
+      <square70x70logo src="/gemini-svg.svg.svg"/>
+      <square150x150logo src="/gemini-svg.svg.svg"/>
       <TileColor>#050508</TileColor>
     </tile>
   </msapplication>

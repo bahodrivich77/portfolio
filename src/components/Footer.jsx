@@ -41,12 +41,13 @@ export default function Footer() {
         }}>
           {/* Brand */}
           <div>
-            <div style={{ marginBottom: '1rem' }}>
+            <div style={{ marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <img src="/gemini-svg.svg.svg" alt="Mirkarim Logo" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />
               <span
                 className="font-display"
                 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#fff', letterSpacing: '-0.01em' }}
               >
-                CM<span className="text-gradient-cyan">Coder</span>
+                Mirkarim <span className="text-gradient-cyan">Furqatov</span>
               </span>
             </div>
             <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.82rem', lineHeight: 1.7, maxWidth: 240 }}>

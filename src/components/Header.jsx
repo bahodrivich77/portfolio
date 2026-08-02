@@ -50,10 +50,10 @@ export default function Header({ activeSection, scrolled }) {
             onClick={() => scrollTo('#hero')}
             className="flex items-center gap-3 group shrink-0"
           >
-            <div className="relative w-8 h-8 flex items-center justify-center font-display font-extrabold text-sm rounded-lg overflow-hidden">
+            <div className="relative w-8 h-8 flex items-center justify-center rounded-lg overflow-hidden">
+              <img src="/gemini-svg.svg.svg" alt="Mirkarim Logo" className="w-6 h-6 object-contain relative z-10" />
               <div className="absolute inset-0 bg-grad-premium opacity-20" />
               <div className="absolute inset-0 border border-cyan-dim opacity-40 rounded-lg" />
-              <span className="relative z-10 text-cyan">CM</span>
             </div>
             <span className="text-sm font-bold tracking-tight text-white/90 group-hover:text-cyan transition-colors">
               Mirkarim <span className="text-muted">Bahodirovich</span>
