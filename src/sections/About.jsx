@@ -90,7 +90,7 @@ export default function About() {
             {/* Signature / Role */}
             <div className="mt-12 flex items-center gap-6">
               <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-cyan/20">
-                <img src="/Cmcoder.webp" alt="Profile" className="w-full h-full object-cover" />
+                <img src="/Cmcoder.webp" alt="Mirkarim Furqatov - Frontend Developer specializing in React and Next.js" className="w-full h-full object-cover" />
               </div>
               <div>
                 <div className="text-white font-bold text-lg">Mirkarim Bahodirovich</div>

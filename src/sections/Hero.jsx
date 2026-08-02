@@ -122,7 +122,7 @@ export default function Hero() {
 
           {/* Description */}
           <p className="text-lg md:text-xl text-muted max-w-xl mb-12 leading-relaxed font-medium">
-            G'oyalarni chiroyli, tez va qulay interfeyslarga aylantirib, har bir loyihaga engineering yondashuvi bilan kirishaman.
+        Men uchun dasturlash shunchaki kod yozish emas. Har bir loyiha — muammoni tahlil qilish, zamonaviy texnologiyalarni qo'llash va foydalanuvchiga qulay tajriba yaratish imkoniyatidir. Har bir detalga e'tibor berib, sifatli va uzoq muddat xizmat qiladigan mahsulot yaratishga intilaman.
           </p>
 
           {/* CTAs */}
@@ -146,25 +146,39 @@ export default function Hero() {
         </motion.div>
 
         {/* Right Side: Futuristic Visualization (Optional) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.2 }}
-          className="hidden lg:flex justify-center items-center relative"
-        >
-          {/* Abstract Geometry / Tech Orb */}
-          <div className="relative w-96 h-96">
-            <div className="absolute inset-0 bg-cyan/10 rounded-full blur-[100px] animate-pulse" />
-            <div className="absolute inset-0 border border-white/5 rounded-full rotate-45" />
-            <div className="absolute inset-10 border border-cyan/20 rounded-full -rotate-12 animate-[spin_20s_linear_infinite]" />
-            <div className="absolute inset-20 border border-purple/20 rounded-full rotate-90 animate-[spin_15s_linear_infinite_reverse]" />
-            
-            {/* Center Monogram */}
-            <div className="absolute inset-0 flex items-center justify-center font-display text-9xl font-black text-white/5 select-none">
-              CM
-            </div>
-          </div>
-        </motion.div>
+       <motion.div
+  initial={{ opacity: 0, scale: 0.8 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 1, delay: 0.2 }}
+  className="hidden lg:flex justify-center items-center relative"
+>
+  <div className="relative w-96 h-96">
+    {/* Glow */}
+    <div className="absolute inset-0 bg-cyan/10 rounded-full blur-[100px] animate-pulse" />
+
+    {/* Animated Rings */}
+    <div className="absolute inset-0 border border-white/5 rounded-full rotate-45" />
+    <div className="absolute inset-8 border border-cyan/20 rounded-full animate-[spin_20s_linear_infinite]" />
+    <div className="absolute inset-16 border border-purple/20 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
+
+    {/* Profile Image */}
+    <div className="absolute inset-12 rounded-full overflow-hidden border-2 border-cyan/20 shadow-[0_0_60px_rgba(34,211,238,0.25)] backdrop-blur-xl">
+      <img
+        src="/Cmcoder.webp"
+        alt="Mirkarim Furqatov - Frontend Developer Portfolio Hero Image"
+        className="w-full h-full object-cover"
+      />
+    </div>
+
+    {/* Floating Glow */}
+    <div className="absolute inset-12 rounded-full bg-gradient-to-tr from-cyan/10 via-transparent to-purple/10 pointer-events-none" />
+
+    {/* Small Floating Dots */}
+    <div className="absolute top-8 right-16 w-3 h-3 bg-cyan rounded-full animate-bounce" />
+    <div className="absolute bottom-10 left-12 w-2 h-2 bg-purple rounded-full animate-ping" />
+    <div className="absolute top-24 left-4 w-2 h-2 bg-white/50 rounded-full animate-pulse" />
+  </div>
+</motion.div>
       </div>
 
       {/* Scroll Down Hint */}

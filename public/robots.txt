@@ -1,4 +1,10 @@
 User-agent: *
 Allow: /
+Disallow: /private/
+Disallow: /admin/
 
-Sitemap: https://mirkarim-dev.vercel.app/sitemap.xml
+# Host
+Host: https://mirkarim.uz
+
+# Sitemaps
+Sitemap: https://mirkarim.uz/sitemap.xml

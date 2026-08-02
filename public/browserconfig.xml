@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+  <msapplication>
+    <tile>
+      <square70x70logo src="/Cmcoder-sm.webp"/>
+      <square150x150logo src="/Cmcoder-sm.webp"/>
+      <TileColor>#050508</TileColor>
+    </tile>
+  </msapplication>
+</browserconfig>

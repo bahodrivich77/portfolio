@@ -4,6 +4,7 @@ import Header from './components/Header'
 import Hero from './sections/Hero'
 import CustomCursor from './components/CustomCursor'
 import GovBackground from './components/GovBackground'
+import SEO from './components/SEO'
 import { useSectionKeyNav } from './hooks/useSectionKeyNav'
 
 const loadMotionFeatures = () => import('./lib/motionFeatures').then((mod) => mod.default)
@@ -105,6 +106,7 @@ export default function App() {
   return (
     <LazyMotion features={loadMotionFeatures} strict>
       <div className="relative overflow-x-hidden min-h-screen" style={{ background: '#050816', color: '#fff' }}>
+        <SEO />
         {/* Custom cursor — desktop only */}
         <CustomCursor />
 
