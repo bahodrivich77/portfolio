@@ -30,10 +30,10 @@ const SKILL_CATEGORIES = [
     icon: Wrench,
     color: '#3b82f6',
     skills: [
-      { name: 'Git / GitHub', level: 90 },
+      { name: 'Git / GitHub', level: 100},
       { name: 'Docker', level: 60 },
-      { name: 'Vite / Webpack', level: 85 },
-      { name: 'Vercel / Netlify', level: 90 },
+      { name: 'Vite / Webpack', level: 95 },
+      { name: 'Vercel / Netlify', level: 95 },
     ],
   },
   {
@@ -41,8 +41,8 @@ const SKILL_CATEGORIES = [
     icon: Globe,
     color: '#10b981',
     skills: [
-      { name: 'Tizimli dizayn', level: 75 },
-      { name: 'UI/UX Dizayn', level: 80 },
+      { name: 'Tizimli dizayn', level: 95 },
+      { name: 'UI/UX Dizayn', level: 90 },
       { name: 'SEO Optimallashtirish', level: 85 },
       { name: 'Unumdorlik', level: 90 },
     ],
@@ -54,7 +54,7 @@ function SkillProgress({ name, level, color }) {
     <div className="mb-4 last:mb-0">
       <div className="flex justify-between mb-2">
         <span className="text-sm font-bold text-white/80">{name}</span>
-        
+      
       </div>
       <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
         <motion.div

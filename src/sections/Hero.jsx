@@ -164,7 +164,7 @@ export default function Hero() {
     {/* Profile Image */}
     <div className="absolute inset-12 rounded-full overflow-hidden border-2 border-cyan/20 shadow-[0_0_60px_rgba(34,211,238,0.25)] backdrop-blur-xl">
       <img
-        src="/Cmcoder.webp"
+        src="Cmcoder-sm.webp"
         alt="Mirkarim Furqatov - Frontend Developer Portfolio Hero Image"
         className="w-full h-full object-cover"
       />
