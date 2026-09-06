@@ -116,10 +116,10 @@ export default function Skills() {
         >
           <div className="badge-work mb-6">Stack</div>
           <h2 className="font-display text-4xl md:text-6xl font-black mb-6">
-            Mening <span className="text-gradient">ko'nikmalarim</span>.
+            Mening <span className="text-gradient">ko&apos;nikmalarim</span>.
           </h2>
           <p className="text-muted max-w-2xl mx-auto text-lg">
-            Yuqori unumdorlikka ega korporativ yechimlarni yaratish uchun foydalaniladigan zamonaviy texnologiyalar va metodologiyalar to'plami.
+            Yuqori unumdorlikka ega korporativ yechimlarni yaratish uchun foydalaniladigan zamonaviy texnologiyalar va metodologiyalar to&apos;plami.
           </p>
         </motion.div>
 
@@ -151,7 +151,7 @@ export default function Skills() {
             onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
             className="btn-premium whitespace-nowrap"
           >
-            Loyihalarimni ko'rish
+            Loyihalarimni ko&apos;rish
           </button>
         </motion.div>
       </div>

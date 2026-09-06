@@ -84,7 +84,7 @@ export default function Header({ activeSection, scrolled }) {
               onClick={() => scrollTo('#contact')}
               className="btn-premium !py-2 !px-4 !text-xs !rounded-xl"
             >
-              Bog'lanish
+              Bog&apos;lanish
             </button>
           </div>
 
