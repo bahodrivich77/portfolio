@@ -1,0 +1,39 @@
+name: Portfolio quality
+on:
+  push:
+    branches: [main, "redesign/**"]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run build
+      - name: Audit production bundle
+        run: |
+          npm run preview -- --host 127.0.0.1 > /tmp/portfolio-preview.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://127.0.0.1:4173/ > /dev/null; then break; fi
+            sleep 1
+          done
+          mkdir -p lighthouse-results
+          npx --yes lighthouse@13.6.0 http://127.0.0.1:4173/ --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output=html --output-path=lighthouse-results/mobile --quiet
+          npx --yes lighthouse@13.6.0 http://127.0.0.1:4173/ --preset=desktop --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage" --output=json --output=html --output-path=lighthouse-results/desktop --quiet
+          node scripts/lighthouse-summary.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-reports
+          path: lighthouse-results/
+          if-no-files-found: ignore
