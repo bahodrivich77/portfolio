@@ -12,12 +12,13 @@ const loadMotionFeatures = () => import('./lib/motionFeatures').then((mod) => mo
 const About = lazy(() => import('./sections/About'))
 const Skills = lazy(() => import('./sections/Skills'))
 const Projects = lazy(() => import('./sections/Projects'))
+const TelegramPoll = lazy(() => import('./components/TelegramPoll'))
 const Experience = lazy(() => import('./sections/Experience'))
 const Blog = lazy(() => import('./sections/Blog'))
 const Contact = lazy(() => import('./sections/Contact'))
 const Footer = lazy(() => import('./components/Footer'))
 
-const SECTIONS = ['hero', 'about', 'skills', 'projects', 'experience', 'blog', 'contact']
+const SECTIONS = ['hero', 'about', 'skills', 'projects', 'telegram-poll', 'experience', 'blog', 'contact']
 
 function SectionDivider() {
   return (
@@ -124,6 +125,8 @@ export default function App() {
             <Skills />
             <SectionDivider />
             <Projects />
+            <SectionDivider />
+            <TelegramPoll />
             <SectionDivider />
             <Experience />
             <SectionDivider />

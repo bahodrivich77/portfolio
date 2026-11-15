@@ -9,7 +9,6 @@ function AnimatedCounter({ value, duration = 2 }) {
   
   useEffect(() => {
     if (inView) {
-      let start = 0
       const end = parseInt(value)
       if (isNaN(end)) return
       const totalFrames = duration * 60
@@ -80,10 +79,10 @@ export default function About() {
             </h2>
             <div className="space-y-6 text-lg text-muted leading-relaxed font-medium">
               <p>
-                G'oyalarni responsive va interaktiv interfeyslarga aylantirishdan zavqlanaman. Hozirda frontend engineering ko'nikmalarini chuqurlashtirish, real loyihalar yaratish va zamonaviy va intuitiv foydalanuvchi tajribalari shakllantirish bilan shug'ullanmoqdaman.
+                G&apos;oyalarni responsive va interaktiv interfeyslarga aylantirishdan zavqlanaman. Hozirda frontend engineering ko&apos;nikmalarini chuqurlashtirish, real loyihalar yaratish va zamonaviy va intuitiv foydalanuvchi tajribalari shakllantirish bilan shug&apos;ullanmoqdaman.
               </p>
               <p>
-                Har bir loyihada faqat chiroyli ko'rinishdan emas — toza kod yozish, komponent arxitekturasi va uzoq muddatda saqlanuvchi yechimlar yaratishdan qoniqaman.
+                Har bir loyihada faqat chiroyli ko&apos;rinishdan emas — toza kod yozish, komponent arxitekturasi va uzoq muddatda saqlanuvchi yechimlar yaratishdan qoniqaman.
               </p>
             </div>
 
@@ -121,7 +120,7 @@ export default function About() {
                 Professional maqsad
               </h3>
               <p className="text-muted leading-relaxed">
-                Murakkab engineering talablari va intuitiv foydalanuvchi tajribalari o'rtasidagi tafovutni yo'qotib, sanoat standartlarini belgilovchi kengaytiriluvchi yechimlarni yetkazib berish.
+                Murakkab engineering talablari va intuitiv foydalanuvchi tajribalari o&apos;rtasidagi tafovutni yo&apos;qotib, sanoat standartlarini belgilovchi kengaytiriluvchi yechimlarni yetkazib berish.
               </p>
             </motion.div>
           </div>

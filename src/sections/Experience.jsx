@@ -3,7 +3,7 @@ import { m as motion, useInView } from 'framer-motion'
 import { Briefcase, GraduationCap, Award, Calendar } from 'lucide-react'
 import { useLanguage } from '../i18n/LanguageContext'
 
-function ExperienceNode({ item, index, isLast }) {
+function ExperienceNode({ item, isLast }) {
   const ref = useRef(null)
   const inView = useInView(ref, { once: true, margin: '-50px' })
 
@@ -100,7 +100,6 @@ export default function Experience() {
             <ExperienceNode
               key={i}
               item={item}
-              index={i}
               isLast={i === e.cards.length - 1}
             />
           ))}

@@ -115,20 +115,20 @@ export default function Hero() {
             <Typewriter texts={[
               'Frontend Developer',
               'React & Next.js',
-              'UI/UX ga e\'tibor beraman',
+              "UI/UX ga e'tibor beraman",
               'Tailwind CSS',
             ]} />
           </div>
 
           {/* Description */}
           <p className="text-lg md:text-xl text-muted max-w-xl mb-12 leading-relaxed font-medium">
-        Men uchun dasturlash shunchaki kod yozish emas. Har bir loyiha — muammoni tahlil qilish, zamonaviy texnologiyalarni qo'llash va foydalanuvchiga qulay tajriba yaratish imkoniyatidir. Har bir detalga e'tibor berib, sifatli va uzoq muddat xizmat qiladigan mahsulot yaratishga intilaman.
+            Men uchun dasturlash shunchaki kod yozish emas. Har bir loyiha — muammoni tahlil qilish, zamonaviy texnologiyalarni qo&apos;llash va foydalanuvchiga qulay tajriba yaratish imkoniyatidir. Har bir detalga e&apos;tibor berib, sifatli va uzoq muddat xizmat qiladigan mahsulot yaratishga intilaman.
           </p>
 
           {/* CTAs */}
           <div className="flex flex-wrap gap-4 mb-16">
             <MagneticButton onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })} primary>
-              Loyihalarni ko'rish
+              Loyihalarni ko&apos;rish
               <ArrowRight size={18} />
             </MagneticButton>
             <MagneticButton onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })} primary={false}>
@@ -138,8 +138,8 @@ export default function Hero() {
 
           {/* Social Social */}
           <div className="flex items-center gap-6 text-muted">
-            <a href="https://github.com/bahodrivich77/" target="_blank" className="hover:text-cyan transition-colors"><Github size={24} /></a>
-            <a href="https://www.linkedin.com/in/mirkarim-furqatov-823a6535b/" target="_blank" className="hover:text-cyan transition-colors"><Linkedin size={24} /></a>
+            <a href="https://github.com/bahodrivich77/" target="_blank" rel="noopener noreferrer" className="hover:text-cyan transition-colors"><Github size={24} /></a>
+            <a href="https://www.linkedin.com/in/mirkarim-furqatov-823a6535b/" target="_blank" rel="noopener noreferrer" className="hover:text-cyan transition-colors"><Linkedin size={24} /></a>
             <div className="h-px w-12 bg-white/10" />
             <span className="text-sm font-bold tracking-widest uppercase opacity-50">Expert Systems</span>
           </div>
