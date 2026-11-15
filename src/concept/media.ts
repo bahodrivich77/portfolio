@@ -1,4 +1,4 @@
-/** Add your portrait to public/images and enter its public URL here. */
+/** User-provided portrait, optimized as WebP for the concept hero. */
 export const conceptMedia = {
-  portrait: "", // Example: "/images/portrait.webp"
+  portrait: "/images/portrait.webp",
 };
