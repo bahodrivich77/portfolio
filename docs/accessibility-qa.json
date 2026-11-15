@@ -1,0 +1,830 @@
+[
+  {
+    "language": "uz",
+    "theme": "light",
+    "width": 375,
+    "result": {
+      "violations": [],
+      "passes": 48,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".coordinate-top"
+            ],
+            [
+              ".coordinate-bottom"
+            ],
+            [
+              ".art-label"
+            ],
+            [
+              ".visual-toys > .visual-caption"
+            ],
+            [
+              ".toy-block > span"
+            ],
+            [
+              ".visual-food > .visual-caption"
+            ],
+            [
+              ".visual-portfolio > .visual-caption"
+            ],
+            [
+              ".portfolio-study > .tiny-label"
+            ],
+            [
+              ".mini-sculpture"
+            ],
+            [
+              ".portfolio-study > .study-footer > span"
+            ],
+            [
+              ".project-card:nth-child(3) > .project-info > .project-category.mono"
+            ],
+            [
+              ".project-card:nth-child(3) > .project-info > h3 > button"
+            ],
+            [
+              ".portrait-mark"
+            ],
+            [
+              "li:nth-child(1) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(2) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(3) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(4) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(5) > .timeline-meta > .timeline-number"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "language": "en",
+    "theme": "light",
+    "width": 375,
+    "result": {
+      "violations": [],
+      "passes": 48,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".coordinate-top"
+            ],
+            [
+              ".coordinate-bottom"
+            ],
+            [
+              ".art-label"
+            ],
+            [
+              ".visual-toys > .visual-caption"
+            ],
+            [
+              ".toy-block > span"
+            ],
+            [
+              ".visual-food > .visual-caption"
+            ],
+            [
+              ".visual-portfolio > .visual-caption"
+            ],
+            [
+              ".portfolio-study > .tiny-label"
+            ],
+            [
+              ".mini-sculpture"
+            ],
+            [
+              ".portfolio-study > .study-footer > span"
+            ],
+            [
+              ".project-card:nth-child(3) > .project-info > .project-category.mono"
+            ],
+            [
+              ".portrait-mark"
+            ],
+            [
+              "li:nth-child(1) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(2) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(3) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(4) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(5) > .timeline-meta > .timeline-number"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "language": "ru",
+    "theme": "light",
+    "width": 375,
+    "result": {
+      "violations": [],
+      "passes": 48,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".coordinate-top"
+            ],
+            [
+              ".coordinate-bottom"
+            ],
+            [
+              ".art-label"
+            ],
+            [
+              ".visual-toys > .visual-caption"
+            ],
+            [
+              ".toy-block > span"
+            ],
+            [
+              ".visual-food > .visual-caption"
+            ],
+            [
+              ".visual-portfolio > .visual-caption"
+            ],
+            [
+              ".portfolio-study > .tiny-label"
+            ],
+            [
+              ".mini-sculpture"
+            ],
+            [
+              ".portfolio-study > .study-footer > span"
+            ],
+            [
+              ".project-card:nth-child(3) > .project-info > .project-category.mono"
+            ],
+            [
+              ".portrait-mark"
+            ],
+            [
+              "li:nth-child(1) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(2) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(3) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(4) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(5) > .timeline-meta > .timeline-number"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "language": "uz",
+    "theme": "dark",
+    "width": 375,
+    "result": {
+      "violations": [],
+      "passes": 48,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".coordinate-top"
+            ],
+            [
+              ".coordinate-bottom"
+            ],
+            [
+              ".art-label"
+            ],
+            [
+              ".visual-toys > .visual-caption"
+            ],
+            [
+              ".toy-block > span"
+            ],
+            [
+              ".visual-food > .visual-caption"
+            ],
+            [
+              ".visual-portfolio > .visual-caption"
+            ],
+            [
+              ".portfolio-study > .tiny-label"
+            ],
+            [
+              ".mini-sculpture"
+            ],
+            [
+              ".portfolio-study > .study-footer > span"
+            ],
+            [
+              ".project-card:nth-child(3) > .project-info > .project-category.mono"
+            ],
+            [
+              ".project-card:nth-child(3) > .project-info > h3 > button"
+            ],
+            [
+              ".portrait-mark"
+            ],
+            [
+              "li:nth-child(1) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(2) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(3) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(4) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(5) > .timeline-meta > .timeline-number"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "language": "en",
+    "theme": "dark",
+    "width": 375,
+    "result": {
+      "violations": [],
+      "passes": 48,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".coordinate-top"
+            ],
+            [
+              ".coordinate-bottom"
+            ],
+            [
+              ".art-label"
+            ],
+            [
+              ".visual-toys > .visual-caption"
+            ],
+            [
+              ".toy-block > span"
+            ],
+            [
+              ".visual-food > .visual-caption"
+            ],
+            [
+              ".visual-portfolio > .visual-caption"
+            ],
+            [
+              ".portfolio-study > .tiny-label"
+            ],
+            [
+              ".mini-sculpture"
+            ],
+            [
+              ".portfolio-study > .study-footer > span"
+            ],
+            [
+              ".project-card:nth-child(3) > .project-info > .project-category.mono"
+            ],
+            [
+              ".portrait-mark"
+            ],
+            [
+              "li:nth-child(1) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(2) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(3) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(4) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(5) > .timeline-meta > .timeline-number"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "language": "ru",
+    "theme": "dark",
+    "width": 375,
+    "result": {
+      "violations": [],
+      "passes": 48,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".coordinate-top"
+            ],
+            [
+              ".coordinate-bottom"
+            ],
+            [
+              ".art-label"
+            ],
+            [
+              ".visual-toys > .visual-caption"
+            ],
+            [
+              ".toy-block > span"
+            ],
+            [
+              ".visual-food > .visual-caption"
+            ],
+            [
+              ".visual-portfolio > .visual-caption"
+            ],
+            [
+              ".portfolio-study > .tiny-label"
+            ],
+            [
+              ".mini-sculpture"
+            ],
+            [
+              ".portfolio-study > .study-footer > span"
+            ],
+            [
+              ".project-card:nth-child(3) > .project-info > .project-category.mono"
+            ],
+            [
+              ".portrait-mark"
+            ],
+            [
+              "li:nth-child(1) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(2) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(3) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(4) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(5) > .timeline-meta > .timeline-number"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "language": "uz",
+    "theme": "dark",
+    "width": 1440,
+    "result": {
+      "violations": [],
+      "passes": 48,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".coordinate-top"
+            ],
+            [
+              ".coordinate-bottom"
+            ],
+            [
+              ".art-label"
+            ],
+            [
+              ".visual-toys > .visual-caption"
+            ],
+            [
+              ".visual-toys > .study-window > .study-bar > small"
+            ],
+            [
+              ".toy-block > span"
+            ],
+            [
+              ".visual-food > .visual-caption"
+            ],
+            [
+              ".visual-food > .study-window > .study-bar > small"
+            ],
+            [
+              ".visual-portfolio > .visual-caption"
+            ],
+            [
+              ".visual-portfolio > .study-window > .study-bar > small"
+            ],
+            [
+              ".portfolio-study > .tiny-label"
+            ],
+            [
+              ".mini-sculpture"
+            ],
+            [
+              ".portrait-mark"
+            ],
+            [
+              "li:nth-child(1) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(2) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(3) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(4) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(5) > .timeline-meta > .timeline-number"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "language": "en",
+    "theme": "dark",
+    "width": 1440,
+    "result": {
+      "violations": [],
+      "passes": 48,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".coordinate-top"
+            ],
+            [
+              ".coordinate-bottom"
+            ],
+            [
+              ".art-label"
+            ],
+            [
+              ".visual-toys > .visual-caption"
+            ],
+            [
+              ".visual-toys > .study-window > .study-bar > small"
+            ],
+            [
+              ".toy-block > span"
+            ],
+            [
+              ".visual-food > .visual-caption"
+            ],
+            [
+              ".visual-food > .study-window > .study-bar > small"
+            ],
+            [
+              ".visual-portfolio > .visual-caption"
+            ],
+            [
+              ".visual-portfolio > .study-window > .study-bar > small"
+            ],
+            [
+              ".portfolio-study > .tiny-label"
+            ],
+            [
+              ".mini-sculpture"
+            ],
+            [
+              ".portrait-mark"
+            ],
+            [
+              "li:nth-child(1) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(2) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(3) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(4) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(5) > .timeline-meta > .timeline-number"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "language": "ru",
+    "theme": "dark",
+    "width": 1440,
+    "result": {
+      "violations": [],
+      "passes": 48,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".coordinate-top"
+            ],
+            [
+              ".coordinate-bottom"
+            ],
+            [
+              ".art-label"
+            ],
+            [
+              ".visual-toys > .visual-caption"
+            ],
+            [
+              ".visual-toys > .study-window > .study-bar > small"
+            ],
+            [
+              ".toy-block > span"
+            ],
+            [
+              ".visual-food > .visual-caption"
+            ],
+            [
+              ".visual-food > .study-window > .study-bar > small"
+            ],
+            [
+              ".visual-portfolio > .visual-caption"
+            ],
+            [
+              ".visual-portfolio > .study-window > .study-bar > small"
+            ],
+            [
+              ".portfolio-study > .tiny-label"
+            ],
+            [
+              ".mini-sculpture"
+            ],
+            [
+              ".portrait-mark"
+            ],
+            [
+              "li:nth-child(1) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(2) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(3) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(4) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(5) > .timeline-meta > .timeline-number"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "language": "uz",
+    "theme": "light",
+    "width": 1440,
+    "result": {
+      "violations": [],
+      "passes": 48,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".coordinate-top"
+            ],
+            [
+              ".coordinate-bottom"
+            ],
+            [
+              ".art-label"
+            ],
+            [
+              ".visual-toys > .visual-caption"
+            ],
+            [
+              ".visual-toys > .study-window > .study-bar > small"
+            ],
+            [
+              ".toy-block > span"
+            ],
+            [
+              ".visual-food > .visual-caption"
+            ],
+            [
+              ".visual-food > .study-window > .study-bar > small"
+            ],
+            [
+              ".visual-portfolio > .visual-caption"
+            ],
+            [
+              ".visual-portfolio > .study-window > .study-bar > small"
+            ],
+            [
+              ".portfolio-study > .tiny-label"
+            ],
+            [
+              ".mini-sculpture"
+            ],
+            [
+              ".portrait-mark"
+            ],
+            [
+              "li:nth-child(1) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(2) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(3) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(4) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(5) > .timeline-meta > .timeline-number"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "language": "en",
+    "theme": "light",
+    "width": 1440,
+    "result": {
+      "violations": [],
+      "passes": 48,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".coordinate-top"
+            ],
+            [
+              ".coordinate-bottom"
+            ],
+            [
+              ".art-label"
+            ],
+            [
+              ".visual-toys > .visual-caption"
+            ],
+            [
+              ".visual-toys > .study-window > .study-bar > small"
+            ],
+            [
+              ".toy-block > span"
+            ],
+            [
+              ".visual-food > .visual-caption"
+            ],
+            [
+              ".visual-food > .study-window > .study-bar > small"
+            ],
+            [
+              ".visual-portfolio > .visual-caption"
+            ],
+            [
+              ".visual-portfolio > .study-window > .study-bar > small"
+            ],
+            [
+              ".portfolio-study > .tiny-label"
+            ],
+            [
+              ".mini-sculpture"
+            ],
+            [
+              ".portrait-mark"
+            ],
+            [
+              "li:nth-child(1) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(2) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(3) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(4) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(5) > .timeline-meta > .timeline-number"
+            ]
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "language": "ru",
+    "theme": "light",
+    "width": 1440,
+    "result": {
+      "violations": [],
+      "passes": 48,
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "targets": [
+            [
+              ".coordinate-top"
+            ],
+            [
+              ".coordinate-bottom"
+            ],
+            [
+              ".art-label"
+            ],
+            [
+              ".visual-toys > .visual-caption"
+            ],
+            [
+              ".visual-toys > .study-window > .study-bar > small"
+            ],
+            [
+              ".toy-block > span"
+            ],
+            [
+              ".visual-food > .visual-caption"
+            ],
+            [
+              ".visual-food > .study-window > .study-bar > small"
+            ],
+            [
+              ".visual-portfolio > .visual-caption"
+            ],
+            [
+              ".visual-portfolio > .study-window > .study-bar > small"
+            ],
+            [
+              ".portfolio-study > .tiny-label"
+            ],
+            [
+              ".mini-sculpture"
+            ],
+            [
+              ".portrait-mark"
+            ],
+            [
+              "li:nth-child(1) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(2) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(3) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(4) > .timeline-meta > .timeline-number"
+            ],
+            [
+              "li:nth-child(5) > .timeline-meta > .timeline-number"
+            ]
+          ]
+        }
+      ]
+    }
+  }
+]

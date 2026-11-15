@@ -1,17 +1,1 @@
-{
-  "short_name": "Mirkarim",
-  "name": "Mirkarim Furqatov | Frontend Developer",
-  "description": "Professional Portfolio of Mirkarim Furqatov - Frontend Developer & Creative Technologist.",
-  "icons": [
-    {
-      "src": "/gemini-svg.svg.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
-    }
-  ],
-
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#050508",
-  "background_color": "#050508"
-}
+{"short_name":"Mirkarim","name":"Mirkarim Furqatov — Frontend Developer","description":"Thoughtful design. Engineered to work.","icons":[{"src":"/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}],"start_url":"/","display":"standalone","theme_color":"#111310","background_color":"#111310"}
