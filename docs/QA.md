@@ -48,3 +48,7 @@ GitHub Actions run [43700191534](https://github.com/bahodrivich77/portfolio/acti
 [HTML and JSON reports](https://github.com/bahodrivich77/portfolio/actions/runs/43700191534/artifacts/14155913416). The first CI run incorrectly gated Lighthouse's additional experimental agentic-browsing category (50); the gate now explicitly checks the four requested categories above. That extra category remains visible in the raw reports. These are lab results, not field INP/CrUX measurements. The updated lockfile and fragment fix are audited again by subsequent CI runs.
 
 Vercel reported the branch preview Ready. Its URL requires Vercel authentication in this browser, so deployed contact delivery and the preview's live metrics were not verified. Use the Preview link in PR #5 with the owner's Vercel account; do not disable deployment protection to bypass the sign-in requirement.
+
+## Audit repeatability
+
+On final application commit `2bc51f6`, the branch CI run 43701030831 passed all checks with mobile/desktop scores 100/100/100/100. Mobile TBT was 30ms, LCP 0.8s, CLS 0. A separate PR runner measured mobile Performance 93 with TBT 330ms, while its other categories and desktop were 100. The workflow now retains three cold mobile runs and gates their median performance (and the minimum of the other required categories), rather than presenting one favorable run as representative. All individual results remain in the uploaded artifacts.
