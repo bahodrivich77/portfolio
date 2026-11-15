@@ -24,3 +24,27 @@ Typed section/component architecture; work-first editorial layout; graphite/ivor
 ## Deployment requirements
 
 Set new server-only Telegram environment variables on Vercel and revoke the historically exposed token. `.env` is no longer tracked and is not included in browser source; Git history still contains the old version. A Vercel Firewall rule is needed for distributed rate limiting. No production merge or deployment is authorized by this branch.
+
+## Final refinement results
+
+- Preserved the Telegram poll introduced by the concurrent `main` update (`cd8afef`), including adding candidates, vote changes/retraction, reactions, reset, and clipboard copy. It is explicitly labeled as a browser-only demo; added three vote-state tests.
+- Fixed initial fragment navigation after React mounts; a direct `#about` load now positions the section 100px below the viewport top. Project Escape/focus restoration and mobile menu keyboard activation/Escape were verified.
+- Repeated the full 42-case layout matrix with the poll expanded: no overflow, broken image elements, or missing anchor targets. See `responsive-qa.json`.
+- Twelve axe scans at mobile/desktop widths across UZ/EN/RU and both themes returned zero violations (48 passing checks per scan). The expanded poll also returned zero violations (49 passing checks in the additional English mobile dark scan). Contrast checks flagged as incomplete for decorative/gradient artwork require human review; this is not a blanket conformance certificate. See `accessibility-qa.json`.
+- Contact UI failure preserves input; success resets the form. Both were verified with mocked endpoint responses. Nine API tests cover validation, methods, origin/content type, honeypot, missing environment variables, success, upstream failures, message length, and rate limiting. No real message was sent.
+- No portfolio-origin console warnings/errors were observed. Browser extension and Vercel login errors are external to the app.
+- Removed client credential references and verified original local environment values are absent from tracked source and the built browser bundle. Historical Git contents are not erased.
+- Patched vulnerable dependency versions and scoped the TypeScript ESLint minimatch override to a fixed release. `npm audit` reports zero vulnerabilities. `npm test` passes 15 tests; TypeScript, lint and production build pass.
+
+## Measured Lighthouse baseline
+
+GitHub Actions run [43700191534](https://github.com/bahodrivich77/portfolio/actions/runs/43700191534), commit `613dd3c`, Lighthouse 13.6.0, fresh production preview served on the runner:
+
+| Device | Performance | Accessibility | Best Practices | SEO | LCP | TBT | CLS |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Mobile | 100 | 100 | 100 | 100 | 0.8 s | 70 ms | 0 |
+| Desktop | 100 | 100 | 100 | 100 | 0.2 s | 0 ms | 0 |
+
+[HTML and JSON reports](https://github.com/bahodrivich77/portfolio/actions/runs/43700191534/artifacts/14155913416). The first CI run incorrectly gated Lighthouse's additional experimental agentic-browsing category (50); the gate now explicitly checks the four requested categories above. That extra category remains visible in the raw reports. These are lab results, not field INP/CrUX measurements. The updated lockfile and fragment fix are audited again by subsequent CI runs.
+
+Vercel reported the branch preview Ready. Its URL requires Vercel authentication in this browser, so deployed contact delivery and the preview's live metrics were not verified. Use the Preview link in PR #5 with the owner's Vercel account; do not disable deployment protection to bypass the sign-in requirement.

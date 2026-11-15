@@ -43,6 +43,8 @@ export default async function handler(req, res) {
     .split(",")[0]
     .trim();
   const previous = requests.get(ip);
+  if (!previous && requests.size >= 10000)
+    return res.status(429).json({ error: "Please try again later" });
   if (previous && previous.count >= 5) {
     res.setHeader(
       "Retry-After",

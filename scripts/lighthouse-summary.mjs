@@ -20,11 +20,16 @@ for (const device of ["mobile", "desktop"]) {
     ].map((key) => [key, report.audits[key].displayValue]),
   );
   console.log(JSON.stringify({ device, scores, metrics }, null, 2));
-  if (Object.values(scores).some((score) => score < 95)) failed = true;
+  if (
+    ["performance", "accessibility", "best-practices", "seo"].some(
+      (key) => scores[key] < 95,
+    )
+  )
+    failed = true;
 }
 if (failed) {
   console.error(
-    "A Lighthouse category is below the 95 target. Inspect the uploaded reports.",
+    "A required Lighthouse category is below the 95 target. Inspect the uploaded reports.",
   );
   process.exitCode = 1;
 }

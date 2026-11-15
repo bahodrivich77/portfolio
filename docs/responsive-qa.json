@@ -4,174 +4,6 @@
     "horizontalOverflow": false,
     "lang": "uz",
     "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 320
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "uz",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 375
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "uz",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 768
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "uz",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 1024
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "uz",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 1440
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "uz",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 1920
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "uz",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 3840
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "en",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 320
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "en",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 375
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "en",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 768
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "en",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 1024
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "en",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 1440
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "en",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 1920
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "en",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 3840
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "ru",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 320
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "ru",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 375
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "ru",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 768
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "ru",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 1024
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "ru",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 1440
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "ru",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 1920
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "ru",
-    "missingAnchors": 0,
-    "theme": "dark",
-    "viewport": 3840
-  },
-  {
-    "brokenImages": 0,
-    "horizontalOverflow": false,
-    "lang": "uz",
-    "missingAnchors": 0,
     "theme": "light",
     "viewport": 320
   },
@@ -333,6 +165,174 @@
     "lang": "ru",
     "missingAnchors": 0,
     "theme": "light",
+    "viewport": 3840
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "uz",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 320
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "uz",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 375
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "uz",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 768
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "uz",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 1024
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "uz",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "uz",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "uz",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 3840
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "en",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 320
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "en",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 375
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "en",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 768
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "en",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 1024
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "en",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "en",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "en",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 3840
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "ru",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 320
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "ru",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 375
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "ru",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 768
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "ru",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 1024
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "ru",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 1440
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "ru",
+    "missingAnchors": 0,
+    "theme": "dark",
+    "viewport": 1920
+  },
+  {
+    "brokenImages": 0,
+    "horizontalOverflow": false,
+    "lang": "ru",
+    "missingAnchors": 0,
+    "theme": "dark",
     "viewport": 3840
   }
 ]
